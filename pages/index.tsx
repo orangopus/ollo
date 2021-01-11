@@ -38,7 +38,7 @@ const Index = () => {
       <Nav />
     <div className="herocont">
     <div className="row heropadding">
-          <div class="col-6 col-sm-6">
+          <div className="col-6 col-sm-6">
           <p className="herotext padding">Branded profiles for
           <br/>creators and beyond.</p>
       <button onClick={() => signIn()} className="button">Get started</button>
