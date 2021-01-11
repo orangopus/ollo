@@ -1,0 +1,28 @@
+{
+  "name": "libby",
+  "version": "1.0.0",
+  "description": "Branded profiles for creators and beyond.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "author": "Orangopus",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/cli": "^2.5.1",
+    "@prisma/client": "^2.5.1",
+    "next": "^9.5.5",
+    "next-auth": "^3.1.0",
+    "path-name": "^1.0.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "window": "^4.2.7"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.0",
+    "typescript": "^4.1.3"
+  }
+}
