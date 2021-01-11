@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { PrismaClient } from '@prisma/client';
-import Nav from '../components/Nav.tsx'
+import Nav from '../components/Nav'
 
 const prisma = new PrismaClient();
 
