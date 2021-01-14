@@ -1,2 +1,2 @@
 # libby
-libby - Custom profiles for streamers [WORK IN PROGRESS]
+Branded profiles for creators and beyond.

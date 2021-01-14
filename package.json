@@ -12,14 +12,17 @@
   "author": "Orangopus",
   "license": "MIT",
   "dependencies": {
-    "@prisma/cli": "^2.5.1",
+    "@babel/core": "^7.12.10",
+    "@prisma/cli": "^2.14.0",
     "@prisma/client": "^2.5.1",
     "@types/node": "^14.14.20",
-    "next": "^9.5.5",
+    "babel-plugin-superjson-next": "^0.1.9",
+    "next": "^10.0.4",
     "next-auth": "^3.1.0",
     "path-name": "^1.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "superjson": "^1.4.1",
     "window": "^4.2.7"
   },
   "devDependencies": {

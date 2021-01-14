@@ -1,14 +1,14 @@
 body {
   font-family: "Quicksand" !important;
   margin: 0;
-  background: #ffffff;
+  background: #212121 !important;
   overflow-x: hidden;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
 
 h1 {
-  color: #0472D8;
+  color: #ffffff;
 }
 
 .center {
@@ -28,8 +28,8 @@ h1 {
   font-weight: bolder;
   font-family: Quicksand;
   cursor: pointer;
-  background: #ffffff;
-  color: #0472D8;
+  background: transparent;
+  color: #fff;
 }
 
 .paddinghero { 
@@ -63,12 +63,12 @@ h1 {
 }
 
 p {
-  color: #0472D8;
+  color: #ffffff;
 }
 
 .inner {
   margin: 0 auto;
-  color: #0472D8;
+  color: #ffffff;
 }
 
 .text {
@@ -78,15 +78,21 @@ p {
 }
 
 .padding {
-  padding-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .profile { 
-  max-width: 600px;
+  max-width: 900px;
+  border-radius: 25px;
+  box-shadow: 0 4px 70px rgba(0,0,0,.25);
 }
 
 .right {
   text-align: right;
+}
+
+.logo { 
+  max-width: 200px;
 }
 
 .login {
@@ -112,21 +118,6 @@ p {
 
 .push {
     margin-left: auto;
-}
-
-.boxbutton {
-  height: 40px;
-  border-radius: 40px;
-  background: #0472D8; 
-  padding-left: 30px;
-  padding-right: 30px;
-  color: #ffffff;
-  margin-left: 10px;
-}
-
-.boxbutton2 {
-  background: #fff; 
-  vertical-align: center;
 }
 
 .desc {
@@ -204,8 +195,8 @@ h1 {
   font-family: Quicksand;
   box-shadow: 0 4px 70px rgba(0,0,0,.25);
   cursor: pointer;
-  background: #0472D8;
-  color: #ffffff;
+  background: #ffffff;
+  color: #212121;
 }
 
 input {
@@ -246,8 +237,12 @@ input {
   text-align: center;
 }
 
-a {
-  color: #0472D8;
+a, a:visited, a:hover, a:active {
+  color: #ffffff !important;
   text-decoration: none;
   margin: 20px !important;
+}
+
+.navbar-brand {
+  max-width: 100px !important;
 }

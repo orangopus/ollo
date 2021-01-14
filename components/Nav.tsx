@@ -6,22 +6,22 @@ const Nav = () => {
   if (session) {
     return (
       <nav className="navbar">
-      <a className="navbar-brand" href="/"><img src="logo.png" /></a>
-      <form className="form-inline">
-      <button onClick={() => signOut()} className="button">logout</button>
-      </form>
-    </nav>
+        <a className="navbar-brand" href="/"><img className="logo" src="logo.png" /></a>
+        <form className="form-inline">
+          <button onClick={() => signOut()} className="button">logout</button>
+        </form>
+      </nav>
     );
   } else {
     return (
       <nav className="navbar">
-      <a className="navbar-brand" href="/"><img src="logo.png" /></a>
-      <form className="form-inline">
-      <button onClick={(e) => { e.preventDefault(); window.location.href='/pricing';}}
-      className="buttonwhite">pricing</button>
-      <button onClick={() => signIn()} className="button">login</button>
-      </form>
-    </nav>
+        <a className="navbar-brand" href="/"><img className="logo" src="logo.png" /></a>
+        <form className="form-inline">
+          <button onClick={(e) => { e.preventDefault(); window.location.href = '/pricing'; }}
+            className="buttonwhite">pricing</button>
+          <button onClick={() => signIn()} className="button">login</button>
+        </form>
+      </nav>
     );
   }
 }
