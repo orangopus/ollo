@@ -12,6 +12,7 @@ Branded profiles for creators and beyond.
 - [ ] Integrate Makerlog activity
 - [ ] Schedules (Google Calendar integration, maybe)
 - [ ] Donations (Streamlabs, StreamElements, TipeeeStream integration)
+- [ ] Glimesh, Twitch, Dlive, Trovo integration
 
 ## Concepts
 ![](https://libby.gg/libby-profile-page.png)
