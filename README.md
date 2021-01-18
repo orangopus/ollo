@@ -6,7 +6,12 @@ Branded profiles for creators and beyond.
 
 - [ ] Dashboard editor
 - [ ] Profile generation
-- [ ] Fix authentication bug 
+- [ ] Change database and authetincation infrastructure
+- [ ] Integrate Ghost or RSS feeds
+- [ ] Integrate GitHub activity
+- [ ] Integrate Makerlog activity
+- [ ] Schedules (Google Calendar integration, maybe)
+- [ ] Donations (Streamlabs, StreamElements, TipeeeStream integration)
 
 ## Concepts
 ![](https://libby.gg/libby-profile-page.png)
