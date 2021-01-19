@@ -32,7 +32,7 @@ h1 {
   color: #fff;
 }
 
-.paddinghero { 
+.paddinghero {
   margin-bottom: 650px;
 }
 
@@ -41,13 +41,13 @@ h1 {
 }
 
 .footer {
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
 }
 
-.heropadding { 
+.heropadding {
   padding: 0 250px;
   margin-bottom: 100px;
 }
@@ -81,18 +81,31 @@ p {
   margin-bottom: 40px;
 }
 
-.profile { 
+.profile {
   max-width: 900px;
   border-radius: 25px;
-  box-shadow: 0 4px 70px rgba(0,0,0,.25);
+  box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25);
+}
+
+.domains {
+  box-shadow: none !important;
 }
 
 .right {
   text-align: right;
 }
 
-.logo { 
+.margin {
+  margin-right: 20px;
+}
+
+.logo {
   max-width: 200px;
+}
+
+.tiny {
+  margin-top: 10px;
+  margin-bottom: 40px;
 }
 
 .login {
@@ -117,7 +130,7 @@ p {
 }
 
 .push {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .desc {
@@ -134,7 +147,7 @@ p {
   text-align: left;
 }
 
-.middle { 
+.middle {
   text-align: center;
 }
 
@@ -146,12 +159,11 @@ p {
   text-align: center;
 }
 
-.buttonmargin { 
+.buttonmargin {
   margin: 20px;
 }
 
-.heroheader2
-{
+.heroheader2 {
   font-size: 80px;
   margin-bottom: 50px;
   margin-top: 50px;
@@ -179,24 +191,48 @@ h1 {
   height: 30px;
   background: #ffffff;
   text-align: center;
-  margin: 0 auto;  
+  margin: 0 auto;
   color: #000000;
   padding: 30px;
   font-size: 30px;
 }
 
+.small2 {
+  max-height: 75px;
+}
+
+.h1 {
+  font-weight: bold !important;
+  color: #ffffff !important;
+  text-align: center !important;
+}
+
+.hr {
+  margin: 0 6rem;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.navpad {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
 .button {
   padding: 10px 25px;
-  margin-right: 20px;
   border-radius: 50px;
   font-size: 25px;
   border: none;
   font-weight: bolder;
   font-family: Quicksand;
-  box-shadow: 0 4px 70px rgba(0,0,0,.25);
+  box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   background: #ffffff;
   color: #212121;
+}
+
+.schedule {
+  max-height: 350px;
+  margin-bottom: 100px;
 }
 
 input {
@@ -208,7 +244,7 @@ input {
   font-weight: bolder;
   font-family: Quicksand;
   cursor: pointer;
-  background: #0472D8;
+  background: #0472d8;
   color: #ffffff;
 }
 
@@ -226,7 +262,7 @@ input {
 }
 
 .heroalt {
-  color: #CF4747;
+  color: #cf4747;
 }
 
 .avatar {
@@ -237,7 +273,10 @@ input {
   text-align: center;
 }
 
-a, a:visited, a:hover, a:active {
+a,
+a:visited,
+a:hover,
+a:active {
   color: #ffffff !important;
   text-decoration: none;
   margin: 20px !important;

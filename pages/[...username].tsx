@@ -5,12 +5,12 @@ import Nav from '../components/Nav'
 const prisma = new PrismaClient();
 
 export async function getServerSideProps({ params }) {
-  const users = await prisma.user.findUnique({
+  const users = await prisma.user.findFirst({
     where: {
       name: params.username.toString()
     }
   })
-  console.log(users.name)
+  console.log(users)
   return {
     props: { users }
   }
@@ -26,7 +26,6 @@ export default function UserPage({ users }) {
       <div key={users.id}>
         <img className="avatar" src={users.image} />
         <h1>{users.name}</h1>
-        <p>{users.bio}</p>
       </div>
     </>
   )
