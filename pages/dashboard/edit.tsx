@@ -17,7 +17,7 @@ export default function UserPage({ profile }) {
   };
 
   function refreshPage() {
-    window.location.reload(false);
+    window.location.reload();
   }
 
   return (
