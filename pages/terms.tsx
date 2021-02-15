@@ -7,7 +7,6 @@ export default function Index() {
       <Head>
         <title>libby - terms</title>
       </Head>
-      <Nav />
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px", }}>
           <h2>Orangopus Terms of Service</h2>

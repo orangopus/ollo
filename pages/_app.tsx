@@ -1,9 +1,9 @@
 import "../styles.css";
 import "../bootstrap.css";
-import Head from "next/head";
-import { Provider } from "next-auth/client";
-import { AppProps } from "next/app";
+import Nav from "../components/Nav"
 import Footer from "../components/Footer"
+import { Auth } from '@supabase/ui'
+import { supabase } from '../utils/initSupabase'
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
@@ -13,9 +13,10 @@ export default function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Provider session={pageProps.session}>
+      <Nav />
+      <Auth.UserContextProvider supabaseClient={supabase}>
         <Component {...pageProps} />
-      </Provider>
+      </Auth.UserContextProvider>
       <Footer />
     </>
   );

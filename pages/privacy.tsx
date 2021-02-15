@@ -7,7 +7,6 @@ export default function Index() {
       <Head>
         <title>libby - privacy policy</title>
       </Head>
-      <Nav />
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px", }}>
           <h2>Privacy Policy</h2>
