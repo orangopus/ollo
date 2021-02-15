@@ -1,6 +1,5 @@
-![](https://i.imgur.com/Q7MsIFB.png)	# libby
+![](https://i.imgur.com/Q7MsIFB.png)
 
-Branded profiles for creators and beyond.
 Branded profiles for creators and beyond.	
 
 ## To-do	
