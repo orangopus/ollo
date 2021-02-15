@@ -55,32 +55,17 @@ const Index = () => {
           <>
             <Typography.Text>You're signed in</Typography.Text>
             <Typography.Text strong>Email: {user.email}</Typography.Text>
-
+            <Link href="/dashboard/edit">
+            <button className="button">
+            Edit Profile
+            </button>
+            </Link>
+            <hr/>
             <button className="button"
               onClick={() => supabase.auth.signOut()}
             >
               Log out
             </button>
-            {error && <Typography.Text danger>Failed to fetch user!</Typography.Text>}
-            {data && !error ? (
-              <>
-                <Typography.Text type="success">
-                  User data retrieved server-side (in API route):
-                </Typography.Text>
-
-                <Typography.Text>
-                  <pre>{JSON.stringify(data, null, 2)}</pre>
-                </Typography.Text>
-              </>
-            ) : (
-              <div>Loading...</div>
-            )}
-
-            <Typography.Text>
-              <Link href="/dashboard">
-                <a>SSR example with getServerSideProps</a>
-              </Link>
-            </Typography.Text>
           </>
         )}
       </Space>

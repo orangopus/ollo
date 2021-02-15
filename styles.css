@@ -212,11 +212,9 @@ a.sbui-typography,
 }
 
 .desc {
-  font-size: 30px;
+  font-size: 20px;
   color: #ffffff;
-  width: 400px;
   text-align: center;
-  margin-left: 50px;
   font-weight: bold;
 }
 
@@ -233,7 +231,7 @@ a.sbui-typography,
   color: #ffffff;
   font-weight: bolder;
   font-size: 50px;
-  margin: 0;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -249,6 +247,7 @@ a.sbui-typography,
 
 h1 {
   margin: 0;
+  color: #fff !important;
 }
 
 .herologinheader {
@@ -264,15 +263,32 @@ h1 {
   font-weight: bolder;
 }
 
+.padd {
+  margin-bottom: 200px;
+}
+
+.username {
+}
+
 .input {
-  width: 430px;
-  height: 30px;
+  height: 20px;
   background: #ffffff;
-  text-align: center;
-  margin: 0 auto;
+  text-align: left;
   color: #000000;
   padding: 30px;
-  font-size: 30px;
+  font-size: 25px;
+  border-radius: 25px;
+  margin-bottom: 20px;
+}
+
+.textarea {
+  height: 200px;
+  background: #ffffff;
+  text-align: left;
+  color: #000000;
+  padding: 30px;
+  font-size: 25px;
+  border-radius: 25px;
 }
 
 .small2 {

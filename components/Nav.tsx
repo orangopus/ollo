@@ -31,7 +31,7 @@ const Nav = () => {
   if (!user) {
     return (
       <nav className="navbar">
-        <a className="navbar-brand" href="/"><img className="logo" src="logo.png" /></a>
+        <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
         <form className="form-inline">
           <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
             className="buttonwhite">pro</button>
@@ -44,7 +44,7 @@ const Nav = () => {
   } 
     return (
       <nav className="navbar">
-        <a className="navbar-brand" href="/"><img className="logo" src="logo.png" /></a>
+        <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
         <form className="form-inline">
           <button onClick={() => supabase.auth.signOut()} className="button">logout</button>
         </form>
