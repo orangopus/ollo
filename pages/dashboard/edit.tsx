@@ -54,7 +54,6 @@ export default function UserPage({ profile }) {
         name="bio"
         value={bio}
         onChange={(event) => setBio(event.target.value)}
-        type="text"
         placeholder="Change your bio..."
         required
         className="textarea"
