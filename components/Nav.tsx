@@ -35,7 +35,7 @@ const Nav = () => {
         <form className="form-inline">
           <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
             className="buttonwhite">pro</button>
-          <Link href="/join">
+          <Link href="/dashboard">
           <button className="button">login</button>
           </Link>
         </form>

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Link from 'next/link';
 
 const Index = () => {
   return (
@@ -11,7 +12,9 @@ const Index = () => {
             <div className="col-12 col-sm-12 text-center">
               <p className="herotext text-center">Branded profiles for creators and beyond.</p>
               <p className="text padding text-center">Quickly create a profile page with your brand in mind.</p>
+              <Link href="/dashboard">
               <button className="button">Get started</button>
+              </Link>
               <p className="tiny">libby is free forever!</p>
               <img className="profile" src="libby-profile-page.png" />
 
