@@ -267,9 +267,6 @@ h1 {
   margin-bottom: 200px;
 }
 
-.username {
-}
-
 .input {
   height: 20px;
   background: #ffffff;
@@ -304,6 +301,11 @@ h1 {
 .hr {
   margin: 0 6rem;
   border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+}
+
+.social {
+  padding-bottom: 50px;
+  font-size: 25px;
 }
 
 .navpad {

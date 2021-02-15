@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "../../utils/initSupabase";
+
+library.add(fab, fas)
+
 export default function UserPage({ profile }) {
   const [bio, setBio] = useState(profile.bio);
   const [username, setUsername] = useState(profile.username)
   const [avatar, setAvatar] = useState(profile.avatar)
+  const [twitter, setTwitter] = useState(profile.twitter)
   const updateProfile = async (event) => {
     event.preventDefault();
     await supabase
@@ -11,7 +19,8 @@ export default function UserPage({ profile }) {
       .update({
         bio,
         username,
-        avatar
+        avatar,
+        twitter
       })
       .eq("id", profile.id);
   };
@@ -20,12 +29,28 @@ export default function UserPage({ profile }) {
     window.location.reload();
   }
 
+  let twitters = profile.twitter 
+
+  if (twitters === null) {
+    twitters = null 
+  } else if (twitters) {
+    twitters = (
+      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social">
+                      <FontAwesomeIcon icon={["fab", "twitter"]} />
+            </a>
+          )
+  }
+
   return (
     <div className="herocont center padd">
     <div className="cards">
     <img className="avatar" src={profile.avatar} />
     <h1 className="username">{profile.username}</h1>
     <p className="desc">{profile.bio}</p>
+    <div className="social">
+    {twitters}
+    </div>
+    
     <form onSubmit={updateProfile}>
       <input
         id="bio"
@@ -49,6 +74,16 @@ export default function UserPage({ profile }) {
         className="input"
       />
       <br/>
+      <input
+        id="bio"
+        name="bio"
+        value={twitter}
+        onChange={(event) => setTwitter(event.target.value)}
+        type="text"
+        placeholder="Twitter"
+        className="input"
+      />
+      <br/>
       <textarea
         id="bio"
         name="bio"
@@ -59,6 +94,8 @@ export default function UserPage({ profile }) {
         className="textarea"
       />
       <br/>
+
+
       <button className="button" onClick={refreshPage} type="submit">Update</button>
     </form>
     </div>

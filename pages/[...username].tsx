@@ -1,7 +1,26 @@
 import Head from "next/head";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../utils/initSupabase'
 
+library.add(fab, fas)
+
 export default function UserPage({ profile }) {
+
+  let twitter = profile.twitter 
+
+  if (twitter === null) {
+    twitter = null 
+  } else if (twitter) {
+    twitter = (
+      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social">
+                      <FontAwesomeIcon icon={["fab", "twitter"]} />
+            </a>
+          )
+  }
+
   return (
     <>
       <Head>
@@ -12,6 +31,7 @@ export default function UserPage({ profile }) {
       <img className="avatar" src={profile.avatar} />
       <h1 className="username">{profile.username}</h1>
       <p className="desc">{profile.bio}</p>
+      {twitter}
       </div>
     </>
   );
