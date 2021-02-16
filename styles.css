@@ -314,6 +314,9 @@ h1 {
 
 .social {
   font-size: 25px;
+  width: 25px;
+  height: 25px;
+  margin: auto;
 }
 
 .navpad {
@@ -389,7 +392,6 @@ a:hover,
 a:active {
   color: #ffffff !important;
   text-decoration: none;
-  margin: 20px !important;
 }
 
 .navbar-brand {
