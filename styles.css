@@ -390,12 +390,13 @@ a,
 a:visited,
 a:hover,
 a:active {
-  color: #ffffff;
+  color: #ffffff !important;
   text-decoration: none;
+  padding: 20px;
 }
 
 .editsub {
-  text-align: left;
+  text-align: center;
 }
 
 .navbar-brand {
