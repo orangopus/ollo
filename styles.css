@@ -390,7 +390,7 @@ a,
 a:visited,
 a:hover,
 a:active {
-  color: #ffffff !important;
+  color: #ffffff;
   text-decoration: none;
 }
 
