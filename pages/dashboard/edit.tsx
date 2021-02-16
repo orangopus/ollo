@@ -42,9 +42,24 @@ export default function UserPage({ profile }) {
     <>
     <div className="flex">
 
+    <div className="herocont center padd2">
+    <img className="avatar" src={profile.avatar} />
+    <h1 className="username">{profile.username}</h1>
+    <p className="desc">{profile.bio}</p>
+      <div className="profilelink">
+      <a href={`/${profile.username}`}>View profile</a>
+      </div>
+      <div className="social">
+      {twitters}
+      </div>
+    </div>
+
     <div className="herocont center padd">
     <div className="cards">
     <form onSubmit={updateProfile}>
+      <h1>Edit Profile</h1>
+      <hr/>
+    <h1 className="edit">Avatar URL</h1>
       <input
         id="bio"
         name="bio"
@@ -52,7 +67,6 @@ export default function UserPage({ profile }) {
         onChange={(event) => setAvatar(event.target.value)}
         type="text"
         placeholder="Change your avatar link..."
-        required
         className="input"
       />
       <br/>
@@ -65,7 +79,7 @@ export default function UserPage({ profile }) {
         type="text"
         placeholder="Change your username..."
         required
-        className="input"
+         className="input"
       />
       <br/>
       <h1 className="edit">Twitter</h1>
@@ -86,7 +100,6 @@ export default function UserPage({ profile }) {
         value={bio}
         onChange={(event) => setBio(event.target.value)}
         placeholder="Change your bio..."
-        required
         className="textarea"
       />
       <br/>
@@ -95,18 +108,6 @@ export default function UserPage({ profile }) {
       <button className="button" type="submit">Update</button>
     </form>
     </div>
-    </div>
-
-    <div className="herocont center padd">
-    <img className="avatar" src={profile.avatar} />
-    <h1 className="username">{profile.username}</h1>
-    <p className="desc">{profile.bio}</p>
-      <div className="profilelink">
-      <a href={`/${profile.username}`}>View profile</a>
-      </div>
-      <div className="social">
-      {twitters}
-      </div>
     </div>
 
     </div>

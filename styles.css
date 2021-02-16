@@ -60,6 +60,7 @@ h1 {
   padding: 30px;
   color: #fff;
   width: fit-content;
+  margin: auto;
 }
 
 .probadge {
@@ -280,8 +281,7 @@ h1 {
 }
 
 .flex {
-  display: flex;
-  justify-content: space-between !important;
+  margin: auto;
 }
 
 .textarea {
@@ -315,8 +315,11 @@ h1 {
   margin-bottom: 20px;
 }
 
+.padd2 {
+  margin-bottom: 50px;
+}
+
 .social {
-  padding-bottom: 50px;
   font-size: 25px;
 }
 
