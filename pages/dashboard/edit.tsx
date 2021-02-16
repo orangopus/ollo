@@ -4,6 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "../../utils/initSupabase";
+import Link from "next/link";
 
 library.add(fab, fas)
 
@@ -25,10 +26,6 @@ export default function UserPage({ profile }) {
       .eq("id", profile.id);
   };
 
-  function refreshPage() {
-    window.location.reload();
-  }
-
   let twitters = profile.twitter 
 
   if (twitters === null) {
@@ -42,15 +39,11 @@ export default function UserPage({ profile }) {
   }
 
   return (
+    <>
+    <div className="flex">
+
     <div className="herocont center padd">
     <div className="cards">
-    <img className="avatar" src={profile.avatar} />
-    <h1 className="username">{profile.username}</h1>
-    <p className="desc">{profile.bio}</p>
-    <div className="social">
-    {twitters}
-    </div>
-    
     <form onSubmit={updateProfile}>
       <input
         id="bio"
@@ -63,6 +56,7 @@ export default function UserPage({ profile }) {
         className="input"
       />
       <br/>
+      <h1 className="edit">Username</h1>
       <input
         id="bio"
         name="bio"
@@ -74,6 +68,7 @@ export default function UserPage({ profile }) {
         className="input"
       />
       <br/>
+      <h1 className="edit">Twitter</h1>
       <input
         id="bio"
         name="bio"
@@ -84,6 +79,7 @@ export default function UserPage({ profile }) {
         className="input"
       />
       <br/>
+      <h1 className="edit">Bio</h1>
       <textarea
         id="bio"
         name="bio"
@@ -96,10 +92,25 @@ export default function UserPage({ profile }) {
       <br/>
 
 
-      <button className="button" onClick={refreshPage} type="submit">Update</button>
+      <button className="button" type="submit">Update</button>
     </form>
     </div>
     </div>
+
+    <div className="herocont center padd">
+    <img className="avatar" src={profile.avatar} />
+    <h1 className="username">{profile.username}</h1>
+    <p className="desc">{profile.bio}</p>
+      <div className="profilelink">
+      <a href={`/${profile.username}`}>View profile</a>
+      </div>
+      <div className="social">
+      {twitters}
+      </div>
+    </div>
+
+    </div>
+    </>
   );
 }
 export async function getServerSideProps({ req }) {
