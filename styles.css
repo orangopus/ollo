@@ -394,6 +394,10 @@ a:active {
   text-decoration: none;
 }
 
+.editsub {
+  text-align: left;
+}
+
 .navbar-brand {
   max-width: 100px !important;
 }

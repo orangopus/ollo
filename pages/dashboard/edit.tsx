@@ -45,9 +45,8 @@ export default function UserPage({ profile }) {
     <div className="herocont center padd2">
     <img className="avatar" src={profile.avatar} />
     <h1 className="username">{profile.username}</h1>
-    <p className="desc">{profile.bio}</p>
       <div className="profilelink">
-      <a href={`/${profile.username}`}>View profile</a>
+      <a target="_blank" href={`/${profile.username}`}>View profile</a>
       </div>
       <div className="social">
       {twitters}
@@ -95,6 +94,7 @@ export default function UserPage({ profile }) {
       />
       <br/>
       <h1 className="edit">Bio</h1>
+      <p className="editsub">Custom HTML/CSS supported</p>
       <textarea
         id="bio"
         name="bio"
