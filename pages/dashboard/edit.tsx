@@ -52,6 +52,7 @@ export default function UserPage({ profile }) {
       <div className="social">
       {twitters}
       </div>
+      <div dangerouslySetInnerHTML={{ __html: profile.bio }} />
     </div>
 
     <div className="herocont center padd">

@@ -30,8 +30,8 @@ export default function UserPage({ profile }) {
       <div className="herocont center padd">
       <img className="avatar" src={profile.avatar} />
       <h1 className="username">{profile.username}</h1>
-      <p className="desc">{profile.bio}</p>
       {twitter}
+      <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.bio + "</p>"}} />
       </div>
     </>
   );
