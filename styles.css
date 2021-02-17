@@ -11,6 +11,33 @@ h1 {
   color: #ffffff;
 }
 
+.react-tabs__tab {
+  display: inline-block;
+  position: relative;
+  color: #fff !important;
+  font-weight: bolder;
+  font-size: 30px;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.react-tabs__tab-list {
+  margin: 44px 0 50px;
+  padding: 0;
+  border: 2px !important;
+}
+
+.react-tabs__tab--selected:after {
+  content: "";
+  float: left;
+  background: #fff;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
 .center {
   text-align: center !important;
   display: block;
@@ -83,12 +110,21 @@ h1 {
 }
 
 p {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .inner {
   margin: 0 auto;
   color: #ffffff;
+}
+
+.info {
+  margin-top: 40px;
+  margin-left: 50px;
+}
+
+.section {
+  max-width: 800px;
 }
 
 .text {
@@ -227,7 +263,7 @@ a.sbui-typography,
   font-weight: bolder;
   font-size: 50px;
   margin-top: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .buttonmargin {
@@ -252,10 +288,11 @@ h1 {
 }
 
 .bio {
-  text-align: center;
-  padding: 0 100px;
   color: #fff;
   font-weight: bolder;
+  font-weight: bold;
+  font-size: 20px;
+  width: 400px;
 }
 
 .padd {
@@ -274,7 +311,14 @@ h1 {
 }
 
 .flex {
-  margin: auto;
+  display: flex;
+}
+
+.handle {
+  font-size: 40px;
+  line-height: 40px;
+
+  color: #bbbbbb;
 }
 
 .textarea {
@@ -384,6 +428,7 @@ input {
   margin-top: 50px;
   max-width: 100px;
   text-align: center;
+  max-width: 130px;
 }
 
 a,
@@ -395,10 +440,29 @@ a:active {
   padding: 20px;
 }
 
+.userdetails {
+  display: grid;
+  justify-content: space-between;
+  padding: 25px 100px;
+}
+
 .editsub {
   text-align: left;
 }
 
 .navbar-brand {
   max-width: 100px !important;
+  padding: 20px 0 !important;
+}
+
+.auto {
+  margin: 0;
+}
+
+.width {
+  width: 100%;
+}
+
+.react-tabs {
+  width: 85vw;
 }

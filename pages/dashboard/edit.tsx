@@ -13,12 +13,14 @@ export default function UserPage({ profile }) {
   const [username, setUsername] = useState(profile.username)
   const [avatar, setAvatar] = useState(profile.avatar)
   const [twitter, setTwitter] = useState(profile.twitter)
+  const [html, setHTML] = useState(profile.html)
   const updateProfile = async (event) => {
     event.preventDefault();
     await supabase
       .from("profiles")
       .update({
         bio,
+        html,
         username,
         avatar,
         twitter
@@ -29,7 +31,7 @@ export default function UserPage({ profile }) {
   let twitters = profile.twitter 
 
   if (twitters === null) {
-    twitters = null 
+    twitters = (<p></p>)
   } else if (twitters) {
     twitters = (
       <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social">
@@ -38,20 +40,31 @@ export default function UserPage({ profile }) {
           )
   }
 
+  if(profile.html === null) {
+    profile.html = "You haven't set an About section yet..."
+  }
+
   return (
     <>
     <div className="flex">
-
-    <div className="herocont center padd2">
-    <img className="avatar" src={profile.avatar} />
-    <h1 className="username">{profile.username}</h1>
+    <div className="herocont padd userdetails">
+      <div className="flex">
+      <div>
+      <img className="avatar" src={profile.avatar} />
+      </div>
+      <div className="info">
+      <h1 className="username">{profile.username} <span className="handle">@{profile.username}</span></h1>
+      <p className="bio">{profile.bio}</p>
       <div className="profilelink">
       <a target="_blank" href={`/${profile.username}`}>View profile</a>
       </div>
       <div className="social">
-      {twitters}
+        {twitters}
       </div>
-      <div dangerouslySetInnerHTML={{ __html: profile.bio }} />
+      </div>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.html + "</p>" }} />      
+      </div>
     </div>
 
     <div className="herocont center padd">
@@ -94,7 +107,6 @@ export default function UserPage({ profile }) {
       />
       <br/>
       <h1 className="edit">Bio</h1>
-      <p className="editsub">Custom HTML/CSS supported</p>
       <textarea
         id="bio"
         name="bio"
@@ -104,13 +116,23 @@ export default function UserPage({ profile }) {
         className="textarea"
       />
       <br/>
+      <br/>
+      <h1 className="edit">About</h1>
+      <p className="editsub">Custom HTML/CSS supported</p>
+      <textarea
+        id="bio"
+        name="bio"
+        value={html}
+        onChange={(event) => setHTML(event.target.value)}
+        placeholder="..."
+        className="textarea"
+      />
+      <br/>
 
 
       <button className="button" type="submit">Update</button>
     </form>
     </div>
-    </div>
-
     </div>
     </>
   );

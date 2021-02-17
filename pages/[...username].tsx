@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { supabase } from '../utils/initSupabase'
+import { supabase } from '../utils/initSupabase';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 library.add(fab, fas)
 
@@ -27,11 +28,46 @@ export default function UserPage({ profile }) {
       <title>{profile.username} | libby</title>
       <link rel="icon" type="image/png" href={profile.avatar}></link>
       </Head>
-      <div className="herocont center padd">
+      <div className="herocont padd userdetails">
+      <div className="flex">
+      <div>
       <img className="avatar" src={profile.avatar} />
-      <h1 className="username">{profile.username}</h1>
+      </div>
+      <div className="info">
+      <h1 className="username">{profile.username} <span className="handle">@{profile.username}</span></h1>
+      <p className="bio">{profile.bio}</p>
+      </div>
+      </div>
       {twitter}
-      <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.bio + "</p>"}} />
+      <Tabs>
+    <TabList>
+      <Tab>About</Tab>
+      <Tab>Posts</Tab>
+      <Tab>Schedule</Tab>
+      <Tab>Donate</Tab>
+    </TabList>
+
+    <TabPanel>
+    <div className="cards auto width">
+    <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.html + "</p>" }} />
+    </div>
+    </TabPanel>
+    <TabPanel>
+      <div className="cards auto">
+      <p>Posts isn't available in this early alpha.</p>
+      </div>
+    </TabPanel>
+    <TabPanel>
+    <div className="cards auto">
+      <p>Schedule isn't available in this early alpha.</p>
+      </div>
+    </TabPanel>
+    <TabPanel>
+    <div className="cards auto">
+      <p>Donate isn't available in this early alpha.</p>
+      </div>
+    </TabPanel>
+  </Tabs>
       </div>
     </>
   );
