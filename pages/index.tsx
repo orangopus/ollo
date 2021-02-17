@@ -1,7 +1,9 @@
 import Head from "next/head";
 import Link from 'next/link';
+import { supabase } from '../utils/initSupabase';
 
-const Index = () => {
+export default function Index({ profile })  {
+
   return (
       <div>
         <Head>
@@ -44,9 +46,40 @@ const Index = () => {
               <img className="profile domains" src="domains.png" />
             </div>
           </div>
+          <div className="row">
+            <div className="container text-center users">
+            <h1 className="h1">Registered Profiles</h1>
+            <p className="text padding text-center">Currently, {profile.length} profiles have registered! </p>
+            {profile.map((profile) => (
+            <div className="col inline">
+            <a href={`/${profile.username}`}>
+            <img className="avatar small" src={profile.avatar} />
+            </a>
+            </div>
+            ))}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-export default Index;
+
+  export async function getServerSideProps() {
+
+    const { body, error } = await supabase
+      .from("profiles")
+      .select("*")
+      console.log(body)
+    if (!body) {
+      return {
+        notFound: true,
+      };
+    }
+    return {
+      props: {
+        profile: body,
+      }, // will be passed to the page component as props
+    };
+  }
+  
