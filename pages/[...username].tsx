@@ -5,6 +5,9 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../utils/initSupabase';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
+
+
 
 library.add(fab, fas)
 
@@ -27,6 +30,7 @@ export default function UserPage({ profile }) {
       <Head>
       <title>{profile.username} | libby</title>
       <link rel="icon" type="image/png" href={profile.avatar}></link>
+      <script type="application/javascript" src="https://platform.twitter.com/widgets.js"></script>  
       </Head>
       <div className="herocont padd userdetails">
       <div className="flex">

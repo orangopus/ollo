@@ -297,6 +297,7 @@ h1 {
 
 .padd {
   margin-bottom: 200px;
+  padding: 0 80px;
 }
 
 .input {

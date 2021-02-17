@@ -47,33 +47,15 @@ export default function UserPage({ profile }) {
   return (
     <>
     <div className="flex">
-    <div className="herocont padd userdetails">
-      <div className="flex">
-      <div>
-      <img className="avatar" src={profile.avatar} />
-      </div>
-      <div className="info">
-      <h1 className="username">{profile.username} <span className="handle">@{profile.username}</span></h1>
-      <p className="bio">{profile.bio}</p>
-      <div className="profilelink">
-      <a target="_blank" href={`/${profile.username}`}>View profile</a>
-      </div>
-      <div className="social">
-        {twitters}
-      </div>
-      </div>
-      </div>
-      <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.html + "</p>" }} />      
-      </div>
-    </div>
 
-    <div className="herocont center padd">
+    <div className="herocont padd">
     <div className="cards">
     <form onSubmit={updateProfile}>
       <h1>Edit Profile</h1>
       <hr/>
     <h1 className="edit">Avatar URL</h1>
       <input
+      autoFocus
         id="bio"
         name="bio"
         value={avatar}
@@ -85,6 +67,7 @@ export default function UserPage({ profile }) {
       <br/>
       <h1 className="edit">Username</h1>
       <input
+      autoFocus
         id="bio"
         name="bio"
         value={username}
@@ -97,6 +80,7 @@ export default function UserPage({ profile }) {
       <br/>
       <h1 className="edit">Twitter</h1>
       <input
+      autoFocus
         id="bio"
         name="bio"
         value={twitter}
@@ -108,6 +92,7 @@ export default function UserPage({ profile }) {
       <br/>
       <h1 className="edit">Bio</h1>
       <textarea
+      autoFocus
         id="bio"
         name="bio"
         value={bio}
@@ -120,6 +105,7 @@ export default function UserPage({ profile }) {
       <h1 className="edit">About</h1>
       <p className="editsub">Custom HTML/CSS supported</p>
       <textarea
+      autoFocus
         id="bio"
         name="bio"
         value={html}
@@ -129,10 +115,33 @@ export default function UserPage({ profile }) {
       />
       <br/>
 
-
-      <button className="button" type="submit">Update</button>
+      <div className="center">
+        <button className="button" type="submit">Update</button>
+      </div>
     </form>
     </div>
+    </div>
+
+    <div className="herocont padd userdetails">
+      <div className="flex">
+      <div>
+      <img className="avatar" src={avatar} />
+      </div>
+      <div className="info">
+      <h1 className="username">{username} <span className="handle">@{username}</span></h1>
+      <p className="bio">{bio}</p>
+      <div className="profilelink">
+      <a target="_blank" href={`/${username}`}>View profile</a>
+      </div>
+      <div className="social">
+        {twitters}
+      </div>
+      </div>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: "<p>" + html + "</p>" }} />      
+      </div>
+
+
     </div>
     </>
   );
