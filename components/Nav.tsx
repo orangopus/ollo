@@ -3,10 +3,22 @@ import useSWR from 'swr'
 import { Auth, Card, Typography, Space, Button, Icon } from '@supabase/ui'
 import { supabase } from '../utils/initSupabase'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+
+const fetcher = (url, token) =>
+  fetch(url, {
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json', token }),
+    credentials: 'same-origin',
+  }).then((res) => res.json())
 
 const Nav = () => {
-  const { user, session } = Auth.useUser()
-  const { data, error } = useSWR(session ? ['/api/getUser', session.access_token] : null, fetch)
+  const session = supabase.auth.session()
+  console.log(supabase.auth.session())
+
+  const router = useRouter()
+
+  const { data, error } = useSWR(session ? ['/api/getUser', session.access_token] : null, fetcher)
   const [authView, setAuthView] = useState('sign_in')
 
   useEffect(() => {
@@ -28,7 +40,16 @@ const Nav = () => {
     }
   }, [])
 
-  if (!session) {
+  if (session) {
+    return (
+      <nav className="navbar">
+      <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
+      <form className="form-inline">
+        <button onClick={() => {supabase.auth.signOut(); router.push("/")}} className="button">logout</button>
+      </form>
+    </nav>
+    );
+  } else {
     return (
       <nav className="navbar">
         <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
@@ -38,17 +59,6 @@ const Nav = () => {
           <Link href="/dashboard">
           <button className="button">login</button>
           </Link>
-        </form>
-      </nav>
-    );
-  } 
-
-  else {
-    return (
-      <nav className="navbar">
-        <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
-        <form className="form-inline">
-          <button onClick={() => supabase.auth.signOut()} className="button">logout</button>
         </form>
       </nav>
     );
