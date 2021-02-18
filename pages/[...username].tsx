@@ -39,7 +39,7 @@ export default function UserPage({ profile }) {
       <img className="avatar" src={profile.avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{profile.username} <span className="handle">@{profile.username}</span></h1>
+      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span></h1>
       <p className="bio">{profile.bio}</p>
       </div>
       </div>   

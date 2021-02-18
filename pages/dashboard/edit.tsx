@@ -11,6 +11,7 @@ library.add(fab, fas)
 export default function UserPage({ profile }) {
   const [bio, setBio] = useState(profile.bio);
   const [username, setUsername] = useState(profile.username)
+  const [displayname, setDisplayName] = useState(profile.displayname)
   const [avatar, setAvatar] = useState(profile.avatar)
   const [twitter, setTwitter] = useState(profile.twitter)
   const [html, setHTML] = useState(profile.html)
@@ -22,6 +23,7 @@ export default function UserPage({ profile }) {
         bio,
         html,
         username,
+        displayname,
         avatar,
         twitter
       })
@@ -63,6 +65,19 @@ export default function UserPage({ profile }) {
         type="text"
         placeholder="Change your avatar link..."
         className="input"
+      />
+      <br/>
+      <h1 className="edit">Display Name</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={displayname}
+        onChange={(event) => setDisplayName(event.target.value)}
+        type="text"
+        placeholder="Change your display name..."
+        required
+         className="input"
       />
       <br/>
       <h1 className="edit">Username</h1>
@@ -128,7 +143,7 @@ export default function UserPage({ profile }) {
       <img className="avatar" src={avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{username} <span className="handle">@{username}</span></h1>
+      <h1 className="username">{displayname ? displayname : username} <span className="handle">@{username}</span></h1>
       <p className="bio">{bio}</p>
       <div className="profilelink">
       <a target="_blank" href={`/${username}`}>View profile</a>
