@@ -5,15 +5,16 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../utils/initSupabase';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
-
-
 
 library.add(fab, fas)
 
 export default function UserPage({ profile }) {
 
   let twitter = profile.twitter 
+
+  if (profile.html === null) {
+    profile.html = profile.username + " hasn't set up their about section yet."
+  }
 
   if (twitter === null) {
     twitter = null 
