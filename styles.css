@@ -374,10 +374,28 @@ h1 {
 }
 
 .social {
-  font-size: 25px;
-  width: 25px;
-  height: 25px;
-  margin: auto;
+  border-radius: 50%;
+  color: #ffffff !important;
+  height: 54px;
+  font-size: 20px !important;
+  line-height: 0px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  webkit-transition: background-color 0.3s;
+  width: 54px;
+  display: inline-table;
+  box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25);
+}
+
+.flexsocial {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.twitter {
+  background: #1da1f2;
 }
 
 .navpad {

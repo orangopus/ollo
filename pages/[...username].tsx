@@ -20,7 +20,7 @@ export default function UserPage({ profile }) {
     twitter = null 
   } else if (twitter) {
     twitter = (
-      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social">
+      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social twitter">
                       <FontAwesomeIcon icon={["fab", "twitter"]} />
             </a>
           )
@@ -42,16 +42,21 @@ export default function UserPage({ profile }) {
       <h1 className="username">{profile.username} <span className="handle">@{profile.username}</span></h1>
       <p className="bio">{profile.bio}</p>
       </div>
-      </div>
-      {twitter}
+      </div>   
       <Tabs>
-    <TabList>
+      <div className="flexsocial">
+      <div>
+           <TabList>
       <Tab>About</Tab>
       <Tab>Posts</Tab>
       <Tab>Schedule</Tab>
       <Tab>Donate</Tab>
-    </TabList>
-
+    </TabList> 
+      </div>
+      <div className="social">
+      {twitter}
+      </div>
+      </div>
     <TabPanel>
     <div className="cards auto width">
     <div dangerouslySetInnerHTML={{ __html: "<p>" + profile.html + "</p>" }} />
