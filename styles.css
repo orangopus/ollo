@@ -325,7 +325,7 @@ h1 {
 
 .inline {
   display: unset;
-  margin-left: -80px;
+  margin-left: -42px;
 }
 
 .flex {
@@ -338,7 +338,7 @@ h1 {
 
 .middle {
   justify-content: center;
-  margin-left: 85px;
+  margin-left: 50px;
 }
 
 .handle {
@@ -354,7 +354,7 @@ h1 {
   background: #121212;
   color: white;
   padding: 20px 22px;
-  margin-left: -60px;
+  margin-left: -42px;
   vertical-align: middle;
   line-height: 0;
   font-size: 25px;
@@ -409,6 +409,10 @@ h1 {
   webkit-transition: background-color 0.3s;
   width: 54px;
   display: inline-table;
+}
+
+.profileavatar {
+  padding: 0;
 }
 
 .flexsocial {
