@@ -20,8 +20,9 @@ export default function Index({ profile })  {
               <p className="tiny">libby is free forever!</p>
               <div className="middle">
             {profile.slice(0, 10).map((profile) => (
+            
             <div className="inline">
-            <a className="profileavatar" href={`/${profile.username}`}>
+            <a className="profileavatar" href={`/${profile.username ? profile.username : ""}`}>
             <img className="avatar small avatar2" src={profile.avatar} />
             </a>
             </div>
@@ -70,7 +71,6 @@ export default function Index({ profile })  {
     const { body, error } = await supabase
       .from("profiles")
       .select("*")
-      console.log(body)
     if (!body) {
       return {
         notFound: true,
