@@ -31,9 +31,10 @@ export default function Index({ profile })  {
             </div>
             </div>
               <img className="profile" src="libby-profile-page.png" />
-
-            </div>
-          </div>
+              <div className="producthunt">
+              <a href="https://www.producthunt.com/posts/libby-bio?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-libby-bio" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=285130&theme=dark" alt="libby BIO - Branded profiles for creators and beyond. | Product Hunt" width="250" height="54" /></a>
+              </div>
+              </div></div>
           <div className="row">
             <div className="container text-center">
               <h1 className="h1">Post Integrations</h1>
