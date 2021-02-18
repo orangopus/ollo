@@ -325,7 +325,7 @@ h1 {
 
 .inline {
   display: unset;
-  margin-left: -100px;
+  margin-left: -80px;
 }
 
 .flex {
@@ -346,6 +346,20 @@ h1 {
   line-height: 40px;
 
   color: #bbbbbb;
+}
+
+.usercount {
+  height: 500px;
+  width: 500px;
+  background: #121212;
+  color: white;
+  padding: 20px 22px;
+  margin-left: -60px;
+  vertical-align: middle;
+  line-height: 0;
+  font-size: 25px;
+  border: 5px dashed rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
 }
 
 .textarea {
@@ -474,6 +488,15 @@ input {
   max-width: 100px;
   text-align: center;
   max-width: 130px;
+}
+
+.middle {
+  padding: none;
+  margin-bottom: 50px;
+}
+
+.avatar2 {
+  margin-top: 0;
 }
 
 a,

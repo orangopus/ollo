@@ -18,6 +18,18 @@ export default function Index({ profile })  {
               <button className="button">Get started</button>
               </Link>
               <p className="tiny">libby is free forever!</p>
+              <div className="middle">
+            {profile.slice(0, 10).map((profile) => (
+            <div className="inline">
+            <a className="profileavatar" href={`/${profile.username}`}>
+            <img className="avatar small avatar2" src={profile.avatar} />
+            </a>
+            </div>
+            ))}
+            <div className="inline avatar usercount">
+              {`+${profile.length - 10}`}
+            </div>
+            </div>
               <img className="profile" src="libby-profile-page.png" />
 
             </div>
@@ -44,21 +56,6 @@ export default function Index({ profile })  {
               <p className="text padding text-center">Choose one of our domains or use a custom domain of your own.</p>
 
               <img className="profile domains" src="domains.png" />
-            </div>
-          </div>
-          <div className="row">
-            <div className="container text-center users">
-            <h1 className="h1">Registered Profiles</h1>
-            <p className="text padding text-center">Currently, {profile.length} profiles have registered! </p>
-            <div className="middle">
-            {profile.map((profile) => (
-            <div className="col inline">
-            <a className="profileavatar" href={`/${profile.username}`}>
-            <img className="avatar small" src={profile.avatar} />
-            </a>
-            </div>
-            ))}
-            </div>
             </div>
           </div>
         </div>
