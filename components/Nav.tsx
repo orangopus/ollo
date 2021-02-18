@@ -28,7 +28,7 @@ const Nav = () => {
     }
   }, [])
 
-  if (!user) {
+  if (!session) {
     return (
       <nav className="navbar">
         <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
@@ -42,6 +42,8 @@ const Nav = () => {
       </nav>
     );
   } 
+
+  else {
     return (
       <nav className="navbar">
         <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
@@ -50,6 +52,7 @@ const Nav = () => {
         </form>
       </nav>
     );
+  }
 }
 
 export default Nav;
