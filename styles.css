@@ -325,10 +325,20 @@ h1 {
 
 .inline {
   display: unset;
+  margin-left: -100px;
 }
 
 .flex {
   display: flex;
+}
+
+.profileavatar:visited {
+  padding: 0;
+}
+
+.middle {
+  justify-content: center;
+  margin-left: 85px;
 }
 
 .handle {

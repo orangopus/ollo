@@ -50,13 +50,15 @@ export default function Index({ profile })  {
             <div className="container text-center users">
             <h1 className="h1">Registered Profiles</h1>
             <p className="text padding text-center">Currently, {profile.length} profiles have registered! </p>
+            <div className="middle">
             {profile.map((profile) => (
             <div className="col inline">
-            <a href={`/${profile.username}`}>
+            <a className="profileavatar" href={`/${profile.username}`}>
             <img className="avatar small" src={profile.avatar} />
             </a>
             </div>
             ))}
+            </div>
             </div>
           </div>
         </div>
