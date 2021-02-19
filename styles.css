@@ -568,6 +568,10 @@ a:active {
     margin: 0;
   }
 
+  .profile {
+    max-width: 100%;
+  }
+
   .navbar {
     padding: 0 25px !important;
   }
