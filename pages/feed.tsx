@@ -47,7 +47,7 @@ export default function UserPage({ profile, posts, user }) {
 
   return (
     <>
-    <div>
+    <div className="flex">
 
     {user && 
     <div className="herocont padd2">
