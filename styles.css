@@ -544,3 +544,63 @@ a:active {
 .react-tabs {
   width: 85vw;
 }
+
+@media only screen and (max-width: 768px) {
+  .flex {
+    display: grid;
+    margin: auto;
+  }
+
+  .info {
+    text-align: center;
+    margin: auto 0;
+  }
+
+  .userdetails {
+    justify-content: unset;
+  }
+
+  .social {
+    margin: 20px 10px;
+  }
+
+  .react-tabs__tab-list {
+    margin: 0;
+  }
+
+  .navbar {
+    padding: 0 25px !important;
+  }
+
+  .react-tabs {
+    margin: auto;
+  }
+
+  .flexsocial {
+    display: grid;
+  }
+
+  .react-tabs__tab {
+    font-size: 25px;
+  }
+
+  .username {
+    text-align: center;
+  }
+
+  .bio {
+    width: unset;
+    padding: 20px;
+  }
+
+  .avatarcont {
+    margin: auto;
+  }
+
+  .avatar {
+  }
+
+  .padd {
+    padding: 0;
+  }
+}

@@ -48,7 +48,7 @@ export default function UserPage({ profile }) {
       </Head>
       <div className="herocont padd userdetails">
       <div className="flex">
-      <div>
+      <div className="avatarcont">
       <img className="avatar" src={profile.avatar} />
       </div>
       <div className="info">
