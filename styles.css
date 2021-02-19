@@ -217,7 +217,7 @@ a.sbui-typography,
 }
 
 .logo {
-  max-width: 200px;
+  max-width: 60px !important;
 }
 
 .tiny {
