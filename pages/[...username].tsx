@@ -106,14 +106,21 @@ export async function getServerSideProps(context) {
     .eq("username", context.params.username)
     .single();
 
+    const posts = await supabase
+    .from("vw_posts_with_user")
+    .select()
+    .eq("username", context.params.username)
+
   if (!body) {
     return {
       notFound: true,
     };
   }
+
   return {
     props: {
-      profile: body
+      profile: body,
+      posts: posts
     }, // will be passed to the page component as props
   };
 }

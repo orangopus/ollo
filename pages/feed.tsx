@@ -10,6 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import Link from "next/link";
 import axios from "axios";
 
+
 dayjs.extend(relativeTime)
 library.add(fab, fas)
 
@@ -31,24 +32,27 @@ export default function UserPage({ profile, posts, user }) {
           user_id: user.id
          }
       ])
-
-      refreshData()
   };
-
-  if(profile.html === null) {
-    profile.html = "You haven't set an About section yet..."
-  }
 
   const formatDate = (date: string) => {
     return dayjs().to(dayjs(date))
   } 
 
+  supabase
+  .from('vw_posts_with_user')
+  .on('*', _payload => {
+    refreshData()
+  })
+  .subscribe()
+
   return (
     <>
     <div>
 
+    {user && 
     <div className="herocont padd2">
     <div className="cards">
+     
     <form onSubmit={createPost}>
       <h1>Create Post</h1>
       <hr/>
@@ -66,24 +70,22 @@ export default function UserPage({ profile, posts, user }) {
     </form>
     </div>
     </div>
-
+  }
     <div className="herocont padd2 userdetails">
       <div className="flex">
       <div>
       </div>
       <div className="info">
       {posts.data.map((post, index) => (
-        <div className="cards">
+        <div className="cards postcard">
       <div className="flex">
       <div className="avatarcont">
       <img className="avatar" src={post.avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span></h1>
+      <h1 className="username">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
 
-      <p>{post.content}</p>    
-
-      <p>{ formatDate(post.published_at)}</p>
+      <p className="postcontent">{post.content}</p>    
         </div>   
         </div>  
         </div>
@@ -98,26 +100,12 @@ export default function UserPage({ profile, posts, user }) {
 export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  const { body, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
-
   const posts = await supabase
   .from("vw_posts_with_user")
   .select()
 
-  console.log(posts)
-
-  if (!body) {
-    return {
-      notFound: true,
-    };
-  }
   return {
     props: {
-      profile: body,
       user: user,
       posts: posts
     },

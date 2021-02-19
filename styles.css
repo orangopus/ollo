@@ -84,7 +84,7 @@ h1 {
   padding: 30px;
   color: #fff;
   width: fit-content;
-  margin: auto;
+  margin: 20px;
 }
 
 .probadge {
@@ -119,7 +119,6 @@ p {
 }
 
 .info {
-  margin-top: 40px;
   margin-left: 50px;
 }
 
@@ -487,10 +486,24 @@ input {
   color: #cf4747;
 }
 
+.postcard {
+  max-width: 100%;
+}
+
+.minutesago {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.postcontent {
+  font-size: 28px;
+  font-weight: bolder;
+}
+
 .avatar {
   border-radius: 500px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
-  margin-top: 50px;
+  vertical-align: middle;
   max-width: 100px;
   text-align: center;
   max-width: 130px;
