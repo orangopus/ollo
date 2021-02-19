@@ -76,6 +76,7 @@ export default function UserPage({ profile }) {
         onChange={(event) => setDisplayName(event.target.value)}
         type="text"
         placeholder="Change your display name..."
+        required
          className="input"
       />
       <br/>
