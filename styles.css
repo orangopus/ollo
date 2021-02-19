@@ -572,6 +572,10 @@ a:active {
     max-width: 100%;
   }
 
+  .buttonwhite {
+    padding: 0;
+  }
+
   .navbar {
     padding: 0 25px !important;
   }
