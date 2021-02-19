@@ -47,10 +47,11 @@ const Nav = () => {
           <Link href="/feed">
           <button className="buttonwhite">feed</button>
           </Link>
-
           <Link href="/dashboard/edit">
           <button className="buttonwhite">edit profile</button>
           </Link>
+          <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
+            className="buttonwhite">pro</button>
         <button onClick={() => {supabase.auth.signOut(); router.push("/")}} className="button">logout</button>
       </form>
     </nav>
@@ -60,6 +61,9 @@ const Nav = () => {
       <nav className="navbar">
         <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
         <form className="form-inline">
+        <Link href="/feed">
+          <button className="buttonwhite">feed</button>
+          </Link>
           <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
             className="buttonwhite">pro</button>
           <Link href="/dashboard">
