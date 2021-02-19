@@ -39,7 +39,7 @@ export default function UserPage({ profile, posts, user }) {
   } 
 
   supabase
-  .from('vw_posts_with_user')
+  .from('posts')
   .on('*', _payload => {
     refreshData()
   })
