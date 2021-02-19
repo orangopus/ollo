@@ -7,6 +7,10 @@ Branded profiles for creators and beyond.
 - [x] Dashboard editor	
 - [x] Profile generation	
 - [x] Change database and authetincation infrastructure	
+- [ ] Posts tab
+- [ ] Donate tab
+- [ ] Schedule tab
+- [ ] Follow button
 - [ ] Integrate Ghost or RSS feeds	
 - [ ] Integrate GitHub activity	
 - [ ] Integrate Makerlog activity	
