@@ -37,7 +37,7 @@
     "window": "^4.2.7"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
+    "@types/react": "^17.0.2",
     "typescript": "^4.1.3"
   }
 }

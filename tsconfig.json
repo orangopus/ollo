@@ -22,8 +22,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/[...username].js"
-  ],
+    "pages/[...username].tsx"
+, "pages/index.tsx"  ],
   "exclude": [
     "node_modules"
   ]
