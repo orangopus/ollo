@@ -14,7 +14,6 @@ const fetcher = (url, token) =>
 
 const Nav = () => {
   const session = supabase.auth.session()
-  console.log(supabase.auth.session())
 
   const router = useRouter()
 

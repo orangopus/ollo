@@ -545,6 +545,10 @@ a:active {
   width: 85vw;
 }
 
+.padd2 {
+  margin-bottom: 0;
+}
+
 @media only screen and (max-width: 768px) {
   .flex {
     display: grid;
@@ -603,9 +607,6 @@ a:active {
 
   .avatarcont {
     margin: auto;
-  }
-
-  .avatar {
   }
 
   .padd {
