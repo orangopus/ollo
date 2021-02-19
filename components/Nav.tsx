@@ -16,22 +16,6 @@ const Nav = () => {
   const session = supabase.auth.session()
   console.log(supabase.auth.session())
 
-  const hostname = window.location.hostname
-
-  let hostName = hostname;
-
-  if (hostName = "localhost:3000") {
-    hostName = `<a className="navbar-brand" href="/"><img className="logo" style="max-height: 75px;"  src="../logo.png" /></a>`
-  }
-  else if (hostName = "streamer.is") {
-    hostName = `<a className="navbar-brand" href="/"><img className="logo" style="max-height: 75px;" src="../logo-streameris.png" /></a>`
-  }
-  else {
-    hostName = `<a className="navbar-brand" href="/"><img className="logo" style="max-height: 75px;" src="../logo.png" /></a>`
-  }
-
-  console.log(hostName)
-
   const router = useRouter()
 
   const { data, error } = useSWR(session ? ['/api/getUser', session.access_token] : null, fetcher)
@@ -59,7 +43,7 @@ const Nav = () => {
   if (session) {
     return (
       <nav className="navbar">
-      <div className="navbar-brand" dangerouslySetInnerHTML={{ __html: hostName }} />   
+      <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
       <form className="form-inline">
         <button onClick={() => {supabase.auth.signOut(); router.push("/")}} className="button">logout</button>
       </form>
@@ -68,7 +52,7 @@ const Nav = () => {
   } else {
     return (
       <nav className="navbar">
-        <div className="navbar-brand" dangerouslySetInnerHTML={{ __html: hostName }} />
+        <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
         <form className="form-inline">
           <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
             className="buttonwhite">pro</button>
