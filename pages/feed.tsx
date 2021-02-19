@@ -80,7 +80,9 @@ export default function UserPage({ profile, posts, user }) {
         <div className="cards postcard">
       <div className="flex">
       <div className="avatarcont">
+      <a href={`/${post.username}`}>
       <img className="avatar" src={post.avatar} />
+      </a>
       </div>
       <div className="info">
       <h1 className="username">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
