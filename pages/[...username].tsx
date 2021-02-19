@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -23,6 +24,18 @@ export default function UserPage({ profile }) {
       <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social twitter">
                       <FontAwesomeIcon icon={["fab", "twitter"]} />
             </a>
+          )
+  }
+
+  let makerlog = profile.makerlog
+
+  if (makerlog === null) {
+    makerlog = null 
+  } else if (makerlog) {
+    makerlog = (
+      <a href={`https://maker.to/${profile.makerlog}`} target="_blank" className="social makerlog">
+      <FontAwesomeIcon icon={["fas", "check-circle"]} />
+      </a>
           )
   }
 
@@ -54,7 +67,10 @@ export default function UserPage({ profile }) {
     </TabList> 
       </div>
       <div className="social">
+      <div>
       {twitter}
+      {makerlog}
+      </div>
       </div>
       </div>
     <TabPanel>
@@ -89,6 +105,7 @@ export async function getServerSideProps(context) {
     .select("*")
     .eq("username", context.params.username)
     .single();
+
   if (!body) {
     return {
       notFound: true,
@@ -96,7 +113,7 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-      profile: body,
+      profile: body
     }, // will be passed to the page component as props
   };
 }

@@ -4,7 +4,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "../../utils/initSupabase";
+
 import Link from "next/link";
+import axios from "axios";
 
 library.add(fab, fas)
 
@@ -14,7 +16,9 @@ export default function UserPage({ profile }) {
   const [displayname, setDisplayName] = useState(profile.displayname)
   const [avatar, setAvatar] = useState(profile.avatar)
   const [twitter, setTwitter] = useState(profile.twitter)
+  const [makerlog, setMakerlog] = useState(profile.makerlog)
   const [html, setHTML] = useState(profile.html)
+
   const updateProfile = async (event) => {
     event.preventDefault();
     await supabase
@@ -25,22 +29,11 @@ export default function UserPage({ profile }) {
         username,
         displayname,
         avatar,
-        twitter
+        twitter,
+        makerlog
       })
       .eq("id", profile.id);
   };
-
-  let twitters = profile.twitter 
-
-  if (twitters === null) {
-    twitters = (<p></p>)
-  } else if (twitters) {
-    twitters = (
-      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social">
-                      <FontAwesomeIcon icon={["fab", "twitter"]} />
-            </a>
-          )
-  }
 
   if(profile.html === null) {
     profile.html = "You haven't set an About section yet..."
@@ -100,7 +93,19 @@ export default function UserPage({ profile }) {
         value={twitter}
         onChange={(event) => setTwitter(event.target.value)}
         type="text"
-        placeholder="Twitter"
+        placeholder="Twitter username..."
+        className="input"
+      />
+      <br/>
+      <h1 className="edit">Makerlog</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={makerlog}
+        onChange={(event) => setMakerlog(event.target.value)}
+        type="text"
+        placeholder="Makerlog username..."
         className="input"
       />
       <br/>
@@ -146,9 +151,6 @@ export default function UserPage({ profile }) {
       <p className="bio">{bio}</p>
       <div className="profilelink">
       <a target="_blank" href={`/${username}`}>View profile</a>
-      </div>
-      <div className="social">
-        {twitters}
       </div>
       </div>
       </div>
