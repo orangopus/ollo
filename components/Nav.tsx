@@ -16,6 +16,26 @@ const Nav = () => {
   const session = supabase.auth.session()
   console.log(supabase.auth.session())
 
+  let hostname = window.document.location.host
+
+  if (hostname = "localhost:3000") {
+    hostname = (
+      <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
+    )
+  }
+
+  else if (hostname = "streamer.is") {
+    hostname = (
+      <a className="navbar-brand" href="/"><img className="logo" src="../logo-streameris.png" /></a>
+    )
+  }
+
+  else {
+    hostname = (
+      <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
+    )
+  }
+
   const router = useRouter()
 
   const { data, error } = useSWR(session ? ['/api/getUser', session.access_token] : null, fetcher)
@@ -43,7 +63,7 @@ const Nav = () => {
   if (session) {
     return (
       <nav className="navbar">
-      <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
+      {hostname}
       <form className="form-inline">
         <button onClick={() => {supabase.auth.signOut(); router.push("/")}} className="button">logout</button>
       </form>
@@ -52,7 +72,7 @@ const Nav = () => {
   } else {
     return (
       <nav className="navbar">
-        <a className="navbar-brand" href="/"><img className="logo" src="../logo.png" /></a>
+        {hostname}
         <form className="form-inline">
           <button onClick={(e) => { e.preventDefault(); window.location.href = '/pro'; }}
             className="buttonwhite">pro</button>
