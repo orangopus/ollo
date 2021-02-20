@@ -6,10 +6,13 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../utils/initSupabase';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
+dayjs.extend(relativeTime)
 library.add(fab, fas)
 
-export default function UserPage({ profile }) {
+export default function UserPage({ profile, posts }) {
 
   let twitter = profile.twitter 
 
@@ -38,6 +41,10 @@ export default function UserPage({ profile }) {
       </a>
           )
   }
+
+  const formatDate = (date: string) => {
+    return dayjs().to(dayjs(date))
+  } 
 
   return (
     <>
@@ -79,8 +86,23 @@ export default function UserPage({ profile }) {
     </div>
     </TabPanel>
     <TabPanel>
-      <div className="cards auto">
-      <p>Posts isn't available in this early alpha.</p>
+      <div className="posts">
+    {posts.data.map((post, index) => (
+        <div className="cards">
+      <div className="flex">
+      <div className="avatarcont">
+      <a href={`/${post.username}`}>
+      <img className="avatar avatar2" src={post.avatar} />
+      </a>
+      </div>
+      <div className="info">
+      <h1 className="username2">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
+
+      <p className="postcontent">{post.content}</p>    
+        </div>   
+        </div>  
+        </div>
+      ))}    
       </div>
     </TabPanel>
     <TabPanel>

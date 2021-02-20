@@ -486,6 +486,15 @@ input {
   color: #cf4747;
 }
 
+.avatar2 {
+  max-width: 80px !important;
+}
+
+.posts {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
 .postcard {
   max-width: 100%;
 }
@@ -579,6 +588,10 @@ a:active {
 
   .social {
     margin: 20px 10px;
+  }
+
+  .posts {
+    display: block;
   }
 
   .react-tabs__tab-list {
