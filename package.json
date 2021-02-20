@@ -31,6 +31,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-helmet": "^6.1.0",
+    "react-markdown": "^5.0.3",
     "react-tabs": "^3.2.0",
     "react-twitter-embed": "^3.0.3",
     "supabase": "0.0.3",

@@ -6,8 +6,9 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../utils/initSupabase';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import Markdown from "react-markdown";
 
 dayjs.extend(relativeTime)
 library.add(fab, fas)
@@ -98,7 +99,7 @@ export default function UserPage({ profile, posts }) {
       <div className="info">
       <h1 className="username2">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
 
-      <p className="postcontent">{post.content}</p>    
+      <p className="postcontent"><Markdown children={post.content} /></p>     
         </div>   
         </div>  
         </div>

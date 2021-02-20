@@ -7,6 +7,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "../utils/initSupabase";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import Markdown from "react-markdown";
 import Link from "next/link";
 import axios from "axios";
 
@@ -58,6 +59,7 @@ export default function UserPage({ profile, posts, user }) {
      
     <form onSubmit={createPost}>
       <h1>Create Post</h1>
+      <p>Markdown is supported</p>
       <hr/>
       <textarea
         id="bio"
@@ -90,7 +92,7 @@ export default function UserPage({ profile, posts, user }) {
       <div className="info">
       <h1 className="username">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
 
-      <p className="postcontent">{post.content}</p>    
+      <p className="postcontent"><Markdown children={post.content} /></p>    
         </div>   
         </div>  
         </div>
