@@ -54,7 +54,7 @@ export default function UserPage({ profile, posts }) {
       <link rel="icon" type="image/png" href={profile.avatar}></link>
       <meta property="og:title" content={`${profile.username}'s Profile | libby`} />
       <meta property="og:description" content={`${profile.bio}`} />
-      <meta property="og:url" content={`${window.location.host}/${profile.bio}`} />
+      <meta property="og:url" content={`${window.location.host}/${profile.username}`} />
       <meta property="og:image" content={`${profile.avatar}`} />
       <script type="application/javascript" src="https://platform.twitter.com/widgets.js"></script>  
       </Head>
