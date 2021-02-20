@@ -52,6 +52,10 @@ export default function UserPage({ profile, posts }) {
       <Head>
       <title>{profile.username} | libby</title>
       <link rel="icon" type="image/png" href={profile.avatar}></link>
+      <meta property="og:title" content={`${profile.username}'s Profile | libby`} />
+      <meta property="og:description" content={`${profile.bio}`} />
+      <meta property="og:url" content={`${window.location.host}/${profile.bio}`} />
+      <meta property="og:image" content={`${profile.avatar}`} />
       <script type="application/javascript" src="https://platform.twitter.com/widgets.js"></script>  
       </Head>
       <div className="herocont padd userdetails">
@@ -147,5 +151,3 @@ export async function getServerSideProps(context) {
     }, // will be passed to the page component as props
   };
 }
-
-
