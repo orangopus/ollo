@@ -85,6 +85,8 @@ h1 {
   color: #fff;
   width: 100%;
   margin: 20px;
+  display: inline-block;
+  box-sizing: border-box;
 }
 
 .probadge {
@@ -491,9 +493,8 @@ input {
 }
 
 .posts {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 0px 25px;
+  column-count: 2;
+  column-gap: 30px;
 }
 
 .postcard {
@@ -592,7 +593,7 @@ a:active {
   }
 
   .posts {
-    display: block;
+    column-count: 1;
   }
 
   .react-tabs__tab-list {
