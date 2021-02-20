@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -38,12 +38,15 @@ export default function UserPage({ profile, posts, user }) {
     return dayjs().to(dayjs(date))
   } 
 
-  supabase
-  .from('posts')
-  .on('*', _payload => {
-    refreshData()
-  })
-  .subscribe()
+  useEffect(() => { 
+    // subscription
+    supabase
+    .from('posts')
+    .on('*', _payload => {
+      refreshData()
+    })
+    .subscribe()
+    }, [])
 
   return (
     <>
