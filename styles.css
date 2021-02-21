@@ -594,10 +594,7 @@ input {
   margin-top: 50px;
 }
 
-a,
-a:visited,
-a:hover,
-a:active {
+a {
   color: #ffffff !important;
   text-decoration: none;
   padding: 20px;
