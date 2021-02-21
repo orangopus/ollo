@@ -72,7 +72,7 @@ export default function UserPage({ profile, posts }) {
 
   let verifiedChecker = profile.verified
 
-  if (verifiedChecker === true) {
+  if (verifiedChecker === true || profile.twitter) {
     verifiedChecker = (
       <>
       <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span>
@@ -99,6 +99,7 @@ export default function UserPage({ profile, posts }) {
       </div>
       <div className="info">
       <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {staffChecker} {verifiedChecker} {proChecker} </h1>
+      <p></p>
       <p className="bio">{profile.bio}</p>
       </div>
       </div>   
