@@ -18,6 +18,7 @@ export default function UserPage({ profile }) {
   const [twitter, setTwitter] = useState(profile.twitter)
   const [makerlog, setMakerlog] = useState(profile.makerlog)
   const [html, setHTML] = useState(profile.html)
+  const [text, setText] = useState("Update");
 
   const updateProfile = async (event) => {
     event.preventDefault();
@@ -135,7 +136,7 @@ export default function UserPage({ profile }) {
       <br/>
 
       <div className="center">
-        <button className="button" type="submit">Update</button>
+        <button className="button" onClick={() => setText("Updated! 🎉")} type="submit">{text}</button>
       </div>
     </form>
     </div>
