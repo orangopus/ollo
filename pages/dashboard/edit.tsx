@@ -142,7 +142,7 @@ export default function UserPage({ profile }) {
         value={glimesh}
         onChange={(event) => setGlimesh(event.target.value)}
         type="text"
-        placeholder="Sunshine username..."
+        placeholder="Glimesh username..."
         className="input"
       />
       <br/>
