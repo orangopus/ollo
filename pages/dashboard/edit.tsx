@@ -17,7 +17,7 @@ export default function UserPage({ profile }) {
   const [avatar, setAvatar] = useState(profile.avatar)
   const [twitter, setTwitter] = useState(profile.twitter)
   const [makerlog, setMakerlog] = useState(profile.makerlog)
-  const [sunshine, setSunshine] = useState(profile.makerlog)
+  const [sunshine, setSunshine] = useState(profile.sunshine)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
 
