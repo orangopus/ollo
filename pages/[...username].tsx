@@ -60,6 +60,17 @@ export default function UserPage({ profile, posts }) {
     )
   }
 
+  let staffChecker = profile.staff
+
+  if (staffChecker === true) {
+    staffChecker = (
+      <>
+      <span className="staff">STAFF</span>
+      </>
+    )
+  }
+
+
   return (
     <>
       <Head>
@@ -77,7 +88,7 @@ export default function UserPage({ profile, posts }) {
       <img className="avatar" src={profile.avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {proChecker} </h1>
+      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {staffChecker} {proChecker} </h1>
       <p className="bio">{profile.bio}</p>
       </div>
       </div>   

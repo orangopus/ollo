@@ -102,6 +102,16 @@ h1 {
   cursor: pointer;
 }
 
+.staff {
+  border-radius: 50px;
+  background: #fff;
+  color: #121212;
+  font-size: 20px;
+  padding: 10px;
+  line-height: 1px;
+  cursor: pointer;
+}
+
 .paddingcards {
   margin-top: 50px;
 }
