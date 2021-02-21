@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -19,6 +19,14 @@ export default function UserPage({ profile }) {
   const [makerlog, setMakerlog] = useState(profile.makerlog)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+        setText(text);
+    }, 3000);
+
+    return() => clearInterval(interval);
+  }, [])
 
   const updateProfile = async (event) => {
     event.preventDefault();
