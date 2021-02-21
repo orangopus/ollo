@@ -70,6 +70,16 @@ export default function UserPage({ profile, posts }) {
     )
   }
 
+  let verifiedChecker = profile.verified
+
+  if (verifiedChecker === true) {
+    verifiedChecker = (
+      <>
+      <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span>
+      </>
+    )
+  }
+
 
   return (
     <>
@@ -88,7 +98,7 @@ export default function UserPage({ profile, posts }) {
       <img className="avatar" src={profile.avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {staffChecker} {proChecker} </h1>
+      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {staffChecker} {verifiedChecker} {proChecker} </h1>
       <p className="bio">{profile.bio}</p>
       </div>
       </div>   
