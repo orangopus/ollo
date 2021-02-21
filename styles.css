@@ -469,9 +469,19 @@ h1 {
   padding: 10px;
 }
 
+.glimesh {
+  background: #0e1726;
+  padding: 4px;
+}
+
 .sunshine-img {
   border-radius: 100%;
   max-width: 40px;
+}
+
+.glimesh-img {
+  border-radius: 100%;
+  max-width: 55px;
 }
 
 .navpad {

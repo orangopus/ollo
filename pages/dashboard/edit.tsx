@@ -18,6 +18,7 @@ export default function UserPage({ profile }) {
   const [twitter, setTwitter] = useState(profile.twitter)
   const [makerlog, setMakerlog] = useState(profile.makerlog)
   const [sunshine, setSunshine] = useState(profile.sunshine)
+  const [glimesh, setGlimesh] = useState(profile.glimesh)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
 
@@ -41,7 +42,8 @@ export default function UserPage({ profile }) {
         avatar,
         twitter,
         makerlog,
-        sunshine
+        sunshine,
+        glimesh
       })
       .eq("id", profile.id);
   };
@@ -127,6 +129,18 @@ export default function UserPage({ profile }) {
         name="bio"
         value={sunshine}
         onChange={(event) => setSunshine(event.target.value)}
+        type="text"
+        placeholder="Sunshine username..."
+        className="input"
+      />
+      <br/>
+      <h1 className="edit">Glimesh</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={glimesh}
+        onChange={(event) => setGlimesh(event.target.value)}
         type="text"
         placeholder="Sunshine username..."
         className="input"

@@ -56,6 +56,18 @@ export default function UserPage({ profile, posts }) {
           )
   }
 
+  let glimesh = profile.glimesh
+
+  if (glimesh === null) {
+    glimesh = null 
+  } else if (glimesh) {
+    glimesh = (
+      <a href={`https://glimesh.tv/${profile.glimesh}`} target="_blank" className="social glimesh">
+        <img className="glimesh-img" src="https://github.com/Glimesh/assets/blob/master/social/social-circle-middleish.png?raw=true" />
+      </a>
+          )
+  }
+
   const formatDate = (date: string) => {
     return dayjs().to(dayjs(date))
   } 
@@ -130,6 +142,7 @@ export default function UserPage({ profile, posts }) {
       {twitter}
       {makerlog}
       {sunshine}
+      {glimesh}
       </div>
       </div>
       </div>
