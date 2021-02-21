@@ -10,7 +10,7 @@ export default function Index() {
       </Head>
     <div className="row procont">
     <div className="col-9">
-      <img className="pro" src="pro.png" />
+      <img className="proimage" src="pro.png" />
       <h1 className="subtitle">Want to support libby's development?</h1>
       <p className="subtext">Our core features will always be 100% free, but consider supporting our cause. You'll unlock some awesome perks!</p>
       <Link href="https://opencollective.com/orangopus/contribute/libby-pro-24673">

@@ -9,6 +9,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Markdown from "react-markdown";
+import Link from "next/link"
 
 dayjs.extend(relativeTime)
 library.add(fab, fas)
@@ -47,6 +48,18 @@ export default function UserPage({ profile, posts }) {
     return dayjs().to(dayjs(date))
   } 
 
+  let proChecker = profile.pro
+
+  if (proChecker === true) {
+    proChecker = (
+      <>
+      <Link href="/pro">
+      <span className="pro">PRO</span>
+      </Link>
+      </>
+    )
+  }
+
   return (
     <>
       <Head>
@@ -64,7 +77,7 @@ export default function UserPage({ profile, posts }) {
       <img className="avatar" src={profile.avatar} />
       </div>
       <div className="info">
-      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span></h1>
+      <h1 className="username">{profile.displayname ? profile.displayname : profile.username} <span className="handle">@{profile.username}</span> {proChecker} </h1>
       <p className="bio">{profile.bio}</p>
       </div>
       </div>   

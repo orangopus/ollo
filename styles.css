@@ -88,17 +88,30 @@ h1 {
   box-sizing: border-box;
 }
 
-.probadge {
-  max-width: 100px;
-}
-
 .cardtitle {
   font-size: 22px;
   font-weight: bolder;
 }
 
+.pro {
+  border-radius: 50px;
+  background: #04d87f;
+  font-size: 20px;
+  padding: 10px;
+  line-height: 1px;
+  cursor: pointer;
+}
+
 .paddingcards {
   margin-top: 50px;
+}
+
+.proimage {
+  max-height: 150px;
+}
+
+.probadge {
+  max-width: 100%;
 }
 
 .cardtext {
