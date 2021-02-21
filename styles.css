@@ -494,7 +494,7 @@ input {
 
 .posts {
   column-count: 2;
-  column-gap: 30px;
+  column-gap: 25px;
 }
 
 .postcard {
