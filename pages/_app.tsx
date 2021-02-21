@@ -12,6 +12,10 @@ export default function MyApp({ Component, pageProps }) {
     return null
   }
 
+  window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+  }
+
   return (
     <>
       <Head>
