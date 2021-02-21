@@ -119,11 +119,13 @@ export default function UserPage({ profile }) {
       />
       <br/>
       <h1 className="edit">Bio</h1>
+      <p className="editsub">Max characters: 125</p>
       <textarea
       autoFocus
         id="bio"
         name="bio"
         value={bio}
+        maxLength={125}
         onChange={(event) => setBio(event.target.value)}
         placeholder="Change your bio..."
         className="textarea"
