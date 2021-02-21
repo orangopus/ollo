@@ -44,6 +44,18 @@ export default function UserPage({ profile, posts }) {
           )
   }
 
+  let sunshine = profile.sunshine
+
+  if (sunshine === null) {
+    sunshine = null 
+  } else if (sunshine) {
+    sunshine = (
+      <a href={`https://sunshine.social/${profile.sunshine}`} target="_blank" className="social sunshine">
+        <img className="sunshine-img" src="https://sunshine.social/imgs/Sunshine_Logo_Animated.gif" />
+      </a>
+          )
+  }
+
   const formatDate = (date: string) => {
     return dayjs().to(dayjs(date))
   } 
@@ -117,6 +129,7 @@ export default function UserPage({ profile, posts }) {
       <div>
       {twitter}
       {makerlog}
+      {sunshine}
       </div>
       </div>
       </div>

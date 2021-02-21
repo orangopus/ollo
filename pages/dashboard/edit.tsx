@@ -17,6 +17,7 @@ export default function UserPage({ profile }) {
   const [avatar, setAvatar] = useState(profile.avatar)
   const [twitter, setTwitter] = useState(profile.twitter)
   const [makerlog, setMakerlog] = useState(profile.makerlog)
+  const [sunshine, setSunshine] = useState(profile.makerlog)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
 
@@ -39,7 +40,8 @@ export default function UserPage({ profile }) {
         displayname,
         avatar,
         twitter,
-        makerlog
+        makerlog,
+        sunshine
       })
       .eq("id", profile.id);
   };
@@ -115,6 +117,18 @@ export default function UserPage({ profile }) {
         onChange={(event) => setMakerlog(event.target.value)}
         type="text"
         placeholder="Makerlog username..."
+        className="input"
+      />
+      <br/>
+      <h1 className="edit">Sunshine Social</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={sunshine}
+        onChange={(event) => setSunshine(event.target.value)}
+        type="text"
+        placeholder="Sunshine username..."
         className="input"
       />
       <br/>

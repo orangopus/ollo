@@ -464,6 +464,16 @@ h1 {
   background: #00ad70;
 }
 
+.sunshine {
+  background: white;
+  padding: 10px;
+}
+
+.sunshine-img {
+  border-radius: 100%;
+  max-width: 40px;
+}
+
 .navpad {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
