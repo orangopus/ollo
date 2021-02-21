@@ -55,6 +55,7 @@ h1 {
   cursor: pointer;
   background: transparent;
   color: #fff;
+  outline: none;
 }
 
 .paddinghero {
@@ -445,6 +446,23 @@ h1 {
   cursor: pointer;
   background: #ffffff;
   color: #212121;
+  outline: none;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.buttonwhite:focus {
+  outline: none;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.textarea:focus {
+  outline: none;
 }
 
 .schedule {
