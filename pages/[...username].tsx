@@ -192,7 +192,7 @@ export async function getServerSideProps(context) {
   const { body, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("username", context.params.username)
+    .ilike("username", context.params.username)
     .single();
 
     const posts = await supabase
