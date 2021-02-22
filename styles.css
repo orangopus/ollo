@@ -157,6 +157,7 @@ p {
 
 .info {
   margin-left: 50px;
+  display: grid;
 }
 
 .section {
