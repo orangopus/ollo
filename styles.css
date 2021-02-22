@@ -460,6 +460,10 @@ h1 {
   background: #1da1f2;
 }
 
+img {
+  max-width: 500px;
+}
+
 .makerlog {
   background: #00ad70;
 }
