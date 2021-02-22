@@ -646,6 +646,10 @@ a {
   margin-bottom: 0;
 }
 
+.cardspost {
+  width: 100%;
+}
+
 @media only screen and (max-width: 768px) {
   .flex {
     display: grid;
@@ -699,11 +703,6 @@ a {
 
   .username {
     text-align: center;
-  }
-
-  .bio {
-    width: unset;
-    padding: 20px;
   }
 
   .avatarcont {

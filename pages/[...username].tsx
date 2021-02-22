@@ -154,7 +154,7 @@ export default function UserPage({ profile, posts }) {
     <TabPanel>
       <div className="posts">
     {posts.data.map((post, index) => (
-        <div className="cards">
+        <div className="cards cardspost">
       <div className="flex">
       <div className="avatarcont">
       <a href={`/${post.username}`}>
