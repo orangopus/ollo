@@ -708,6 +708,23 @@ a {
   width: 100%;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #060606;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #060606;
+}
+::-webkit-scrollbar-track {
+  background: #121212;
+  border-radius: 10px;
+  box-shadow: inset 7px 10px 12px #121212;
+}
+
 @media only screen and (max-width: 768px) {
   .flex {
     display: grid;
