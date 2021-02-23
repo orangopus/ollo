@@ -271,6 +271,37 @@ a.sbui-typography,
 
 .feed {
   display: grid;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.postcontainer {
+  position: relative;
+}
+
+.postinput {
+  width: 100% !important;
+  box-sizing: border-box;
+  background: #060606 !important;
+  border: none;
+  color: #fff !important;
+  font-size: 25px !important;
+}
+
+.postsubmit {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  box-shadow: none !important;
+}
+
+.postmarkdown {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  opacity: 0.5;
 }
 
 .tiny {
@@ -448,6 +479,15 @@ h1 {
 
 .padd2 {
   margin-bottom: 50px;
+}
+
+.createpost {
+  width: 100%;
+  max-width: 100%;
+}
+
+.createpost {
+  margin: 0 200px;
 }
 
 .social {
@@ -727,5 +767,14 @@ a {
 
   .padd {
     padding: 0;
+  }
+
+  .feed {
+    margin: 0;
+  }
+
+  .cards {
+    width: 95vw;
+    margin: 20px 0;
   }
 }

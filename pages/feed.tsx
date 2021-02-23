@@ -15,8 +15,9 @@ import gfm from 'remark-gfm';
 dayjs.extend(relativeTime)
 library.add(fab, fas)
 
-export default function UserPage({ profile, posts, user }) {
+export default function UserPage({ posts, user }) {
   const [post, setPost] = useState(posts.content);
+
   const router = useRouter();
   // Call this function whenever you want to
   // refresh props!
@@ -51,36 +52,31 @@ export default function UserPage({ profile, posts, user }) {
 
   return (
     <>
-    <div className="flex">
+    <div>
 
-    {user && 
-    <div className="herocont padd2">
-    <div className="cards">
-     
-    <form onSubmit={createPost}>
-      <h1>Create Post</h1>
-      <p>Markdown is supported</p>
-      <hr/>
-      <textarea
-        id="bio"
-        name="bio"
-        value={post}
-        onChange={(event) => setPost(event.target.value)}
-        placeholder="What have you done today?"
-        className="textarea "
-      />
-      <div className="center">
-        <button className="button" type="submit">Post</button>
-      </div>
-    </form>
-    </div>
-    </div>
-  }
-    <div className="herocont padd2 userdetails">
-      <div className="flex">
+    <div className="herocont padd2 postsfeed">
+      <div>
       <div>
       </div>
       <div className="feed">
+      {user &&
+      <div className="cards">
+   <form onSubmit={createPost}>
+   <hr/>
+   <div className="postcontainer">
+   <textarea
+     id="clearPost"
+     name="bio"
+     onChange={(event) => setPost(event.target.value)}
+     placeholder="What have you done today?"
+     className="textarea postinput"
+   />
+     <button className="button postsubmit" type="submit">Post</button>
+     <p className="postmarkdown"><FontAwesomeIcon icon={["fab", "markdown"]} /> is supported</p>
+   </div>
+ </form>
+ </div>
+  }
       {posts.data.map((post, index) => (
         <div className="cards postcard">
       <div className="flex">
