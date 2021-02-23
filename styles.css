@@ -156,8 +156,7 @@ p {
 }
 
 .info {
-  margin-left: 50px;
-  display: grid;
+  margin-left: 25px;
 }
 
 .section {
@@ -255,6 +254,10 @@ a.sbui-typography,
 
 .logo {
   max-width: 150px;
+}
+
+.feed {
+  display: grid;
 }
 
 .tiny {

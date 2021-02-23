@@ -80,7 +80,7 @@ export default function UserPage({ profile, posts, user }) {
       <div className="flex">
       <div>
       </div>
-      <div className="info">
+      <div className="feed">
       {posts.data.map((post, index) => (
         <div className="cards postcard">
       <div className="flex">
