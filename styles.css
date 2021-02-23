@@ -398,9 +398,10 @@ h1 {
 
 .input {
   height: 20px;
-  background: #ffffff;
   text-align: left;
-  color: #000000;
+  background: #060606 !important;
+  border: none;
+  color: #fff !important;
   padding: 30px;
   font-size: 25px;
   border-radius: 25px;
@@ -449,9 +450,10 @@ h1 {
 .textarea {
   height: 200px;
   width: 322px;
-  background: #ffffff;
   text-align: left;
-  color: #000000;
+  background: #060606 !important;
+  border: none;
+  color: #fff !important;
   padding: 30px;
   font-size: 15px;
   border-radius: 25px;
