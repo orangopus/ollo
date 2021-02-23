@@ -4,7 +4,6 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from "../../utils/initSupabase";
-
 import Link from "next/link";
 import axios from "axios";
 
@@ -190,7 +189,11 @@ export default function UserPage({ profile }) {
       <h1 className="username">{displayname ? displayname : username} <span className="handle">@{username}</span></h1>
       <p className="bio">{bio}</p>
       <div className="profilelink">
-      <a target="_blank" href={`/${username}`}>View profile</a>
+      <Link href={`/${username}`}>
+      <a target="_blank">
+        <button className="button">View profile</button>
+      </a>
+      </Link>
       </div>
       </div>
       </div>
