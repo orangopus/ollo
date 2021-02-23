@@ -72,6 +72,10 @@ h1 {
   line-height: 60px;
 }
 
+.footerlinks {
+  padding: 20px;
+}
+
 .heropadding {
   margin-bottom: 100px;
 }
@@ -457,6 +461,7 @@ h1 {
   webkit-transition: background-color 0.3s;
   display: inline-block;
   margin-left: 10px;
+  padding: 20px;
 }
 
 .profileavatar {
@@ -624,7 +629,6 @@ input {
 a {
   color: #ffffff !important;
   text-decoration: none;
-  padding: 20px;
 }
 
 .userdetails {

@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Markdown from "react-markdown";
 import Link from "next/link"
+import gfm from 'remark-gfm';
 
 dayjs.extend(relativeTime)
 library.add(fab, fas)
@@ -164,7 +165,7 @@ export default function UserPage({ profile, posts }) {
       <div className="info">
       <h1 className="username2">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
 
-      <p className="postcontent"><Markdown children={post.content} /></p>     
+      <p className="postcontent"><Markdown plugins={[gfm]} children={post.content} /></p>     
         </div>   
         </div>  
         </div>
