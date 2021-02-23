@@ -21,6 +21,7 @@ export default function UserPage({ profile }) {
   const [glimesh, setGlimesh] = useState(profile.glimesh)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -147,14 +148,14 @@ export default function UserPage({ profile }) {
       />
       <br/>
       <h1 className="edit">Bio</h1>
-      <p className="editsub">Max characters: 125</p>
+      <p className="editsub">{count ? count : profile.bio.length}/125</p>
       <textarea
       autoFocus
         id="bio"
         name="bio"
         value={bio}
         maxLength={125}
-        onChange={(event) => setBio(event.target.value)}
+        onChange={(event) => {setBio(event.target.value); setCount(event.target.value.length)}}
         placeholder="Change your bio..."
         className="textarea"
       />
