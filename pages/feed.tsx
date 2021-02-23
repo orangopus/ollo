@@ -90,7 +90,7 @@ export default function UserPage({ profile, posts, user }) {
       </a>
       </div>
       <div className="info">
-      <h1 className="username">{post.displayname ? post.displayname : post.username} <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
+      <h1 className="username">{post.displayname ? post.displayname : post.username} {post.verified = true ? <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span> : "" } <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
 
       <p className="postcontent"><Markdown children={post.content} /></p>    
         </div>   
