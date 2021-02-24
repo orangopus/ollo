@@ -17,53 +17,65 @@ library.add(fab, fas)
 
 export default function UserPage({ profile, posts }) {
 
-  let twitter = profile.twitter 
-
   if (profile.html === null) {
     profile.html = profile.username + " hasn't set up their about section yet."
   }
 
+  let twitter = profile.social.twitter 
+
   if (twitter === null) {
-    twitter = null 
+    twitter = null
   } else if (twitter) {
     twitter = (
-      <a href={`https://twitter.com/${profile.twitter}`} target="_blank" className="social twitter">
+      <a href={`https://twitter.com/${profile.social.twitter}`} target="_blank" className="social twitter">
                       <FontAwesomeIcon icon={["fab", "twitter"]} />
             </a>
           )
   }
 
-  let makerlog = profile.makerlog
+  let instagram = profile.social.instagram 
+
+  if (instagram === null) {
+    instagram = null
+  } else if (instagram) {
+    instagram = (
+      <a href={`https://instagram.com/${profile.social.instagram}`} target="_blank" className="social instagram">
+                      <FontAwesomeIcon icon={["fab", "instagram"]} />
+            </a>
+          )
+  }
+
+  let makerlog = profile.social.makerlog
 
   if (makerlog === null) {
-    makerlog = null 
+    makerlog = null
   } else if (makerlog) {
     makerlog = (
-      <a href={`https://maker.to/${profile.makerlog}`} target="_blank" className="social makerlog">
+      <a href={`https://maker.to/${profile.social.makerlog}`} target="_blank" className="social makerlog">
       <FontAwesomeIcon icon={["fas", "check-circle"]} />
       </a>
           )
   }
 
-  let sunshine = profile.sunshine
+  let sunshine = profile.social.sunshine
 
   if (sunshine === null) {
-    sunshine = null 
+    sunshine = null
   } else if (sunshine) {
     sunshine = (
-      <a href={`https://sunshine.social/${profile.sunshine}`} target="_blank" className="social sunshine">
+      <a href={`https://sunshine.social/${profile.social.sunshine}`} target="_blank" className="social sunshine">
         <img className="sunshine-img" src="https://sunshine.social/imgs/Sunshine_Logo_Animated.gif" />
       </a>
           )
   }
 
-  let glimesh = profile.glimesh
+  let glimesh = profile.social.glimesh
 
   if (glimesh === null) {
     glimesh = null 
   } else if (glimesh) {
     glimesh = (
-      <a href={`https://glimesh.tv/${profile.glimesh}`} target="_blank" className="social glimesh">
+      <a href={`https://glimesh.tv/${profile.social.glimesh}`} target="_blank" className="social glimesh">
         <img className="glimesh-img" src="https://github.com/Glimesh/assets/blob/master/social/social-circle-middleish.png?raw=true" />
       </a>
           )
@@ -97,12 +109,17 @@ export default function UserPage({ profile, posts }) {
 
   let verifiedChecker = profile.verified
 
-  if (verifiedChecker === true || profile.twitter) {
+  if (verifiedChecker === true || profile.social) {
     verifiedChecker = (
       <>
       <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span>
       </>
     )
+  }
+
+  
+  if(profile.social === null) {
+    profile.social = "";
   }
 
 
@@ -141,6 +158,7 @@ export default function UserPage({ profile, posts }) {
       <div className="social">
       <div>
       {twitter}
+      {instagram}
       {makerlog}
       {sunshine}
       {glimesh}

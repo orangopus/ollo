@@ -516,12 +516,16 @@ h1 {
   align-items: center;
 }
 
+img {
+  max-width: 100%;
+}
+
 .twitter {
   background: #1da1f2;
 }
 
-img {
-  max-width: 100%;
+.instagram {
+  background: #e1306c;
 }
 
 .makerlog {

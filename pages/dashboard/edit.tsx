@@ -14,10 +14,11 @@ export default function UserPage({ profile }) {
   const [username, setUsername] = useState(profile.username)
   const [displayname, setDisplayName] = useState(profile.displayname)
   const [avatar, setAvatar] = useState(profile.avatar)
-  const [twitter, setTwitter] = useState(profile.twitter)
-  const [makerlog, setMakerlog] = useState(profile.makerlog)
-  const [sunshine, setSunshine] = useState(profile.sunshine)
-  const [glimesh, setGlimesh] = useState(profile.glimesh)
+  const [twitter, setTwitter] = useState(profile.social.twitter)
+  const [instagram, setInstagram] = useState(profile.social.instagram)
+  const [makerlog, setMakerlog] = useState(profile.social.makerlog)
+  const [sunshine, setSunshine] = useState(profile.social.sunshine)
+  const [glimesh, setGlimesh] = useState(profile.social.glimesh)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
   const [count, setCount] = useState(0);
@@ -40,10 +41,13 @@ export default function UserPage({ profile }) {
         username,
         displayname,
         avatar,
-        twitter,
-        makerlog,
-        sunshine,
-        glimesh
+        social: {
+          twitter,
+          instagram,
+          makerlog,
+          sunshine,
+          glimesh
+        }
       })
       .eq("id", profile.id);
   };
@@ -98,6 +102,33 @@ export default function UserPage({ profile }) {
          className="input"
       />
       <br/>
+      <h1 className="edit">Bio</h1>
+      <p className="editsub">{count ? count : profile.bio.length}/125</p>
+      <textarea
+      autoFocus
+        id="bio"
+        name="bio"
+        value={bio}
+        maxLength={125}
+        onChange={(event) => {setBio(event.target.value); setCount(event.target.value.length)}}
+        placeholder="Change your bio..."
+        className="textarea"
+      />
+      <br/>
+      <br/>
+      <h1 className="edit">About</h1>
+      <p className="editsub">Custom HTML/CSS supported</p>
+      <textarea
+      autoFocus
+        id="bio"
+        name="bio"
+        value={html}
+        onChange={(event) => setHTML(event.target.value)}
+        placeholder="..."
+        className="textarea"
+      />
+      <br/>
+      <br/>
       <h1 className="edit">Twitter</h1>
       <input
       autoFocus
@@ -107,6 +138,18 @@ export default function UserPage({ profile }) {
         onChange={(event) => setTwitter(event.target.value)}
         type="text"
         placeholder="Twitter username..."
+        className="input"
+      />
+      <br/>
+      <h1 className="edit">Instagram</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={instagram}
+        onChange={(event) => setInstagram(event.target.value)}
+        type="text"
+        placeholder="Instagram username..."
         className="input"
       />
       <br/>
@@ -144,32 +187,6 @@ export default function UserPage({ profile }) {
         type="text"
         placeholder="Glimesh username..."
         className="input"
-      />
-      <br/>
-      <h1 className="edit">Bio</h1>
-      <p className="editsub">{count ? count : profile.bio.length}/125</p>
-      <textarea
-      autoFocus
-        id="bio"
-        name="bio"
-        value={bio}
-        maxLength={125}
-        onChange={(event) => {setBio(event.target.value); setCount(event.target.value.length)}}
-        placeholder="Change your bio..."
-        className="textarea"
-      />
-      <br/>
-      <br/>
-      <h1 className="edit">About</h1>
-      <p className="editsub">Custom HTML/CSS supported</p>
-      <textarea
-      autoFocus
-        id="bio"
-        name="bio"
-        value={html}
-        onChange={(event) => setHTML(event.target.value)}
-        placeholder="..."
-        className="textarea"
       />
       <br/>
 
