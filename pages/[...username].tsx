@@ -145,7 +145,7 @@ export default function UserPage({ profile, posts }) {
 
   let verifiedChecker = profile.verified
 
-  if (verifiedChecker === true || profile.social) {
+  if (verifiedChecker === true || profile.social.twitter) {
     verifiedChecker = (
       <>
       <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span>
