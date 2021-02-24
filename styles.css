@@ -528,6 +528,15 @@ img {
   background: #e1306c;
 }
 
+.discord {
+  background: #7289da;
+}
+
+.guilded {
+  background: #f5c400;
+  color: #111820 !important;
+}
+
 .makerlog {
   background: #00ad70;
 }
@@ -540,6 +549,11 @@ img {
 .glimesh {
   background: #0e1726;
   padding: 4px;
+}
+
+.twitch {
+  background: #9146ff;
+  color: #000000 !important;
 }
 
 .sunshine-img {

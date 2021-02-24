@@ -19,6 +19,9 @@ export default function UserPage({ profile }) {
   const [makerlog, setMakerlog] = useState(profile.social.makerlog)
   const [sunshine, setSunshine] = useState(profile.social.sunshine)
   const [glimesh, setGlimesh] = useState(profile.social.glimesh)
+  const [twitch, setTwitch] = useState(profile.social.twitch)
+  const [guilded, setGuilded] = useState(profile.social.guilded)
+  const [discord, setDiscord] = useState(profile.social.discord)
   const [html, setHTML] = useState(profile.html)
   const [text, setText] = useState("Update");
   const [count, setCount] = useState(0);
@@ -46,7 +49,10 @@ export default function UserPage({ profile }) {
           instagram,
           makerlog,
           sunshine,
-          glimesh
+          glimesh,
+          twitch,
+          guilded,
+          discord
         }
       })
       .eq("id", profile.id);
@@ -186,6 +192,44 @@ export default function UserPage({ profile }) {
         onChange={(event) => setGlimesh(event.target.value)}
         type="text"
         placeholder="Glimesh username..."
+        className="input"
+      />
+      <br/>
+
+      <h1 className="edit">Twitch</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={twitch}
+        onChange={(event) => setTwitch(event.target.value)}
+        type="text"
+        placeholder="Twitch username..."
+        className="input"
+      />
+      <br/>
+
+      <h1 className="edit">Guilded</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={guilded}
+        onChange={(event) => setGuilded(event.target.value)}
+        type="text"
+        placeholder="Guilded invite..."
+        className="input"
+      />
+      <br/>
+      <h1 className="edit">Discord</h1>
+      <input
+      autoFocus
+        id="bio"
+        name="bio"
+        value={discord}
+        onChange={(event) => setDiscord(event.target.value)}
+        type="text"
+        placeholder="Discord invite..."
         className="input"
       />
       <br/>

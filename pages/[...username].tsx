@@ -81,6 +81,42 @@ export default function UserPage({ profile, posts }) {
           )
   }
 
+  let twitch = profile.social.twitch
+
+  if (twitch === null) {
+    twitch = null
+  } else if (twitch) {
+    twitch = (
+      <a href={`https://twitch.tv/${profile.social.twitch}`} target="_blank" className="social twitch">
+        <FontAwesomeIcon icon={["fab", "twitch"]} />
+      </a>
+          )
+  }
+
+  let guilded = profile.social.guilded
+
+  if (guilded === null) {
+    guilded = null 
+  } else if (guilded) {
+    guilded = (
+      <a href={`${profile.social.guilded}`} target="_blank" className="social guilded">
+        <FontAwesomeIcon icon={["fab", "guilded"]} />
+      </a>
+          )
+  }
+
+  let discord = profile.social.discord
+
+  if (discord === null) {
+    discord = null 
+  } else if (discord) {
+    discord = (
+      <a href={`${profile.social.discord}`} target="_blank" className="social discord">
+        <FontAwesomeIcon icon={["fab", "discord"]} />
+      </a>
+          )
+  }
+
   const formatDate = (date: string) => {
     return dayjs().to(dayjs(date))
   } 
@@ -162,6 +198,9 @@ export default function UserPage({ profile, posts }) {
       {makerlog}
       {sunshine}
       {glimesh}
+      {twitch}
+      {guilded}
+      {discord}
       </div>
       </div>
       </div>
