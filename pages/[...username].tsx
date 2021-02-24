@@ -191,7 +191,6 @@ export default function UserPage({ profile, posts }) {
       <Tab>Donate</Tab>
     </TabList> 
       </div>
-      <div className="social">
       <div>
       {twitter}
       {instagram}
@@ -201,7 +200,6 @@ export default function UserPage({ profile, posts }) {
       {twitch}
       {guilded}
       {discord}
-      </div>
       </div>
       </div>
     <TabPanel>
