@@ -30,7 +30,9 @@ const Footer = () => {
           </div>
           <div>
             <Link href="https://twitter.com/pluralui">
-              <img className="plural" src="plural.png" />
+              <a target="_blank">
+                <img className="plural" src="plural.png" />
+              </a>
             </Link>
           </div>
         </div>
@@ -40,13 +42,31 @@ const Footer = () => {
             <img className="small" src="../logosmall.png" />
           </a>
           <form className="form-inline">
-            <a className="footerlinks" href="https://status.orangopus.com">
+            <a
+              target="_blank"
+              className="footerlinks"
+              href="https://github.com/orangopus/libby"
+            >
+              Open-source ❤️
+            </a>
+            <a
+              target="_blank"
+              className="footerlinks"
+              href="https://opencollective.com/Orangopus"
+            >
+              OpenCollective
+            </a>
+            <a
+              target="_blank"
+              className="footerlinks"
+              href="https://status.orangopus.com"
+            >
               Status
             </a>
-            <a className="footerlinks" href="/privacy">
+            <a target="_blank" className="footerlinks" href="/privacy">
               Privacy
             </a>
-            <a className="footerlinks" href="/terms">
+            <a target="_blank" className="footerlinks" href="/terms">
               Terms
             </a>
           </form>
