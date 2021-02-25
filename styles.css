@@ -508,6 +508,7 @@ h1 {
   display: inline-block;
   margin-left: 10px;
   padding: 20px;
+  vertical-align: middle;
 }
 
 .profileavatar {
