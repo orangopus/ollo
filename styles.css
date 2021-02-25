@@ -698,7 +698,6 @@ a {
 
 .userdetails {
   display: grid;
-  justify-content: space-between;
   padding: 25px 100px;
 }
 
