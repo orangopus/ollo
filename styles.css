@@ -73,8 +73,31 @@ h1 {
 .footer {
   bottom: 0;
   width: 100%;
-  height: 60px;
+  margin: 0;
   line-height: 60px;
+  background: #121212;
+  padding: 50px 0;
+}
+
+.footercontainer {
+  margin: 0 200px;
+}
+
+.footersep {
+  border-color: #fff;
+  opacity: 0.1;
+  margin: 0 200px;
+  height: 2px;
+  margin-top: 20px;
+}
+
+.svgfooter {
+  margin-top: -400px;
+}
+
+.footersocial {
+  margin-right: 20px;
+  font-size: 30px;
 }
 
 .footerlinks {
@@ -412,6 +435,10 @@ h1 {
   margin-bottom: 20px;
 }
 
+.plural {
+  max-height: 75px;
+}
+
 .inline {
   display: unset;
   margin-left: -42px;
@@ -572,8 +599,7 @@ img {
 }
 
 .navpad {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 .button {
@@ -765,6 +791,10 @@ a {
     column-count: 1;
   }
 
+  .postsfeed {
+    margin-bottom: 100px !important;
+  }
+
   .react-tabs__tab-list {
     margin: 0;
   }
@@ -779,6 +809,15 @@ a {
 
   .navbar {
     padding: 0 25px !important;
+  }
+
+  .footercontainer {
+    margin: 0;
+  }
+
+  .footersep {
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .react-tabs {
