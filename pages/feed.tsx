@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../utils/initSupabase";
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Markdown from "react-markdown";
 import Link from "next/link";
 import axios from "axios";
-import gfm from 'remark-gfm';
+import gfm from "remark-gfm";
 
-dayjs.extend(relativeTime)
-library.add(fab, fas)
+dayjs.extend(relativeTime);
+library.add(fab, fas);
 
 export default function UserPage({ posts, user }) {
   const [post, setPost] = useState(posts.content);
@@ -23,94 +23,97 @@ export default function UserPage({ posts, user }) {
   // refresh props!
   const refreshData = () => {
     router.replace(router.asPath);
-  }
+  };
 
   const createPost = async (event) => {
     event.preventDefault();
-    await supabase
-      .from("posts")
-      .insert([
-        { content: post,
-          user_id: user.id
-         }
-      ])
+    await supabase.from("posts").insert([{ content: post, user_id: user.id }]);
   };
 
   const formatDate = (date: string) => {
-    return dayjs().to(dayjs(date))
-  } 
+    return dayjs().to(dayjs(date));
+  };
 
-  useEffect(() => { 
+  useEffect(() => {
     // subscription
     supabase
-    .from('posts')
-    .on('*', _payload => {
-      refreshData()
-    })
-    .subscribe()
-    }, [])
+      .from("posts")
+      .on("*", (_payload) => {
+        refreshData();
+      })
+      .subscribe();
+  }, []);
 
   return (
     <>
-    <div>
-
-    <div className="herocont padd2 postsfeed">
       <div>
-      <div>
-      </div>
-      <div className="feed">
-      {user &&
-      <div className="cards">
-   <form onSubmit={createPost}>
-   <hr/>
-   <div className="postcontainer">
-   <textarea
-     id="clearPost"
-     name="bio"
-     onChange={(event) => setPost(event.target.value)}
-     placeholder="What have you done today?"
-     className="textarea postinput"
-   />
-     <button className="button postsubmit" type="submit">Post</button>
-     <p className="postmarkdown"><FontAwesomeIcon icon={["fab", "markdown"]} /> is supported</p>
-   </div>
- </form>
- </div>
-  }
-      {posts.data.map((post, index) => (
-        <div className="cards postcard">
-      <div className="flex">
-      <div className="avatarcont">
-      <a href={`/${post.username}`}>
-      <img className="avatar" src={post.avatar} />
-      </a>
-      </div>
-      <div className="info">
-      <h1 className="username">{post.displayname ? post.displayname : post.username} {post.verified = true ? <span className="verified"><FontAwesomeIcon icon={["fas", "check"]} /></span> : "" } <span className="handle">@{post.username}</span><span className="minutesago">{ formatDate(post.published_at)}</span></h1>
+        <div className="herocont padd2 postsfeed">
+          <div>
+            <div></div>
+            <div className="feed">
+              {user && (
+                <div className="cards">
+                  <form onSubmit={createPost}>
+                    <hr />
+                    <div className="postcontainer">
+                      <textarea
+                        id="clearPost"
+                        name="bio"
+                        onChange={(event) => setPost(event.target.value)}
+                        placeholder="What have you done today?"
+                        className="textarea postinput"
+                      />
+                      <button className="button postsubmit" type="submit">
+                        Post
+                      </button>
+                      <p className="postmarkdown">
+                        <FontAwesomeIcon icon={["fab", "markdown"]} /> is
+                        supported
+                      </p>
+                    </div>
+                  </form>
+                </div>
+              )}
+              {posts.data.map((post, index) => (
+                <div className="cards postcard">
+                  <div className="flex">
+                    <div className="avatarcont">
+                      <a href={`/${post.username}`}>
+                        <img className="avatar" src={post.avatar} />
+                      </a>
+                    </div>
+                    <div className="info">
+                      <h1 className="username">
+                        {post.displayname ? post.displayname : post.username}{" "}
+                        <span className="handle">@{post.username}</span>
+                        <span className="minutesago">
+                          {formatDate(post.published_at)}
+                        </span>
+                      </h1>
 
-      <p className="postcontent"><Markdown plugins={[gfm]} children={post.content} /></p>    
-        </div>   
-        </div>  
+                      <p className="postcontent">
+                        <Markdown plugins={[gfm]} children={post.content} />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      ))}         
       </div>
-      </div>
-      </div>
-    </div>
     </>
   );
 }
 export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  const posts = await supabase
-  .from("vw_posts_with_user")
-  .select()
+  const posts = await supabase.from("vw_posts_with_user").select();
 
   return {
     props: {
       user: user,
-      posts: posts
+      posts: posts,
     },
   };
 }
