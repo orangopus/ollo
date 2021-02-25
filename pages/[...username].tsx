@@ -422,7 +422,7 @@ export async function getServerSideProps(context) {
   const posts = await supabase
     .from("vw_posts_with_user")
     .select()
-    .eq("username", context.params.username);
+    .ilike("username", context.params.username);
 
   if (!body) {
     return {
