@@ -31,7 +31,7 @@ const Footer = () => {
           <div>
             <Link href="https://twitter.com/pluralui">
               <a target="_blank">
-                <img className="plural" src="plural.png" />
+                <img className="plural" src="../plural.png" />
               </a>
             </Link>
           </div>
