@@ -678,7 +678,7 @@ input {
 }
 
 .posts {
-  column-count: 2;
+  column-count: 1;
   column-gap: 25px;
 }
 
