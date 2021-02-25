@@ -61,6 +61,11 @@ h1 {
   margin-bottom: 650px;
 }
 
+.__react_component_tooltip.show {
+  opacity: 1;
+  border-radius: 19px;
+}
+
 .small {
   max-width: 25px;
 }
