@@ -12,6 +12,7 @@ import Markdown from "react-markdown";
 import Link from "next/link";
 import gfm from "remark-gfm";
 import ReactTooltip from "react-tooltip";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -44,20 +45,12 @@ export default function UserPage({ profile, posts }) {
           type="dark"
           effect="solid"
         >
-          <a
-            className="twitter-timeline"
-            data-width="221"
-            data-height="300"
-            data-theme="dark"
-            href={`https://twitter.com/${profile.social.twitter}?ref_src=twsrc%5Etfw`}
-          >
-            Tweets by {profile.social.twitter}
-          </a>{" "}
-          <script
-            async
-            src="https://platform.twitter.com/widgets.js"
-            charSet="utf-8"
-          ></script>
+          <TwitterTimelineEmbed
+            sourceType="profile"
+            screenName={profile.social.twitter}
+            theme="dark"
+            options={{ height: 400 }}
+          />
         </ReactTooltip>
       </>
     );
