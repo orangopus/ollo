@@ -412,7 +412,14 @@ export default function UserPage({ profile, posts }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export const getStaticPaths = async () => {
+  return {
+    paths: [], //indicates that no page needs be created at build time
+    fallback: "blocking", //indicates the type of fallback
+  };
+};
+
+export async function getStaticProps(context) {
   const { body, error } = await supabase
     .from("profiles")
     .select("*")
