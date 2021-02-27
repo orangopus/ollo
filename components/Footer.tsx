@@ -45,16 +45,9 @@ const Footer = () => {
             <a
               target="_blank"
               className="footerlinks"
-              href="https://github.com/orangopus/libby"
+              href="https://github.com/pluralui/libby"
             >
               Open-source ❤️
-            </a>
-            <a
-              target="_blank"
-              className="footerlinks"
-              href="https://opencollective.com/Orangopus"
-            >
-              OpenCollective
             </a>
             <a
               target="_blank"
