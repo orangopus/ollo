@@ -29,7 +29,7 @@ const Footer = () => {
             </a>
           </div>
           <div>
-            <Link href="https://twitter.com/pluralui">
+            <Link href="https://plural.enterprises">
               <a target="_blank">
                 <img className="plural" src="../plural.png" />
               </a>
