@@ -291,6 +291,16 @@ export default function UserPage({ profile, posts }) {
     );
   }
 
+  let modChecker = profile.mod;
+
+  if (modChecker === true) {
+    modChecker = (
+      <>
+        <span className="staff">MOD</span>
+      </>
+    );
+  }
+
   let verifiedChecker = profile.verified;
 
   if (verifiedChecker === true || profile.social.twitter) {
@@ -331,8 +341,8 @@ export default function UserPage({ profile, posts }) {
           <div className="info">
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
-              <span className="handle">@{profile.username}</span> {staffChecker}{" "}
-              {verifiedChecker} {proChecker}{" "}
+              <span className="handle">@{profile.username}</span>
+              {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
             </h1>
             <p></p>
             <p className="bio">{profile.bio}</p>

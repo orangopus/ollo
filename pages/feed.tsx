@@ -25,15 +25,6 @@ export default function UserPage({ posts, user }) {
     router.replace(router.asPath);
   };
 
-  const createPost = async (event) => {
-    event.preventDefault();
-    await supabase.from("posts").insert([{ content: post, user_id: user.id }]);
-  };
-
-  const formatDate = (date: string) => {
-    return dayjs().to(dayjs(date));
-  };
-
   useEffect(() => {
     // subscription
     supabase
@@ -43,6 +34,15 @@ export default function UserPage({ posts, user }) {
       })
       .subscribe();
   }, []);
+
+  const createPost = async (event) => {
+    event.preventDefault();
+    await supabase.from("posts").insert([{ content: post, user_id: user.id }]);
+  };
+
+  const formatDate = (date: string) => {
+    return dayjs().to(dayjs(date));
+  };
 
   return (
     <>
