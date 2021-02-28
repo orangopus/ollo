@@ -839,6 +839,8 @@ a {
 
   .avatarcont {
     margin: auto;
+    display: grid;
+    vertical-align: middle;
   }
 
   .padd {

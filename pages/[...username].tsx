@@ -341,8 +341,8 @@ export default function UserPage({ profile, posts }) {
           <div className="info">
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
-              <span className="handle">@{profile.username}</span>
-              {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+              <span className="handle">@{profile.username}</span> {staffChecker}{" "}
+              {modChecker} {verifiedChecker} {proChecker}{" "}
             </h1>
             <p></p>
             <p className="bio">{profile.bio}</p>
