@@ -5,7 +5,8 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/initSupabase";
 import Link from "next/link";
-import axios from "axios";
+import Markdown from "react-markdown";
+import gfm from "remark-gfm";
 
 library.add(fab, fas);
 
@@ -269,7 +270,7 @@ export default function UserPage({ profile }) {
               </div>
             </div>
           </div>
-          <div dangerouslySetInnerHTML={{ __html: "<p>" + html + "</p>" }} />
+          <Markdown plugins={[gfm]} children={html} allowDangerousHtml={true} />
         </div>
       </div>
     </>

@@ -371,10 +371,10 @@ export default function UserPage({ profile, posts }) {
           </div>
           <TabPanel>
             <div className="cards auto width">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: "<p>" + profile.html + "</p>",
-                }}
+              <Markdown
+                plugins={[gfm]}
+                children={profile.html}
+                allowDangerousHtml={true}
               />
             </div>
           </TabPanel>

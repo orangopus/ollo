@@ -8,8 +8,6 @@ import { supabase } from "../utils/initSupabase";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Markdown from "react-markdown";
-import Link from "next/link";
-import axios from "axios";
 import gfm from "remark-gfm";
 
 dayjs.extend(relativeTime);
