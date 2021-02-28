@@ -126,7 +126,7 @@ export default function UserPage({ profile }) {
               <br />
               <br />
               <h1 className="edit">About</h1>
-              <p className="editsub">Custom HTML/CSS supported</p>
+              <p className="editsub">Markdown/HTML/CSS supported</p>
               <textarea
                 autoFocus
                 id="bio"
