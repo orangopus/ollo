@@ -481,12 +481,12 @@ h1 {
   width: 500px;
   background: #121212;
   color: white;
-  padding: 20px 22px;
+  padding: 26px 24px;
   margin-left: -42px;
   vertical-align: middle;
   line-height: 0;
   font-size: 25px;
-  border: 5px dashed rgba(255, 255, 255, 0.1);
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -686,6 +686,7 @@ input {
 
 .avatar2 {
   max-width: 80px !important;
+  box-shadow: none !important;
 }
 
 .posts {
