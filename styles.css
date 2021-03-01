@@ -705,6 +705,7 @@ input {
   text-align: center;
   background: #121212;
   box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.07);
+  background-size: cover;
 }
 
 .posts {
