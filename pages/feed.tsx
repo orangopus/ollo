@@ -81,7 +81,7 @@ export default function UserPage({ posts, user }) {
                       </a>
                     </div>
                     <div className="info">
-                      <h1 className="username">
+                      <h1 className="username left">
                         {post.displayname ? post.displayname : post.username}{" "}
                         <span className="handle">@{post.username}</span>
                         <span className="minutesago">

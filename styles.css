@@ -198,8 +198,11 @@ p {
 }
 
 .info {
-  text-align: center;
-  margin: auto;
+  margin-left: 50px;
+}
+
+.left {
+  text-align: left !important;
 }
 
 .svg-inline--fa {
@@ -795,11 +798,6 @@ a {
   .flex {
     display: grid;
     margin: auto;
-  }
-
-  .info {
-    text-align: center;
-    margin: auto 0;
   }
 
   .userdetails {
