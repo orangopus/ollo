@@ -84,7 +84,7 @@ export default function UserPage({ profile }) {
                 className="input"
               />
               <br />
-              <h1 className="edit">Background URL</h1>
+              <h1 className="edit">Banner URL</h1>
               <input
                 autoFocus
                 id="bio"
