@@ -15,6 +15,7 @@ export default function UserPage({ profile }) {
   const [username, setUsername] = useState(profile.username);
   const [displayname, setDisplayName] = useState(profile.displayname);
   const [avatar, setAvatar] = useState(profile.avatar);
+  const [background, setBackground] = useState(profile.background_url);
   const [twitter, setTwitter] = useState(profile.social.twitter);
   const [instagram, setInstagram] = useState(profile.social.instagram);
   const [makerlog, setMakerlog] = useState(profile.social.makerlog);
@@ -80,6 +81,18 @@ export default function UserPage({ profile }) {
                 onChange={(event) => setAvatar(event.target.value)}
                 type="text"
                 placeholder="Change your avatar link..."
+                className="input"
+              />
+              <br />
+              <h1 className="edit">Background URL</h1>
+              <input
+                autoFocus
+                id="bio"
+                name="bio"
+                value={background}
+                onChange={(event) => setBackground(event.target.value)}
+                type="text"
+                placeholder="Change your background link..."
                 className="input"
               />
               <br />
@@ -251,7 +264,10 @@ export default function UserPage({ profile }) {
         </div>
 
         <div className="herocont padd userdetails">
-          <div className="flex">
+          <div
+            className="flex profilecont"
+            style={{ backgroundImage: `url(${background})` }}
+          >
             <div>
               <img className="avatar" src={avatar} />
             </div>
@@ -270,7 +286,13 @@ export default function UserPage({ profile }) {
               </div>
             </div>
           </div>
-          <Markdown plugins={[gfm]} children={html} allowDangerousHtml={true} />
+          <div className="container cards">
+            <Markdown
+              plugins={[gfm]}
+              children={html}
+              allowDangerousHtml={true}
+            />
+          </div>
         </div>
       </div>
     </>

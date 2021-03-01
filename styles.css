@@ -198,7 +198,8 @@ p {
 }
 
 .info {
-  margin-left: 25px;
+  text-align: center;
+  margin: auto;
 }
 
 .svg-inline--fa {
@@ -394,7 +395,7 @@ a.sbui-typography,
   font-weight: bolder;
   font-size: 50px;
   margin-top: 20px;
-  text-align: left;
+  text-align: center;
 }
 
 .buttonmargin {
@@ -428,6 +429,7 @@ h1 {
   font-weight: bold;
   font-size: 20px;
   width: 400px;
+  margin: auto;
 }
 
 .padd {
@@ -687,6 +689,15 @@ input {
 .avatar2 {
   max-width: 80px !important;
   box-shadow: none !important;
+}
+
+.profilecont {
+  padding: 28px;
+  border-radius: 25px;
+  display: block;
+  text-align: center;
+  background: #121212;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.07);
 }
 
 .posts {

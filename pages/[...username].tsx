@@ -13,6 +13,7 @@ import Link from "next/link";
 import gfm from "remark-gfm";
 import ReactTooltip from "react-tooltip";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
+import { url } from "inspector";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -334,7 +335,10 @@ export default function UserPage({ profile, posts }) {
         <meta property="image" content={`${profile.avatar}`} />
       </Head>
       <div className="herocont padd userdetails">
-        <div className="flex">
+        <div
+          className="flex profilecont"
+          style={{ backgroundImage: `url(${profile.background_url})` }}
+        >
           <div className="avatarcont">
             <img className="avatar" src={profile.avatar} />
           </div>
