@@ -46,6 +46,7 @@ export default function UserPage({ profile }) {
         username,
         displayname,
         avatar,
+        background,
         social: {
           twitter,
           instagram,
