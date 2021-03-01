@@ -31,7 +31,7 @@ export default function Page() {
   useEffect(() => {
     // GET request using axios inside useEffect React hook
     axios
-      .get(`http://${window.location.host}/api/profile/${username}`)
+      .get(`https://${window.location.host}/api/profile/${username}`)
       .then((response) => setProfile(response.data));
 
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
