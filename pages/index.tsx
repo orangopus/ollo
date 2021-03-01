@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { supabase } from "../utils/initSupabase";
 import Tilt from "react-parallax-tilt";
+import ReactTooltip from "react-tooltip";
 
 export default function Index({ profile }) {
   return (
@@ -30,10 +31,21 @@ export default function Index({ profile }) {
                     href={`/${profile.username ? profile.username : ""}`}
                   >
                     <img
+                      data-tip
+                      data-for={profile.username}
                       className="avatar small avatar2"
                       src={profile.avatar}
                     />
                   </a>
+                  <ReactTooltip
+                    id={profile.username}
+                    backgroundColor="#000"
+                    place="top"
+                    type="dark"
+                    effect="solid"
+                  >
+                    {profile.username}
+                  </ReactTooltip>
                 </div>
               ))}
               <div className="inline avatar usercount">
