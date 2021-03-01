@@ -439,6 +439,10 @@ h1 {
   margin: auto;
 }
 
+.embedbutton {
+  margin-top: 20px;
+}
+
 .padd {
   margin-bottom: 200px;
   padding: 0 80px;
@@ -696,6 +700,13 @@ input {
 .avatar2 {
   max-width: 80px !important;
   box-shadow: none !important;
+}
+
+.fullscreen {
+  height: 100vh;
+  border-radius: 0 !important;
+  display: grid;
+  margin: auto;
 }
 
 .profilecont {
