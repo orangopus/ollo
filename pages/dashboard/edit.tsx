@@ -272,7 +272,7 @@ export default function UserPage({ profile }) {
             <div>
               <img className="avatar" src={avatar} />
             </div>
-            <div className="info">
+            <div className="info marginone">
               <h1 className="username">
                 {displayname ? displayname : username}{" "}
                 <span className="handle">@{username}</span>

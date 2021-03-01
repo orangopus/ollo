@@ -201,6 +201,10 @@ p {
   margin-left: 50px;
 }
 
+.marginone {
+  margin: 0;
+}
+
 .left {
   text-align: left !important;
 }

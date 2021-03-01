@@ -342,7 +342,7 @@ export default function UserPage({ profile, posts }) {
           <div className="avatarcont">
             <img className="avatar" src={profile.avatar} />
           </div>
-          <div className="info">
+          <div className="info marginone">
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
               <span className="handle">@{profile.username}</span> {staffChecker}{" "}
