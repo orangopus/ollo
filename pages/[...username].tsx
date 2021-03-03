@@ -20,10 +20,6 @@ dayjs.extend(relativeTime);
 library.add(fab, fas);
 
 export default function UserPage({ profile, posts }) {
-  if (profile.html === null) {
-    profile.html = profile.username + " hasn't set up their about section yet.";
-  }
-
   const [glimeshHTML, setGlimeshHTML] = useState([]);
 
   axios({
