@@ -23,10 +23,9 @@ export default function UserPage({ profile, posts }) {
   const [glimeshHTML, setGlimeshHTML] = useState([]);
 
   axios({
-    url: "https://glimesh.tv/api",
+    url: "https://cors-anywhere.herokuapp.com/https://glimesh.tv/api",
     method: "post",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
     },
     data: {
