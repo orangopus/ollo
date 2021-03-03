@@ -14,31 +14,14 @@ import gfm from "remark-gfm";
 import ReactTooltip from "react-tooltip";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { url } from "inspector";
-import axios from "axios";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
 export default function UserPage({ profile, posts }) {
-  const [glimeshHTML, setGlimeshHTML] = useState([]);
-
-  axios({
-    url: "https://cors-anywhere.herokuapp.com/https://glimesh.tv/api",
-    method: "post",
-    headers: {
-      Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
-    },
-    data: {
-      query: `{
-        user(username: "${profile.social.glimesh}"){
-          profileContentHtml
-        }
-      }
-        `,
-    },
-  }).then((result) => {
-    setGlimeshHTML(result.data.data.user.profileContentHtml);
-  });
+  if (profile.html === null) {
+    profile.html = profile.username + " hasn't set up their about section yet.";
+  }
 
   let twitter = profile.social.twitter;
 
@@ -395,11 +378,6 @@ export default function UserPage({ profile, posts }) {
               <Markdown
                 plugins={[gfm]}
                 children={profile.html}
-                allowDangerousHtml={true}
-              />
-              <Markdown
-                plugins={[gfm]}
-                children={glimeshHTML}
                 allowDangerousHtml={true}
               />
             </div>

@@ -26,16 +26,16 @@ export default function Page() {
   const { username } = router.query;
   if (!username) return null;
 
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState("");
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
     axios
-      .get(`https://${window.location.host}/api/profile/${username}`)
+      .get(`//${window.location.host}/api/profile/${username}`)
       .then((response) => setProfile(response.data));
 
     // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
+  }, [profile]);
 
   return (
     <>
