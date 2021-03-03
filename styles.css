@@ -563,6 +563,10 @@ h1 {
   vertical-align: middle;
 }
 
+p {
+  margin-bottom: 0 !important;
+}
+
 .profileavatar {
   padding: 0;
 }
