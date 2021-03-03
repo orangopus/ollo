@@ -741,6 +741,15 @@ input {
 .postcontent {
   font-size: 28px;
   font-weight: bolder;
+  display: block;
+}
+
+.postcontent > p > a {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  width: 40vw;
 }
 
 .avatar {
