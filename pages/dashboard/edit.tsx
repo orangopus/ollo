@@ -201,10 +201,6 @@ export default function UserPage({ profile }) {
               />
               <br />
               <h1 className="edit">Glimesh</h1>
-              <p className="editsub">
-                Setting your username will also sync up your about section from
-                Glimesh.
-              </p>
               <input
                 autoFocus
                 id="bio"
