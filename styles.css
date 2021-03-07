@@ -733,6 +733,10 @@ input {
   max-width: 100%;
 }
 
+.profilescont {
+  margin: 0 10% !important;
+}
+
 .minutesago {
   font-size: 20px;
   margin-left: 20px;

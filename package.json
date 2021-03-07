@@ -8,6 +8,11 @@
     "build": "next build",
     "start": "next start"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "keywords": [],
   "author": "Orangopus",
   "license": "MIT",
@@ -23,7 +28,9 @@
     "@supabase/ui": "^0.8.0",
     "@types/node": "^14.14.20",
     "babel-plugin-superjson-next": "^0.1.9",
+    "cors": "^2.8.5",
     "dayjs": "^1.10.4",
+    "express": "^4.17.1",
     "next": "^10.0.4",
     "next-auth": "^3.1.0",
     "next-seo": "^4.20.0",

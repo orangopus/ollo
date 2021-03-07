@@ -24,33 +24,38 @@ export default function Index({ profile }) {
             </Link>
             <p className="tiny">libby is free forever!</p>
             <div className="middle">
-              {profile.slice(0, 10).map((profile) => (
-                <div className="inline">
-                  <a
-                    className="profileavatar"
-                    href={`/${profile.username ? profile.username : ""}`}
-                  >
-                    <img
-                      data-tip
-                      data-for={profile.username}
-                      className="avatar small avatar2"
-                      src={profile.avatar}
-                    />
-                  </a>
-                  <ReactTooltip
-                    id={profile.username}
-                    backgroundColor="#000"
-                    place="top"
-                    type="dark"
-                    effect="solid"
-                  >
-                    {profile.username}
-                  </ReactTooltip>
+              {profile
+                .slice(0, 15)
+                .filter((n) => n.username)
+                .map((profile) => (
+                  <div className="inline">
+                    <a
+                      className="profileavatar"
+                      href={`/${profile.username ? profile.username : ""}`}
+                    >
+                      <img
+                        data-tip
+                        data-for={profile.username}
+                        className="avatar small avatar2"
+                        src={profile.avatar}
+                      />
+                    </a>
+                    <ReactTooltip
+                      id={profile.username}
+                      backgroundColor="#000"
+                      place="top"
+                      type="dark"
+                      effect="solid"
+                    >
+                      {profile.username}
+                    </ReactTooltip>
+                  </div>
+                ))}
+              <a href="/profiles">
+                <div className="inline avatar usercount">
+                  {`+${profile.length - 10}`}
                 </div>
-              ))}
-              <div className="inline avatar usercount">
-                {`+${profile.length - 10}`}
-              </div>
+              </a>
             </div>
             <div>
               <Tilt tiltReverse={true}>
