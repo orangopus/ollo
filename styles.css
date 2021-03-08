@@ -156,6 +156,23 @@ h6 {
   vertical-align: middle;
 }
 
+.live {
+  border-radius: 50px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 20px;
+  padding: 10px;
+  line-height: 1px;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.none:hover,
+.none:active,
+.none:focus {
+  text-decoration: none !important;
+}
+
 .verified {
   border-radius: 50px;
   background: #0472d8;

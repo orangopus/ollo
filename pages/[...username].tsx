@@ -25,6 +25,25 @@ export default function UserPage({ profile, posts }) {
   }
 
   const [glimeshHTML, setGlimeshHTML] = useState([]);
+  const [glimeshStatus, setGlimeshStatus] = useState("OFFLINE");
+
+  let glimeshStatusChecker = glimeshStatus;
+
+  if (glimeshStatusChecker === "LIVE") {
+    glimeshStatusChecker = (
+      <>
+        <a
+          className="none"
+          href={`https://glimesh.tv/${profile.social.glimesh}`}
+          target="_blank"
+        >
+          <span className="live">LIVE</span>
+        </a>
+      </>
+    );
+  } else {
+    glimeshStatusChecker = <></>;
+  }
 
   axios({
     url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
@@ -35,13 +54,32 @@ export default function UserPage({ profile, posts }) {
     data: {
       query: `{
         user(username: "${profile.social.glimesh}"){
-          profileContentHtml
+          profileContentHtml,
+          profileContentMd
         }
       }
         `,
     },
   }).then((result) => {
-    setGlimeshHTML(result.data.data.user.profileContentHtml);
+    setGlimeshHTML(result.data.data.user.profileContentMd);
+  });
+
+  axios({
+    url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
+    method: "post",
+    headers: {
+      Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
+    },
+    data: {
+      query: `{
+      channel(username: "${profile.social.glimesh}"){
+        status
+      }
+    }
+        `,
+    },
+  }).then((result) => {
+    setGlimeshStatus(result.data.data.channel.status);
   });
 
   let twitter = profile.social.twitter;
@@ -367,7 +405,7 @@ export default function UserPage({ profile, posts }) {
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
               <span className="handle">@{profile.username}</span> {staffChecker}{" "}
-              {modChecker} {verifiedChecker} {proChecker}{" "}
+              {modChecker} {verifiedChecker} {proChecker} {glimeshStatusChecker}
             </h1>
             <p></p>
             <p className="bio">{profile.bio}</p>
@@ -403,7 +441,7 @@ export default function UserPage({ profile, posts }) {
               />
               <Markdown
                 plugins={[gfm]}
-                children={`${glimeshHTML}`}
+                children={glimeshHTML}
                 allowDangerousHtml={true}
               />
             </div>
