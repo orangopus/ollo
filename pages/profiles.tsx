@@ -1,11 +1,22 @@
 import Head from "next/head";
-import Nav from "../components/Nav";
-import Link from "next/link";
 import { supabase } from "../utils/initSupabase";
-import Tilt from "react-parallax-tilt";
-import ReactTooltip from "react-tooltip";
+import { useState, useEffect } from "react";
 
 export default function Index({ profile }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  useEffect(() => {
+    const results = profile.filter(
+      (profile) =>
+        profile.username !== null &&
+        profile.username.toLowerCase().includes(searchTerm)
+    );
+    setSearchResults(results);
+  }, [searchTerm]);
+
   return (
     <div>
       <Head>
@@ -21,10 +32,12 @@ export default function Index({ profile }) {
         <input
           className="cards search"
           placeholder="Search for a profile..."
+          value={searchTerm}
+          onChange={handleChange}
         ></input>
       </div>
       <div className="row profilescont paddingcards paddinghero">
-        {profile
+        {searchResults
           .filter((n) => n.username)
           .map((profile) => (
             <div className="col-4">
