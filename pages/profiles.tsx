@@ -38,7 +38,11 @@ export default function Index({ profile }) {
                   </a>
                 </div>
                 <div className="info marginone">
-                  <a href={`/${profile.username}`} target="_blank">
+                  <a
+                    href={`/${profile.username}`}
+                    className="none"
+                    target="_blank"
+                  >
                     <h1 className="username">
                       {profile.displayname
                         ? profile.displayname
