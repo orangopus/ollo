@@ -28,21 +28,15 @@ export default function Index({ profile }) {
           .filter((n) => n.username)
           .map((profile) => (
             <div className="col-4">
-              <div
-                className="cards grow profilecont"
-                style={{ backgroundImage: `url(${profile.background_url})` }}
-              >
-                <div className="avatarcont">
-                  <a href={`/${profile.username}`} target="_blank">
+              <a href={`/${profile.username}`} className="none" target="_blank">
+                <div
+                  className="cards grow profilecont"
+                  style={{ backgroundImage: `url(${profile.background_url})` }}
+                >
+                  <div className="avatarcont">
                     <img className="avatar" src={profile.avatar} />
-                  </a>
-                </div>
-                <div className="info marginone">
-                  <a
-                    href={`/${profile.username}`}
-                    className="none"
-                    target="_blank"
-                  >
+                  </div>
+                  <div className="info marginone">
                     <h1 className="username">
                       {profile.displayname
                         ? profile.displayname
@@ -50,10 +44,10 @@ export default function Index({ profile }) {
                       <br />
                       <span className="handle">@{profile.username}</span>
                     </h1>
-                  </a>
-                  <p className="bio">{profile.bio}</p>
+                    <p className="bio">{profile.bio}</p>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
           ))}
       </div>
