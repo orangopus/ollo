@@ -25,8 +25,9 @@ export default function Index({ profile }) {
             <p className="tiny">libby is free forever!</p>
             <div className="middle">
               {profile
-                .slice(0, 15)
                 .filter((n) => n.username)
+                .sort(() => Math.random() - Math.random())
+                .slice(0, 10)
                 .map((profile) => (
                   <div className="inline">
                     <a
@@ -51,11 +52,6 @@ export default function Index({ profile }) {
                     </ReactTooltip>
                   </div>
                 ))}
-              <a href="/profiles">
-                <div className="inline avatar usercount">
-                  {`${profile.length}`}
-                </div>
-              </a>
             </div>
             <div>
               <Tilt tiltReverse={true}>
