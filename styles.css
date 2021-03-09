@@ -795,6 +795,9 @@ input {
 
 .avatar2 {
   margin-top: 0;
+  object-fit: cover;
+  width: 83px;
+  height: 83px;
 }
 
 .producthunt {

@@ -53,7 +53,7 @@ export default function Index({ profile }) {
                 ))}
               <a href="/profiles">
                 <div className="inline avatar usercount">
-                  {`+${profile.length - 10}`}
+                  {`${profile.length}`}
                 </div>
               </a>
             </div>
