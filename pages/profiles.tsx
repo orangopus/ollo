@@ -11,8 +11,17 @@ export default function Index({ profile }) {
       <Head>
         <title>libby Profiles</title>
       </Head>
-      <div className="row profilescont">
-        <h1>Profiles</h1>
+      <div className="profilescont">
+        <h1>
+          Profiles{" "}
+          <span className="verified">
+            {profile.filter((n) => n.username).length}
+          </span>
+        </h1>
+        <input
+          className="cards search"
+          placeholder="Search for a profile..."
+        ></input>
       </div>
       <div className="row profilescont paddingcards paddinghero">
         {profile
