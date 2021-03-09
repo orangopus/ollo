@@ -79,7 +79,9 @@ export default function UserPage({ profile, posts }) {
         `,
     },
   }).then((result) => {
-    setGlimeshStatus(result.data.data.channel.status);
+    setGlimeshStatus(
+      result.data.data.channel.status ? result.data.data.channel.status : null
+    );
   });
 
   let twitter = profile.social.twitter;

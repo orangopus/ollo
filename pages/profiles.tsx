@@ -20,7 +20,7 @@ export default function Index({ profile }) {
           .map((profile) => (
             <div className="col-4">
               <div
-                className="flex cards profilecont"
+                className="cards grow profilecont"
                 style={{ backgroundImage: `url(${profile.background_url})` }}
               >
                 <div className="avatarcont">
@@ -34,6 +34,7 @@ export default function Index({ profile }) {
                       {profile.displayname
                         ? profile.displayname
                         : profile.username}{" "}
+                      <br />
                       <span className="handle">@{profile.username}</span>
                     </h1>
                   </a>

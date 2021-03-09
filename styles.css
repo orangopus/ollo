@@ -186,6 +186,7 @@ h6 {
 
 .paddingcards {
   margin-top: 50px;
+  padding-bottom: 100px;
 }
 
 .proimage {
@@ -777,9 +778,14 @@ input {
   border-radius: 500px;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   vertical-align: middle;
-  max-width: 100px;
   text-align: center;
-  max-width: 130px;
+  object-fit: cover;
+  width: 130px;
+  height: 130px;
+}
+
+.grow {
+  height: 450px;
 }
 
 .middle {
