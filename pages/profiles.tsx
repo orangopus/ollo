@@ -26,7 +26,7 @@ export default function Index({ profile }) {
         <h1>
           Profiles{" "}
           <span className="verified">
-            {profile.filter((n) => n.username).length}
+            {searchResults.filter((n) => n.username).length}
           </span>
         </h1>
         <input
