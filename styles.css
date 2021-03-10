@@ -184,6 +184,17 @@ h6 {
   cursor: pointer;
 }
 
+.category {
+  border-radius: 50px;
+  background: #0472d8;
+  color: #fff;
+  padding: 5px 5px;
+  margin-right: 5px;
+  line-height: 2px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
 .paddingcards {
   margin-top: 50px;
   padding-bottom: 100px;

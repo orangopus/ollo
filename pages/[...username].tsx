@@ -25,6 +25,8 @@ export default function UserPage({ profile, posts }) {
   }
 
   const [glimeshHTML, setGlimeshHTML] = useState([]);
+  const [glimeshTitle, setGlimeshTitle] = useState([]);
+  const [glimeshCat, setGlimeshCat] = useState([]);
   const [glimeshStatus, setGlimeshStatus] = useState("OFFLINE");
 
   let glimeshStatusChecker = glimeshStatus;
@@ -37,8 +39,19 @@ export default function UserPage({ profile, posts }) {
           href={`https://glimesh.tv/${profile.social.glimesh}`}
           target="_blank"
         >
-          <span className="live">LIVE</span>
+          <span data-tip data-for="glimTitle" className="live">
+            LIVE
+          </span>
         </a>
+        <ReactTooltip
+          id="glimTitle"
+          backgroundColor="#000"
+          place="top"
+          type="dark"
+          effect="solid"
+        >
+          <span>{glimeshTitle}</span>
+        </ReactTooltip>
       </>
     );
   } else {
@@ -73,15 +86,19 @@ export default function UserPage({ profile, posts }) {
     data: {
       query: `{
       channel(username: "${profile.social.glimesh}"){
-        status
+        status,
+        title,
+        category {
+          name
+        }
       }
     }
         `,
     },
   }).then((result) => {
-    setGlimeshStatus(
-      result.data.data.channel.status ? result.data.data.channel.status : null
-    );
+    setGlimeshStatus(result.data.data.channel.status);
+    setGlimeshTitle(result.data.data.channel.title);
+    setGlimeshCat(result.data.data.channel.category.name);
   });
 
   let twitter = profile.social.twitter;
