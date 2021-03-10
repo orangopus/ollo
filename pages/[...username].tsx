@@ -27,9 +27,13 @@ export default function UserPage({ profile, posts }) {
   const [glimeshHTML, setGlimeshHTML] = useState([]);
   const [glimeshTitle, setGlimeshTitle] = useState([]);
   const [glimeshCat, setGlimeshCat] = useState([]);
-  const [glimeshStatus, setGlimeshStatus] = useState("OFFLINE");
+  const [glimeshTags, setGlimeshTags] = useState([]);
+  const [glimeshThumb, setGlimeshThumb] = useState([]);
+  const [glimeshStatus, setGlimeshStatus] = useState([]);
 
   let glimeshStatusChecker = glimeshStatus;
+
+  let glimeshStats;
 
   if (glimeshStatusChecker === "LIVE") {
     glimeshStatusChecker = (
@@ -50,56 +54,93 @@ export default function UserPage({ profile, posts }) {
           type="dark"
           effect="solid"
         >
-          <span>{glimeshTitle}</span>
+          on Glimesh
         </ReactTooltip>
       </>
+    );
+
+    glimeshStats = (
+      <a className="none" href={`https://glimesh.tv/${profile.social.glimesh}`}>
+        <div className="cards flex cardGlimesh">
+          <div>
+            <img className="thumbnail" src={`${glimeshThumb}`} />
+          </div>
+          <div className="glimeshInfo">
+            <h1 className="glimeshTitle">
+              {glimeshStatusChecker}{" "}
+              <span className="category">{glimeshCat}</span> {glimeshTitle}
+            </h1>
+            <div className="tagscont">
+              {glimeshTags.map((tags) => (
+                <span className="tags">{tags.name}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </a>
     );
   } else {
     glimeshStatusChecker = <></>;
   }
 
-  axios({
-    url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
-    method: "post",
-    headers: {
-      Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
-    },
-    data: {
-      query: `{
+  async function getData() {
+    axios({
+      url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
+      method: "post",
+      headers: {
+        Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
+      },
+      data: {
+        query: `{
         user(username: "${profile.social.glimesh}"){
           profileContentHtml,
           profileContentMd
         }
       }
         `,
-    },
-  }).then((result) => {
-    setGlimeshHTML(result.data.data.user.profileContentMd);
-  });
+      },
+    }).then((result) => {
+      setGlimeshHTML(result.data.data.user.profileContentMd);
+    });
 
-  axios({
-    url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
-    method: "post",
-    headers: {
-      Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
-    },
-    data: {
-      query: `{
+    axios({
+      url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
+      method: "post",
+      headers: {
+        Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
+      },
+      data: {
+        query: `{
       channel(username: "${profile.social.glimesh}"){
         status,
         title,
         category {
           name
-        }
+        },
+        tags {
+          name
+        },
+        stream {
+          countViewers,
+          thumbnail,
+          startedAt
+        } 
       }
     }
         `,
-    },
-  }).then((result) => {
-    setGlimeshStatus(result.data.data.channel.status);
-    setGlimeshTitle(result.data.data.channel.title);
-    setGlimeshCat(result.data.data.channel.category.name);
-  });
+      },
+    }).then((result) => {
+      setGlimeshStatus(result.data.data.channel.status);
+      setGlimeshTitle(result.data.data.channel.title);
+      setGlimeshCat(result.data.data.channel.category.name);
+      setGlimeshTags(result.data.data.channel.tags);
+      setGlimeshThumb(result.data.data.channel.stream.thumbnail);
+    });
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   let twitter = profile.social.twitter;
 
@@ -425,12 +466,12 @@ export default function UserPage({ profile, posts }) {
               {profile.displayname ? profile.displayname : profile.username}{" "}
               <span className="handle">@{profile.username}</span>
               <br /> {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
-              {glimeshStatusChecker}
             </h1>
             <p></p>
             <p className="bio">{profile.bio}</p>
           </div>
         </div>
+        {glimeshStats}
         <Tabs>
           <div className="flexsocial">
             <div>

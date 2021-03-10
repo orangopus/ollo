@@ -160,8 +160,8 @@ h6 {
   border-radius: 50px;
   background: #dc3545;
   color: #fff;
-  font-size: 20px;
-  padding: 10px;
+  font-size: 15px;
+  padding: 5px 10px;
   line-height: 1px;
   cursor: pointer;
   vertical-align: middle;
@@ -188,11 +188,49 @@ h6 {
   border-radius: 50px;
   background: #0472d8;
   color: #fff;
-  padding: 5px 5px;
-  margin-right: 5px;
-  line-height: 2px;
+  font-size: 15px;
+  padding: 5px 10px;
+  line-height: 1px;
   vertical-align: middle;
   cursor: pointer;
+}
+
+.thumbnail {
+  max-height: 100px;
+  border-radius: 15px;
+  margin-right: 20px;
+}
+
+.tags {
+  border-radius: 50px;
+  background: #0472d8;
+  color: #fff;
+  font-size: 10px;
+  padding: 5px 5px;
+  line-height: 1px;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.tagscont {
+  margin-top: 15px;
+}
+
+.glimeshInfo {
+  padding: 10px 0px;
+  align-self: center;
+}
+
+.glimeshTitle {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.cardGlimesh {
+  background: #0e1726;
+  width: 100%;
+  padding: 0;
 }
 
 .paddingcards {
