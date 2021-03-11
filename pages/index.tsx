@@ -77,7 +77,19 @@ export default function Index({ profile }) {
         <div className="row">
           <div className="container text-center">
             <h1 className="h1">
-              Post Integrations <span className="verified">COMING SOON</span>
+              Glimesh Integration{" "}
+              <span className="category">OUT OF THE BOX</span>
+            </h1>
+            <p className="text padding text-center">
+              Featuring Live Cards and About Sync.
+            </p>
+            <img className="profile domains" src="glimesh-integration.png" />
+          </div>
+        </div>
+        <div className="row">
+          <div className="container text-center">
+            <h1 className="h1">
+              Post Integrations <span className="live">COMING SOON</span>
             </h1>
             <p className="text padding text-center">
               Organise your social media in a clean posts tab.
@@ -89,7 +101,7 @@ export default function Index({ profile }) {
         <div className="row">
           <div className="container text-center">
             <h1 className="h1">
-              Schedules <span className="verified">COMING SOON</span>
+              Schedules <span className="live">COMING SOON</span>
             </h1>
             <p className="text padding text-center">
               A nice looking schedule for your profile.
