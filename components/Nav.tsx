@@ -44,6 +44,18 @@ export default function Nav() {
           credentials: "same-origin",
           body: JSON.stringify({ event, session }),
         }).then((res) => res.json());
+
+        async function fetchProfile() {
+          const { body, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
+
+          setProfile(body.avatar);
+        }
+
+        fetchProfile();
       }
     );
 
@@ -62,7 +74,7 @@ export default function Nav() {
     return () => {
       authListener.unsubscribe();
     };
-  }, [profile]);
+  }, []);
 
   if (session) {
     return (
@@ -79,14 +91,7 @@ export default function Nav() {
           </Link>
           <Dropdown>
             <Dropdown.Toggle variant="success">
-              <img
-                className="avatar avatar2"
-                src={`${
-                  profile
-                    ? profile
-                    : "https://pbs.twimg.com/profile_images/1347491939088814082/tgUmYLxH_400x400.jpg"
-                }`}
-              />
+              <img className="avatar avatar2" src={`${profile}`} />
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
