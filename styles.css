@@ -872,6 +872,8 @@ input {
   vertical-align: middle;
   text-align: center;
   object-fit: cover;
+  max-height: 130px;
+  max-width: 130px;
   width: 130px;
   height: 130px;
 }
@@ -1029,7 +1031,6 @@ a {
 
   .avatarcont {
     margin: auto;
-    display: grid;
     vertical-align: middle;
   }
 
