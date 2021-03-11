@@ -102,6 +102,11 @@ h6 {
   margin-top: 20px;
 }
 
+.sep {
+  border-color: #fff;
+  opacity: 0.1;
+}
+
 .svgfooter {
   margin-top: -400px;
 }
@@ -220,6 +225,44 @@ h6 {
 .glimeshInfo {
   padding: 10px 0px;
   align-self: center;
+}
+
+.dropdown-item.active,
+.dropdown-item:focus,
+.dropdown-item:hover {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+  background-color: transparent !important;
+}
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.probutton {
+  color: #04d87f;
+}
+
+.logout {
+  color: #dc3545;
+}
+
+.btn-success {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.dropdown-menu {
+  background: #121212 !important;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  margin-top: 30px;
+  padding: 30px;
+  color: #fff;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .glimeshTitle {

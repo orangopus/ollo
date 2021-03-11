@@ -4,6 +4,13 @@ import { Auth, Card, Typography, Space, Button, Icon } from "@supabase/ui";
 import { supabase } from "../utils/initSupabase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { Dropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
+library.add(fab, fas);
 
 const fetcher = (url, token) =>
   fetch(url, {
@@ -12,9 +19,8 @@ const fetcher = (url, token) =>
     credentials: "same-origin",
   }).then((res) => res.json());
 
-const Nav = () => {
+export default function Nav() {
   const session = supabase.auth.session();
-
   const router = useRouter();
 
   const { data, error } = useSWR(
@@ -22,6 +28,7 @@ const Nav = () => {
     fetcher
   );
   const [authView, setAuthView] = useState("sign_in");
+  const [profile, setProfile] = useState([]);
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -39,6 +46,18 @@ const Nav = () => {
         }).then((res) => res.json());
       }
     );
+
+    async function fetchProfile() {
+      const { body, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+
+      setProfile(body.avatar);
+    }
+
+    fetchProfile();
 
     return () => {
       authListener.unsubscribe();
@@ -58,27 +77,49 @@ const Nav = () => {
           <Link href="/profiles">
             <button className="buttonwhite">profiles</button>
           </Link>
-          <Link href="/dashboard/edit">
-            <button className="buttonwhite">edit profile</button>
-          </Link>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = "/pro";
-            }}
-            className="buttonwhite"
-          >
-            pro
-          </button>
-          <button
-            onClick={() => {
-              supabase.auth.signOut();
-              router.push("/");
-            }}
-            className="button"
-          >
-            logout
-          </button>
+          <Dropdown>
+            <Dropdown.Toggle variant="success">
+              <img
+                className="avatar avatar2"
+                src={`${
+                  profile
+                    ? profile
+                    : "https://pbs.twimg.com/profile_images/1347491939088814082/tgUmYLxH_400x400.jpg"
+                }`}
+              />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link href="/dashboard/edit">
+                  <button className="buttonwhite">
+                    <FontAwesomeIcon icon={["fas", "paint-brush"]} /> edit
+                    profile
+                  </button>
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link href="/pro">
+                  <button className="buttonwhite probutton">
+                    <FontAwesomeIcon icon={["fas", "unlock-alt"]} /> upgrade to
+                    pro
+                  </button>
+                </Link>
+              </Dropdown.Item>
+              <hr className="sep" />
+              <Dropdown.Item>
+                <button
+                  onClick={() => {
+                    supabase.auth.signOut();
+                    router.push("/");
+                  }}
+                  className="buttonwhite logout"
+                >
+                  <FontAwesomeIcon icon={["fas", "sign-out-alt"]} /> logout
+                </button>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </form>
       </nav>
     );
@@ -95,15 +136,6 @@ const Nav = () => {
           <Link href="/profiles">
             <button className="buttonwhite">profiles</button>
           </Link>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              window.location.href = "/pro";
-            }}
-            className="buttonwhite"
-          >
-            pro
-          </button>
           <Link href="/dashboard">
             <button className="button">login</button>
           </Link>
@@ -111,6 +143,28 @@ const Nav = () => {
       </nav>
     );
   }
-};
+}
 
-export default Nav;
+export async function getServerSideProps({ req }) {
+  const session = supabase.auth.session();
+  const { user } = await supabase.auth.api.getUserByCookie(req);
+  const { body, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+  console.log(session.user.id);
+
+  if (!body) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      profile: body,
+    },
+  };
+}
