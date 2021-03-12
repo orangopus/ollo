@@ -15,6 +15,8 @@ library.add(fab, fas);
 
 export default function UserPage({ posts, user }) {
   const [post, setPost] = useState(posts.content);
+  const session = supabase.auth.session();
+  const [profile, setProfile] = useState([]);
 
   const router = useRouter();
   // Call this function whenever you want to
@@ -24,6 +26,18 @@ export default function UserPage({ posts, user }) {
   };
 
   useEffect(() => {
+    async function fetchProfile() {
+      const { body, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+
+      setProfile(body.avatar);
+    }
+
+    fetchProfile();
+
     // subscription
     supabase
       .from("posts")
@@ -50,9 +64,9 @@ export default function UserPage({ posts, user }) {
             <div></div>
             <div className="feed">
               {user && (
-                <div className="cards">
-                  <form onSubmit={createPost}>
-                    <hr />
+                <div className="cards flex">
+                  <img className="avatar" src={`${profile}`} />
+                  <form className="postcontainer" onSubmit={createPost}>
                     <div className="postcontainer">
                       <textarea
                         id="clearPost"

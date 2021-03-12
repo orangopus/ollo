@@ -435,6 +435,8 @@ a.sbui-typography,
 
 .postcontainer {
   position: relative;
+  width: 100%;
+  margin: 0 20px;
 }
 
 .postinput {
