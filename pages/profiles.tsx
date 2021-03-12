@@ -41,7 +41,7 @@ export default function Index({ profile }) {
           .filter((n) => n.username)
           .map((profile) => (
             <div className="col-4">
-              <a href={`/${profile.username}`} className="none" target="_blank">
+              <a href={`/${profile.username}`} className="none">
                 <div
                   className="cards grow profilecont"
                   style={{ backgroundImage: `url(${profile.background_url})` }}
