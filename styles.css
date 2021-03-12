@@ -455,7 +455,7 @@ a.sbui-typography,
 
 .postmarkdown {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   left: 20px;
   text-transform: uppercase;
   font-weight: bolder;
