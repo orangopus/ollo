@@ -39,6 +39,7 @@ export default function Index({ profile }) {
       <div className="row profilescont paddingcards paddinghero">
         {searchResults
           .filter((n) => n.username)
+          .sort((a, b) => a.username.localeCompare(b.username))
           .map((profile) => (
             <div className="col-4">
               <a href={`/${profile.username}`} className="none">
