@@ -19,7 +19,7 @@ const fetcher = (url, token) =>
     credentials: "same-origin",
   }).then((res) => res.json());
 
-export default function Nav() {
+export default function Nav(profiles) {
   const session = supabase.auth.session();
   const router = useRouter();
 
@@ -52,7 +52,7 @@ export default function Nav() {
             .eq("id", session.user.id)
             .single();
 
-          setProfile(body.avatar);
+          setProfile(body);
         }
 
         fetchProfile();
@@ -66,7 +66,7 @@ export default function Nav() {
         .eq("id", session.user.id)
         .single();
 
-      setProfile(body.avatar);
+      setProfile(body);
     }
 
     fetchProfile();
@@ -91,10 +91,17 @@ export default function Nav() {
           </Link>
           <Dropdown>
             <Dropdown.Toggle variant="success">
-              <img className="avatar avatar2" src={`${profile}`} />
+              <img className="avatar avatar2" src={`${profile.avatar}`} />
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
+              <Dropdown.Item>
+                <Link href={`/${profile.username}`}>
+                  <button className="buttonwhite">
+                    <FontAwesomeIcon icon={["fas", "eye"]} /> view profile
+                  </button>
+                </Link>
+              </Dropdown.Item>
               <Dropdown.Item>
                 <Link href="/dashboard/edit">
                   <button className="buttonwhite">
@@ -169,7 +176,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
-      profile: body,
+      profiles: body,
     },
   };
 }
