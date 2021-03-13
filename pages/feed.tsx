@@ -9,11 +9,12 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Markdown from "react-markdown";
 import gfm from "remark-gfm";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
-export default function UserPage({ posts, user }) {
+export default function UserPage({ posts, user, profiles }) {
   const [post, setPost] = useState(posts.content);
   const session = supabase.auth.session();
   const [profile, setProfile] = useState([]);
@@ -27,13 +28,15 @@ export default function UserPage({ posts, user }) {
 
   useEffect(() => {
     async function fetchProfile() {
-      const { body, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single();
+      if (user) {
+        const { body, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
 
-      setProfile(body.avatar);
+        setProfile(body.avatar);
+      }
     }
 
     fetchProfile();
@@ -86,6 +89,46 @@ export default function UserPage({ posts, user }) {
                   </form>
                 </div>
               )}
+              {user === null && (
+                <Link href="/dashboard">
+                  <div className="created2">
+                    <div className="cards created">
+                      <div className="create">
+                        <h1 className="createTitle">
+                          Create posts, edit your profile and do more...
+                        </h1>
+                        <p className="createText">
+                          Create an account or login to make a post!
+                        </p>
+                        <button className="button">Get started</button>
+                      </div>
+                      <div className="inline2">
+                        {profiles.data
+                          .filter((n) => n.username)
+                          .sort(() => Math.random() - Math.random())
+                          .slice(0, 30)
+                          .map((profile) => (
+                            <div className="item">
+                              <a
+                                className="profileavatar"
+                                href={`/${
+                                  profile.username ? profile.username : ""
+                                }`}
+                              >
+                                <img
+                                  data-tip
+                                  data-for={profile.username}
+                                  className="avatar avatar3"
+                                  src={profile.avatar}
+                                />
+                              </a>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )}
               {posts.data.map((post, index) => (
                 <div className="cards postcard">
                   <div className="flex">
@@ -108,6 +151,7 @@ export default function UserPage({ posts, user }) {
                       </p>
                     </div>
                   </div>
+                  {(user) => user.id === post.id && <h1>Test</h1>}
                 </div>
               ))}
             </div>
@@ -120,10 +164,13 @@ export default function UserPage({ posts, user }) {
 export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
+  const profiles = await supabase.from("profiles").select("*");
+
   const posts = await supabase.from("vw_posts_with_user").select();
 
   return {
     props: {
+      profiles: profiles,
       user: user,
       posts: posts,
     },

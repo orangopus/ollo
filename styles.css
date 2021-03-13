@@ -439,6 +439,31 @@ a.sbui-typography,
   margin: 0 20px;
 }
 
+.created {
+  background-image: url("https://i.imgur.com/Qhpratm.png");
+  position: relative;
+  z-index: -200;
+
+  width: 100%;
+}
+.created2 {
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.created2:hover {
+  transform: scale(1.05);
+}
+
+.createTitle {
+  font-weight: bolder;
+}
+
+.createText {
+  margin-bottom: 20px !important;
+}
+
 .postinput {
   width: 100% !important;
   box-sizing: border-box;
@@ -580,6 +605,29 @@ h1 {
 .inline {
   display: unset;
   margin-left: -42px;
+}
+
+.inline2 {
+  display: block;
+  position: relative;
+  z-index: -100;
+  width: 100%;
+  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    ". . . . . . . . . ."
+    ". . . . . . . . . ."
+    ". . . . . . . . . .";
+  mask-image: linear-gradient(to right, transparent 20%, black 200%);
+}
+
+.create {
+  position: absolute;
+  z-index: 100;
+  align-items: center;
+  margin-top: 32px;
 }
 
 .flex {
@@ -816,6 +864,12 @@ input {
 
 .avatar2 {
   max-width: 80px !important;
+  box-shadow: none !important;
+}
+
+.avatar3 {
+  max-width: 70px !important;
+  max-height: 70px !important;
   box-shadow: none !important;
 }
 
