@@ -110,14 +110,99 @@ export default function Index({ profile }) {
             <img className="profile schedule" src="schedule.png" />
           </div>
         </div>
-        <div className="row">
+        <div className="row padd">
           <div className="container text-center">
             <h1 className="h1">Wield a Domain</h1>
             <p className="text padding text-center">
               Choose one of our domains or use a custom domain of your own.
             </p>
-
-            <img className="profile domains" src="domains.png" />
+            {profile
+              .filter((n) => n.username)
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 1)
+              .map((profile) => (
+                <div className="cards domains">
+                  <a
+                    className="none"
+                    href={`https://libby.gg/${
+                      profile.username ? profile.username : ""
+                    }`}
+                  >
+                    libby.gg/{profile.username}
+                  </a>
+                </div>
+              ))}{" "}
+            {profile
+              .filter((n) => n.username)
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 1)
+              .map((profile) => (
+                <span className="cards domains">
+                  <a
+                    className="none"
+                    href={`https://streamer.is/${
+                      profile.username ? profile.username : ""
+                    }`}
+                  >
+                    streamer.is/{profile.username}
+                  </a>
+                </span>
+              ))}
+            <br />
+            {profile
+              .filter((n) => n.username)
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 1)
+              .map((profile) => (
+                <span className="cards domains">
+                  <a
+                    className="none"
+                    href={`https://maker.direct/${
+                      profile.username ? profile.username : ""
+                    }`}
+                  >
+                    maker.direct/{profile.username}
+                  </a>
+                </span>
+              ))}{" "}
+            {profile
+              .filter((n) => n.username)
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 1)
+              .map((profile) => (
+                <span className="cards domains">
+                  <a
+                    className="none"
+                    href={`https://code.gdn/${
+                      profile.username ? profile.username : ""
+                    }`}
+                  >
+                    code.gdn/{profile.username}
+                  </a>
+                </span>
+              ))}
+            <br />
+            {profile
+              .filter((n) => n.username)
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 1)
+              .map((profile) => (
+                <span className="cards domains">
+                  <a
+                    className="none"
+                    href={`https://lists.surf/${
+                      profile.username ? profile.username : ""
+                    }`}
+                  >
+                    lists.surf/{profile.username}
+                  </a>
+                </span>
+              ))}
+            <span className="cards domains">
+              <a className="none">
+                yourdomain.com <span className="live">COMING SOON</span>
+              </a>
+            </span>
           </div>
         </div>
       </div>
