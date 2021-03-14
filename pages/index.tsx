@@ -55,7 +55,10 @@ export default function Index({ profile }) {
             </div>
             <div>
               <Tilt tiltReverse={true}>
-                <img className="profile" src="libby-profile-page.png" />
+                <img
+                  className="profile mainimage"
+                  src="libby-profile-page.png"
+                />
               </Tilt>
             </div>
 
@@ -83,7 +86,7 @@ export default function Index({ profile }) {
             <p className="text padding text-center">
               Featuring Live Cards and About Sync.
             </p>
-            <img className="profile domains" src="glimesh-integration.png" />
+            <img className="profile" src="glimesh-integration.png" />
           </div>
         </div>
         <div className="row">
@@ -94,8 +97,8 @@ export default function Index({ profile }) {
             <p className="text padding text-center">
               Organise your social media in a clean posts tab.
             </p>
-            <img className="profile domains" src="postintegrations.png" />
-            <img className="profile domains" src="tweets.png" />
+            <img className="profile" src="postintegrations.png" />
+            <img className="profile" src="tweets.png" />
           </div>
         </div>
         <div className="row">
