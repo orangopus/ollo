@@ -652,6 +652,10 @@ h1 {
   padding: 0;
 }
 
+.padd2 {
+  margin-bottom: 50vh !important;
+}
+
 .middle {
   justify-content: center;
   margin-left: 50px;
