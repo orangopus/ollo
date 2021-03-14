@@ -472,6 +472,16 @@ export default function UserPage({ profile, posts }) {
           </div>
         </div>
         {glimeshStats}
+        <div className="cards socialcont">
+          {twitter}
+          {instagram}
+          {makerlog}
+          {sunshine}
+          {glimesh}
+          {twitch}
+          {guilded}
+          {discord}
+        </div>
         <Tabs>
           <div className="flexsocial">
             <div>
@@ -481,16 +491,6 @@ export default function UserPage({ profile, posts }) {
                 <Tab>Schedule</Tab>
                 <Tab>Donate</Tab>
               </TabList>
-            </div>
-            <div>
-              {twitter}
-              {instagram}
-              {makerlog}
-              {sunshine}
-              {glimesh}
-              {twitch}
-              {guilded}
-              {discord}
             </div>
           </div>
           <TabPanel>

@@ -274,6 +274,7 @@ h6 {
   background: #0e1726;
   width: 100%;
   padding: 0;
+  margin-top: 20px;
 }
 
 .paddingcards {
@@ -588,7 +589,15 @@ h1 {
   font-weight: bold;
   font-size: 20px;
   width: 400px;
+  margin-top: 20px !important;
   margin: auto;
+}
+
+.socialcont {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+  background-image: url("https://i.imgur.com/Qhpratm.png");
 }
 
 .embedbutton {
