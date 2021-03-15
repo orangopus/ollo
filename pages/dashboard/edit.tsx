@@ -266,13 +266,13 @@ export default function UserPage({ profile }) {
 
         <div className="herocont padd userdetails">
           <div
-            className="flex profilecont"
+            className="justify-center profilecont"
             style={{ backgroundImage: `url(${background})` }}
           >
-            <div>
-              <img className="avatar" src={avatar} />
+            <div className="center avatarcont">
+              <img className="avatar center" src={avatar} />
             </div>
-            <div className="info marginone">
+            <div className="info mt-4">
               <h1 className="username">
                 {displayname ? displayname : username}{" "}
                 <span className="handle">@{username}</span>
