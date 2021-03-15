@@ -453,15 +453,16 @@ export default function UserPage({ profile, posts }) {
         />
         <meta property="image" content={`${profile.avatar}`} />
       </Head>
+
       <div className="herocont padd userdetails">
         <div
-          className="flex profilecont"
+          className="justify-center profilecont"
           style={{ backgroundImage: `url(${profile.background_url})` }}
         >
-          <div className="avatarcont">
-            <img className="avatar" src={profile.avatar} />
+          <div className="center avatarcont">
+            <img className="avatar center" src={profile.avatar} />
           </div>
-          <div className="info marginone">
+          <div className="info mt-4">
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
               <span className="handle">@{profile.username}</span>
@@ -519,8 +520,8 @@ export default function UserPage({ profile, posts }) {
                         <img className="avatar avatar2" src={post.avatar} />
                       </a>
                     </div>
-                    <div className="info">
-                      <h1 className="username2">
+                    <div className="info ml-4">
+                      <h1 className="username mb-2 left">
                         {post.displayname ? post.displayname : post.username}{" "}
                         <span className="handle">@{post.username}</span>
                         <span className="minutesago">

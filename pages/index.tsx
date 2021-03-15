@@ -12,7 +12,7 @@ export default function Index({ profile }) {
       </Head>
       <div className="herocont">
         <div className="row heropadding">
-          <div className="col-12 col-sm-12 text-center">
+          <div className="center">
             <p className="herotext text-center">
               Branded profiles for creators and beyond.
             </p>
@@ -23,13 +23,13 @@ export default function Index({ profile }) {
               <button className="button">Get started</button>
             </Link>
             <p className="tiny">libby is free forever!</p>
-            <div className="middle">
+            <div className="justify-center center flex">
               {profile
                 .filter((n) => n.username)
                 .sort(() => Math.random() - Math.random())
                 .slice(0, 10)
                 .map((profile) => (
-                  <div className="inline">
+                  <div className="-mr-8 mb-10">
                     <a
                       className="profileavatar"
                       href={`/${profile.username ? profile.username : ""}`}
@@ -56,18 +56,19 @@ export default function Index({ profile }) {
             <div>
               <Tilt tiltReverse={true}>
                 <img
-                  className="profile mainimage"
+                  className="profile mainimage center"
                   src="libby-profile-page.png"
                 />
               </Tilt>
             </div>
 
-            <div className="producthunt">
+            <div className="producthunt justify-center ">
               <a
                 href="https://www.producthunt.com/posts/libbybio?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-libbybio"
                 target="_blank"
               >
                 <img
+                  className="center"
                   src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=285339&theme=dark"
                   alt="libbybio - Branded profiles for creators and beyond. | Product Hunt"
                   width="250"
@@ -78,7 +79,7 @@ export default function Index({ profile }) {
           </div>
         </div>
         <div className="row">
-          <div className="container text-center">
+          <div className="container center">
             <h1 className="h1">
               Glimesh Integration{" "}
               <span className="category">OUT OF THE BOX</span>
@@ -86,7 +87,7 @@ export default function Index({ profile }) {
             <p className="text padding text-center">
               Featuring Live Cards and About Sync.
             </p>
-            <img className="profile" src="glimesh-integration.png" />
+            <img className="profile center" src="glimesh-integration.png" />
           </div>
         </div>
         <div className="row">
@@ -97,8 +98,8 @@ export default function Index({ profile }) {
             <p className="text padding text-center">
               Organise your social media in a clean posts tab.
             </p>
-            <img className="profile" src="postintegrations.png" />
-            <img className="profile" src="tweets.png" />
+            <img className="profile center" src="postintegrations.png" />
+            <img className="profile center" src="tweets.png" />
           </div>
         </div>
         <div className="row">
@@ -110,7 +111,7 @@ export default function Index({ profile }) {
               A nice looking schedule for your profile.
             </p>
 
-            <img className="profile schedule" src="schedule.png" />
+            <img className="profile schedule center" src="schedule.png" />
           </div>
         </div>
         <div className="row padd">

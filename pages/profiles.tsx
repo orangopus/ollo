@@ -23,7 +23,7 @@ export default function Index({ profile }) {
         <title>libby Profiles</title>
       </Head>
       <div className="profilescont">
-        <h1>
+        <h1 className="text-3xl font-bold">
           Profiles{" "}
           <span className="verified">
             {searchResults.filter((n) => n.username).length}
@@ -48,7 +48,7 @@ export default function Index({ profile }) {
                   style={{ backgroundImage: `url(${profile.background_url})` }}
                 >
                   <div className="avatarcont">
-                    <img className="avatar" src={profile.avatar} />
+                    <img className="avatar center" src={profile.avatar} />
                   </div>
                   <div className="info marginone">
                     <h1 className="username">

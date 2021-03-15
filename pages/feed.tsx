@@ -94,10 +94,10 @@ export default function UserPage({ posts, user, profiles }) {
                   <div className="created2">
                     <div className="cards created">
                       <div className="create">
-                        <h1 className="createTitle">
+                        <h1 className="createTitle text-4xl">
                           Create posts, edit your profile and do more...
                         </h1>
-                        <p className="createText">
+                        <p className="createText text-2xl p-1">
                           Create an account or login to make a post!
                         </p>
                         <button className="button">Get started</button>
@@ -134,11 +134,11 @@ export default function UserPage({ posts, user, profiles }) {
                   <div className="flex">
                     <div className="avatarcont">
                       <a href={`/${post.username}`}>
-                        <img className="avatar" src={post.avatar} />
+                        <img className="avatar avatar2" src={post.avatar} />
                       </a>
                     </div>
-                    <div className="info">
-                      <h1 className="username left">
+                    <div className="info ml-4">
+                      <h1 className="username mb-2 left">
                         {post.displayname ? post.displayname : post.username}{" "}
                         <span className="handle">@{post.username}</span>
                         <span className="minutesago">

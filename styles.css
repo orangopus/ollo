@@ -7,21 +7,6 @@ body {
 
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
 
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #ffffff !important;
-}
-
 .react-tabs__tab {
   display: inline-block;
   position: relative;
@@ -310,10 +295,6 @@ p {
   color: #ffffff;
 }
 
-.info {
-  margin-left: 50px;
-}
-
 .marginone {
   margin: 0;
 }
@@ -555,8 +536,7 @@ a.sbui-typography,
 .username {
   color: #ffffff;
   font-weight: bolder;
-  font-size: 50px;
-  margin-top: 20px;
+  font-size: 40px;
   text-align: center;
 }
 
@@ -675,8 +655,7 @@ h1 {
 .handle {
   font-size: 40px;
   line-height: 40px;
-
-  color: #bbbbbb;
+  color: #747474;
 }
 
 .usercount {
@@ -938,9 +917,28 @@ input {
 }
 
 .postcontent {
-  font-size: 28px;
-  font-weight: bolder;
+  font-size: 20px;
   display: block;
+}
+
+li {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.postcontent > h1 {
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.postcontent > h2 {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.postcontent > h3 {
+  font-weight: bold;
+  font-size: 25px;
 }
 
 .postcontent > p > a {

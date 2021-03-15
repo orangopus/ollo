@@ -4,8 +4,10 @@ export default function FourOhFour(profile) {
   return (
     <>
       <div className="herocont padd2 center">
-        <h1 className="createTitle">Peach is lost in another castle</h1>
-        <p className="createText">
+        <h1 className="createTitle text-4xl">
+          Peach is lost in another castle
+        </h1>
+        <p className="createText text-1xl mt-2">
           You look like you might have saved the wrong princess, do you wish to
           join the cult?
         </p>
