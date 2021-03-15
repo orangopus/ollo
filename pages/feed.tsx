@@ -59,6 +59,14 @@ export default function UserPage({ posts, user, profiles }) {
     return dayjs().to(dayjs(date));
   };
 
+  const UserActions = () => {
+    if (user.id === posts.id) {
+      return <span>Test</span>;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       <div>
@@ -151,7 +159,6 @@ export default function UserPage({ posts, user, profiles }) {
                       </p>
                     </div>
                   </div>
-                  {(user) => user.id === post.id && <h1>Test</h1>}
                 </div>
               ))}
             </div>

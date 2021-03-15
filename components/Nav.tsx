@@ -60,13 +60,15 @@ export default function Nav(profiles) {
     );
 
     async function fetchProfile() {
-      const { body, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single();
+      if (session) {
+        const { body, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
 
-      setProfile(body);
+        setProfile(body);
+      }
     }
 
     fetchProfile();

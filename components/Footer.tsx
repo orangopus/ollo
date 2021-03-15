@@ -56,10 +56,17 @@ const Footer = () => {
             >
               Status
             </a>
-            <a target="_blank" className="footerlinks" href="/privacy">
+            <a
+              target="_blank"
+              className="footerlinks"
+              href="https://feedback.orangopus.com/libby"
+            >
+              Feedback
+            </a>
+            <a className="footerlinks" href="/privacy">
               Privacy
             </a>
-            <a target="_blank" className="footerlinks" href="/terms">
+            <a className="footerlinks" href="/terms">
               Terms
             </a>
           </form>

@@ -19,7 +19,7 @@ import axios from "axios";
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
-export default function UserPage({ profile, posts }) {
+export default function UserPage({ profile, user, posts }) {
   if (profile.html === null) {
     profile.html = "";
   }
@@ -61,19 +61,21 @@ export default function UserPage({ profile, posts }) {
 
     glimeshStats = (
       <a className="none" href={`https://glimesh.tv/${profile.social.glimesh}`}>
-        <div className="cards flex cardGlimesh">
-          <div>
-            <img className="thumbnail" src={`${glimeshThumb}`} />
-          </div>
-          <div className="glimeshInfo">
-            <h1 className="glimeshTitle">
-              {glimeshStatusChecker}{" "}
-              <span className="category">{glimeshCat}</span> {glimeshTitle}
-            </h1>
-            <div className="tagscont">
-              {glimeshTags.map((tags) => (
-                <span className="tags">{tags.name}</span>
-              ))}
+        <div className="margin">
+          <div className="cards flex cardGlimesh">
+            <div>
+              <img className="thumbnail" src={`${glimeshThumb}`} />
+            </div>
+            <div className="glimeshInfo">
+              <h1 className="glimeshTitle">
+                {glimeshStatusChecker}{" "}
+                <span className="category">{glimeshCat}</span> {glimeshTitle}
+              </h1>
+              <div className="tagscont">
+                {glimeshTags.map((tags) => (
+                  <span className="tags">{tags.name}</span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -134,7 +136,11 @@ export default function UserPage({ profile, posts }) {
       setGlimeshTitle(result.data.data.channel.title);
       setGlimeshCat(result.data.data.channel.category.name);
       setGlimeshTags(result.data.data.channel.tags);
-      setGlimeshThumb(result.data.data.channel.stream.thumbnail);
+      if (result.data.data.channel.stream) {
+        setGlimeshThumb(result.data.data.channel.stream.thumbnail);
+      } else {
+        return null;
+      }
     });
   }
 
@@ -250,7 +256,7 @@ export default function UserPage({ profile, posts }) {
         >
           <img
             className="sunshine-img"
-            src="https://sunshine.social/imgs/Sunshine_Logo_Animated.gif"
+            src="https://sunshine.social/imgs/Sunshine_Social_Icon.png"
           />
         </a>
         <ReactTooltip
@@ -465,15 +471,19 @@ export default function UserPage({ profile, posts }) {
           <div className="info mt-4">
             <h1 className="username">
               {profile.displayname ? profile.displayname : profile.username}{" "}
-              <span className="handle">@{profile.username}</span>
-              <br /> {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+              <div>
+                <span className="handle">@{profile.username}</span>
+              </div>
+              <div className="mt-2">
+                {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+              </div>
             </h1>
             <p></p>
             <p className="bio">{profile.bio}</p>
           </div>
         </div>
         <div className="cards flex socialcont">
-          <div className="margin">{glimeshStats}</div>
+          {glimeshStats}
           <div className="socials">
             {twitter}
             {instagram}
