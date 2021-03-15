@@ -34,7 +34,7 @@ h6 {
 }
 
 .react-tabs__tab-list {
-  margin: 44px 0 50px;
+  margin: 44px 0 30px;
   padding: 0;
   border: 2px !important;
 }
@@ -274,7 +274,9 @@ h6 {
   background: #0e1726;
   width: 100%;
   padding: 0;
-  margin-top: 20px;
+  margin-top: 0;
+  margin-right: 20px;
+  text-align: left;
 }
 
 .paddingcards {
@@ -595,8 +597,8 @@ h1 {
 
 .socialcont {
   margin-top: 20px;
-  text-align: center;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
   background-image: url("https://i.imgur.com/Qhpratm.png");
 }
 
@@ -1048,6 +1050,26 @@ a {
   background: transparent;
   border-radius: 10px;
 }
+@media only screen and (max-width: 1350px) {
+
+.socialcont {
+  display: grid;
+  align-content: center;
+}
+
+.margin { 
+  margin-right: 0;
+}
+
+.socials { 
+  margin-top: 20px;
+  text-align: center;
+}
+
+.twitter {
+  margin-left: 0;
+}
+} 
 
 @media only screen and (max-width: 768px) {
   .flex {

@@ -471,16 +471,18 @@ export default function UserPage({ profile, posts }) {
             <p className="bio">{profile.bio}</p>
           </div>
         </div>
-        {glimeshStats}
-        <div className="cards socialcont">
-          {twitter}
-          {instagram}
-          {makerlog}
-          {sunshine}
-          {glimesh}
-          {twitch}
-          {guilded}
-          {discord}
+        <div className="cards flex socialcont">
+          <div className="margin">{glimeshStats}</div>
+          <div className="socials">
+            {twitter}
+            {instagram}
+            {makerlog}
+            {sunshine}
+            {glimesh}
+            {twitch}
+            {guilded}
+            {discord}
+          </div>
         </div>
         <Tabs>
           <div className="flexsocial">
