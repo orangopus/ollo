@@ -1101,6 +1101,10 @@ a {
     margin: auto;
   }
 
+  .col-4 {
+    max-width: 100% !important;
+  }
+
   .userdetails {
     justify-content: unset;
   }
