@@ -3,6 +3,7 @@ body {
   margin: 0;
   background: #212121 !important;
   overflow-x: hidden;
+  zoom: 75%;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
