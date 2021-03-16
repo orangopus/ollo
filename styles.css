@@ -596,6 +596,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: auto;
 }
 
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+  color: white !important;
+}
+
 .socialcont {
   margin-top: 20px;
   align-items: center;

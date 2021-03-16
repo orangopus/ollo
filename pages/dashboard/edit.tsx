@@ -71,6 +71,17 @@ export default function UserPage({ profile }) {
 
   return (
     <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+      body { 
+        background-image: url("${backgroundURL}") !important; 
+        background-attachment: fixed !important;
+        background-size: 100% !important;
+      }
+      `,
+        }}
+      />
       <div className="flex">
         <div className="herocont padd">
           <div className="cards">

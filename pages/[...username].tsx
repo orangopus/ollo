@@ -491,7 +491,8 @@ export default function UserPage({ profile, user, posts }) {
           __html: `
       body { 
         background-image: url("${profile.background}") !important; 
-        background-repeat: no-repeat;
+        background-attachment: fixed !important;
+        background-size: 100% !important;
       }
       `,
         }}
