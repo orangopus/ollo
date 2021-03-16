@@ -61,21 +61,19 @@ export default function UserPage({ profile, user, posts }) {
 
     glimeshStats = (
       <a className="none" href={`https://glimesh.tv/${profile.social.glimesh}`}>
-        <div className="margin">
-          <div className="cards flex cardGlimesh">
-            <div>
-              <img className="thumbnail" src={`${glimeshThumb}`} />
-            </div>
-            <div className="glimeshInfo">
-              <h1 className="glimeshTitle">
-                {glimeshStatusChecker}{" "}
-                <span className="category">{glimeshCat}</span> {glimeshTitle}
-              </h1>
-              <div className="tagscont">
-                {glimeshTags.map((tags) => (
-                  <span className="tags">{tags.name}</span>
-                ))}
-              </div>
+        <div className="cards flex cardGlimesh">
+          <div>
+            <img className="thumbnail" src={`${glimeshThumb}`} />
+          </div>
+          <div className="glimeshInfo">
+            <h1 className="glimeshTitle">
+              {glimeshStatusChecker}{" "}
+              <span className="category">{glimeshCat}</span> {glimeshTitle}
+            </h1>
+            <div className="tagscont">
+              {glimeshTags.map((tags) => (
+                <span className="tags">{tags.name}</span>
+              ))}
             </div>
           </div>
         </div>
@@ -235,6 +233,35 @@ export default function UserPage({ profile, user, posts }) {
           effect="solid"
         >
           {profile.social.makerlog}
+        </ReactTooltip>
+      </>
+    );
+  }
+
+  let github = profile.social.github;
+
+  if (github === null) {
+    github = null;
+  } else if (github) {
+    github = (
+      <>
+        <a
+          data-tip
+          data-for="githubTip"
+          href={`https://github.com/${profile.social.github}`}
+          target="_blank"
+          className="social github"
+        >
+          <FontAwesomeIcon icon={["fab", "github"]} />
+        </a>
+        <ReactTooltip
+          id="githubTip"
+          backgroundColor="#000"
+          place="top"
+          type="dark"
+          effect="solid"
+        >
+          {profile.social.github}
         </ReactTooltip>
       </>
     );
@@ -483,10 +510,10 @@ export default function UserPage({ profile, user, posts }) {
           </div>
         </div>
         <div className="cards flex socialcont">
-          {glimeshStats}
           <div className="socials">
             {twitter}
             {instagram}
+            {github}
             {makerlog}
             {sunshine}
             {glimesh}
@@ -505,6 +532,7 @@ export default function UserPage({ profile, user, posts }) {
                 <Tab>Donate</Tab>
               </TabList>
             </div>
+            {glimeshStats}
           </div>
           <TabPanel>
             <div className="cards auto width">

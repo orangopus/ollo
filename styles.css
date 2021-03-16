@@ -754,6 +754,11 @@ img {
   margin-left: 0;
 }
 
+.github {
+  color: #000000 !important;
+  background: #ffffff;
+}
+
 .instagram {
   background: #e1306c;
 }

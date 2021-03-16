@@ -19,6 +19,7 @@ export default function UserPage({ profile }) {
   const [twitter, setTwitter] = useState(profile.social.twitter);
   const [instagram, setInstagram] = useState(profile.social.instagram);
   const [makerlog, setMakerlog] = useState(profile.social.makerlog);
+  const [github, setGithub] = useState(profile.social.github);
   const [sunshine, setSunshine] = useState(profile.social.sunshine);
   const [glimesh, setGlimesh] = useState(profile.social.glimesh);
   const [twitch, setTwitch] = useState(profile.social.twitch);
@@ -51,6 +52,7 @@ export default function UserPage({ profile }) {
           twitter,
           instagram,
           makerlog,
+          github,
           sunshine,
           glimesh,
           twitch,
@@ -71,7 +73,7 @@ export default function UserPage({ profile }) {
         <div className="herocont padd">
           <div className="cards">
             <form onSubmit={updateProfile}>
-              <h1>Edit Profile</h1>
+              <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
               <hr />
               <h1 className="edit">Avatar URL</h1>
               <input
@@ -173,6 +175,18 @@ export default function UserPage({ profile }) {
                 onChange={(event) => setInstagram(event.target.value)}
                 type="text"
                 placeholder="Instagram username..."
+                className="input"
+              />
+              <br />
+              <h1 className="edit">GitHub</h1>
+              <input
+                autoFocus
+                id="bio"
+                name="bio"
+                value={github}
+                onChange={(event) => setGithub(event.target.value)}
+                type="text"
+                placeholder="GitHub username..."
                 className="input"
               />
               <br />
