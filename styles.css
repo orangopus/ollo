@@ -205,8 +205,9 @@ p {
   border-radius: 50px;
   background: #0472d8;
   color: #fff;
-  font-size: 10px;
-  padding: 5px 5px;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px 10px;
   line-height: 1px;
   vertical-align: middle;
   cursor: pointer;
@@ -261,7 +262,7 @@ p {
 }
 
 .glimeshTitle {
-  font-size: 20px;
+  font-size: 22px !important;
   font-weight: bolder;
 }
 
