@@ -1101,6 +1101,19 @@ a {
     margin: auto;
   }
 
+  .inline2 {
+    display: none;
+  }
+
+  .created {
+    display: block;
+    position: static;
+  }
+
+  .create {
+    position: static;
+  }
+
   .col-4 {
     max-width: 100% !important;
   }

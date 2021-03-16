@@ -140,7 +140,7 @@ export default function UserPage({ posts, user, profiles }) {
               {posts.data.map((post, index) => (
                 <div className="cards postcard">
                   <div className="flex">
-                    <div className="avatarcont">
+                    <div className="avatarcont ml-0 mr-0">
                       <a href={`/${post.username}`}>
                         <img className="avatar avatar2" src={post.avatar} />
                       </a>
