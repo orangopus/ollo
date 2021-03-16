@@ -6,6 +6,10 @@ body {
   zoom: 75%;
 }
 
+p {
+  font-size: 20px;
+}
+
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
 
 
@@ -335,6 +339,7 @@ p {
 
 .profile {
   max-width: 900px;
+  zoom: 125%;
 }
 
 .mainimage {
@@ -1007,6 +1012,7 @@ li {
 
 .producthunt {
   margin-top: 50px;
+  zoom: 125%;
 }
 
 a {
