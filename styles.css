@@ -1086,6 +1086,10 @@ a {
   overflow: scroll;
 }
 
+.socials::-webkit-scrollbar {
+  display: none;
+}
+
 .twitter {
   margin-left: 0;
 }
