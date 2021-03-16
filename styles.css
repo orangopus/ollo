@@ -8,6 +8,11 @@ body {
 
 @import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
 
+
+.dropdown-menu.show {
+  transform: translate(-243px, 97px) !important;
+}
+
 .react-tabs__tab {
   display: inline-block;
   position: relative;
