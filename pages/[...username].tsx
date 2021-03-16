@@ -501,7 +501,7 @@ export default function UserPage({ profile, user, posts }) {
               <div>
                 <span className="handle">@{profile.username}</span>
               </div>
-              <div className="mt-2">
+              <div className="mt-3">
                 {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
               </div>
             </h1>
