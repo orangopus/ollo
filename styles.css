@@ -1081,8 +1081,9 @@ a {
 }
 
 .socials { 
-  margin-top: 20px;
   text-align: center;
+  display: inline-flex;
+  overflow: scroll;
 }
 
 .twitter {
@@ -1167,7 +1168,6 @@ a {
   }
 
   .cards {
-    width: 95vw;
     margin: 20px 0;
   }
 }
