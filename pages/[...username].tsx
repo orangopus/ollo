@@ -486,107 +486,121 @@ export default function UserPage({ profile, user, posts }) {
         />
         <meta property="image" content={`${profile.avatar}`} />
       </Head>
-
-      <div className="herocont padd userdetails">
-        <div
-          className="justify-center profilecont"
-          style={{ backgroundImage: `url(${profile.background_url})` }}
-        >
-          <div className="center avatarcont">
-            <img className="avatar center" src={profile.avatar} />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+      body { 
+        background-image: url("${profile.background}") !important; 
+        background-repeat: no-repeat;
+      }
+      `,
+        }}
+      />
+      <div>
+        <div className="herocont padd userdetails">
+          <div
+            className="justify-center profilecont"
+            style={{ backgroundImage: `url(${profile.background_url})` }}
+          >
+            <div className="center avatarcont">
+              <img className="avatar center" src={profile.avatar} />
+            </div>
+            <div className="info mt-4">
+              <h1 className="username">
+                {profile.displayname ? profile.displayname : profile.username}{" "}
+                <div>
+                  <span className="handle">@{profile.username}</span>
+                </div>
+                <div className="mt-3">
+                  {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+                </div>
+              </h1>
+              <p></p>
+              <p className="bio">{profile.bio}</p>
+            </div>
           </div>
-          <div className="info mt-4">
-            <h1 className="username">
-              {profile.displayname ? profile.displayname : profile.username}{" "}
+          <div
+            className="cards flex socialcont"
+            style={{ backgroundImage: `url(${profile.background_url})` }}
+          >
+            <div className="socials">
+              {twitter}
+              {instagram}
+              {github}
+              {makerlog}
+              {sunshine}
+              {glimesh}
+              {twitch}
+              {guilded}
+              {discord}
+            </div>
+          </div>
+          <Tabs>
+            <div className="flexsocial">
               <div>
-                <span className="handle">@{profile.username}</span>
+                <TabList>
+                  <Tab>About</Tab>
+                  <Tab>Posts</Tab>
+                  <Tab>Schedule</Tab>
+                  <Tab>Donate</Tab>
+                </TabList>
               </div>
-              <div className="mt-3">
-                {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+              {glimeshStats}
+            </div>
+            <TabPanel>
+              <div className="cards auto width">
+                <Markdown
+                  plugins={[gfm]}
+                  children={profile.html}
+                  allowDangerousHtml={true}
+                />
+                <Markdown
+                  plugins={[gfm]}
+                  children={glimeshHTML}
+                  allowDangerousHtml={true}
+                />
               </div>
-            </h1>
-            <p></p>
-            <p className="bio">{profile.bio}</p>
-          </div>
-        </div>
-        <div className="cards flex socialcont">
-          <div className="socials">
-            {twitter}
-            {instagram}
-            {github}
-            {makerlog}
-            {sunshine}
-            {glimesh}
-            {twitch}
-            {guilded}
-            {discord}
-          </div>
-        </div>
-        <Tabs>
-          <div className="flexsocial">
-            <div>
-              <TabList>
-                <Tab>About</Tab>
-                <Tab>Posts</Tab>
-                <Tab>Schedule</Tab>
-                <Tab>Donate</Tab>
-              </TabList>
-            </div>
-            {glimeshStats}
-          </div>
-          <TabPanel>
-            <div className="cards auto width">
-              <Markdown
-                plugins={[gfm]}
-                children={profile.html}
-                allowDangerousHtml={true}
-              />
-              <Markdown
-                plugins={[gfm]}
-                children={glimeshHTML}
-                allowDangerousHtml={true}
-              />
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className="posts">
-              {posts.data.map((post, index) => (
-                <div className="cards cardspost">
-                  <div className="flex">
-                    <div className="avatarcont">
-                      <a href={`/${post.username}`}>
-                        <img className="avatar avatar2" src={post.avatar} />
-                      </a>
-                    </div>
-                    <div className="info ml-4">
-                      <h1 className="username mb-2 left">
-                        {post.displayname ? post.displayname : post.username}{" "}
-                        <span className="handle">@{post.username}</span>
-                        <span className="minutesago">
-                          {formatDate(post.published_at)}
-                        </span>
-                      </h1>
+            </TabPanel>
+            <TabPanel>
+              <div className="posts">
+                {posts.data.map((post, index) => (
+                  <div className="cards cardspost">
+                    <div className="flex">
+                      <div className="avatarcont">
+                        <a href={`/${post.username}`}>
+                          <img className="avatar avatar2" src={post.avatar} />
+                        </a>
+                      </div>
+                      <div className="info ml-4">
+                        <h1 className="username mb-2 left">
+                          {post.displayname ? post.displayname : post.username}{" "}
+                          <span className="handle">@{post.username}</span>
+                          <span className="minutesago">
+                            {formatDate(post.published_at)}
+                          </span>
+                        </h1>
 
-                      <p className="postcontent">
-                        <Markdown plugins={[gfm]} children={post.content} />
-                      </p>
+                        <p className="postcontent">
+                          <Markdown plugins={[gfm]} children={post.content} />
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className="cards auto">
-              <p>Schedule isn't available in this early alpha.</p>
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className="cards auto">
-              <p>Donate isn't available in this early alpha.</p>
-            </div>
-          </TabPanel>
-        </Tabs>
+                ))}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className="cards auto">
+                <p>Schedule isn't available in this early alpha.</p>
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div className="cards auto">
+                <p>Donate isn't available in this early alpha.</p>
+              </div>
+            </TabPanel>
+          </Tabs>
+        </div>
       </div>
     </>
   );

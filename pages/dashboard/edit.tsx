@@ -16,6 +16,7 @@ export default function UserPage({ profile }) {
   const [displayname, setDisplayName] = useState(profile.displayname);
   const [avatar, setAvatar] = useState(profile.avatar);
   const [background, setBackground] = useState(profile.background_url);
+  const [backgroundURL, setBackgroundURL] = useState(profile.background);
   const [twitter, setTwitter] = useState(profile.social.twitter);
   const [instagram, setInstagram] = useState(profile.social.instagram);
   const [makerlog, setMakerlog] = useState(profile.social.makerlog);
@@ -47,6 +48,7 @@ export default function UserPage({ profile }) {
         username,
         displayname,
         avatar,
+        background: backgroundURL,
         background_url: background,
         social: {
           twitter,
@@ -95,7 +97,19 @@ export default function UserPage({ profile }) {
                 value={background}
                 onChange={(event) => setBackground(event.target.value)}
                 type="text"
-                placeholder="Change your background link..."
+                placeholder="Change your banner background..."
+                className="input"
+              />
+              <br />
+              <h1 className="edit">Background URL</h1>
+              <input
+                autoFocus
+                id="bio"
+                name="bio"
+                value={backgroundURL}
+                onChange={(event) => setBackgroundURL(event.target.value)}
+                type="text"
+                placeholder="Change your background..."
                 className="input"
               />
               <br />
