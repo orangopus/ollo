@@ -297,8 +297,13 @@ p {
   padding: 25px 100px !important;
 }
 
-p {
+.cards > p {
   color: #ffffff !important;
+  margin-bottom: 1rem !important;
+}
+
+.postcontent > p, ul {
+  margin-bottom: 1rem !important;
 }
 
 .inner {
