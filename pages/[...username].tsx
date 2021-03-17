@@ -15,6 +15,8 @@ import ReactTooltip from "react-tooltip";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 import { url } from "inspector";
 import axios from "axios";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import React from "react";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -30,6 +32,138 @@ export default function UserPage({ profile, user, posts }) {
   const [glimeshTags, setGlimeshTags] = useState([]);
   const [glimeshThumb, setGlimeshThumb] = useState([]);
   const [glimeshStatus, setGlimeshStatus] = useState([]);
+
+  const options = {
+    "client-id":
+      "AZPEhV3kYvOSOCx0GmXTI9F3W6uk3E-rsjGWzzcGRXKkzg-Ka7kWDyppbj0UsFP1-AsObs57mOK67nU3",
+    currency: "USD",
+  };
+
+  let paypal = profile.paypal;
+
+  const [amount, setAmount] = useState([]);
+  const [orderID, setOrderID] = useState(false);
+  const [message, setMessage] = useState([]);
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              currency_code: "USD",
+              value: amount,
+            },
+            payee: {
+              email_address: profile.paypal,
+            },
+          },
+        ],
+      })
+      .then((orderID) => {
+        setOrderID(orderID);
+        return orderID;
+      });
+  }
+
+  function onChange({ target: { value } }) {
+    setAmount(value);
+    setOrderID(false);
+  }
+
+  const [showModal, setShowModal] = React.useState(false);
+
+  if (paypal) {
+    paypal = (
+      <>
+        <input
+          onChange={onChange}
+          className="input"
+          value={amount}
+          placeholder="$2"
+          autoFocus
+          name="amount"
+          id="amount"
+        ></input>
+        <br />
+        <textarea
+          className="textarea blocked"
+          value={message}
+          placeholder="Donation message"
+          autoFocus
+          name="amount"
+          id="amount"
+        ></textarea>
+        <br />
+        <button
+          className="bg-green-500 text-white hover:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+          type="button"
+          style={{ transition: "all .15s ease" }}
+          onClick={() => setShowModal(true)}
+        >
+          Donate
+        </button>
+        {showModal ? (
+          <>
+            <div
+              className="flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+              onClick={() => setShowModal(false)}
+            >
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full cards outline-none focus:outline-none">
+                  {/*header*/}
+                  <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
+                    <h3 className="text-5xl center font-semibold ">
+                      Donating ${amount} to {profile.username}
+                    </h3>
+                    <p>{message}</p>
+                    <button
+                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      onClick={() => setShowModal(false)}
+                    >
+                      <span className="bg-transparent text-white opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                      </span>
+                    </button>
+                  </div>
+                  {/*body*/}
+                  <div className="relative p-6 flex-auto">
+                    <PayPalScriptProvider options={options}>
+                      <PayPalButtons
+                        createOrder={createOrder}
+                        forceReRender={showModal}
+                        style={{
+                          color: "blue",
+                          shape: "pill",
+                          label: "pay",
+                          height: 40,
+                          tagline: false,
+                        }}
+                      />
+                    </PayPalScriptProvider>
+                  </div>
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                    <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
+                      type="button"
+                      style={{ transition: "all .15s ease" }}
+                      onClick={() => setShowModal(false)}
+                    >
+                      Cancel donation
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
+      </>
+    );
+  } else {
+    paypal = <p>{profile.username} hasn't set up their Donate tab.</p>;
+  }
 
   let glimeshStatusChecker = glimeshStatus;
 
@@ -596,9 +730,7 @@ export default function UserPage({ profile, user, posts }) {
               </div>
             </TabPanel>
             <TabPanel>
-              <div className="cards auto">
-                <p>Donate isn't available in this early alpha.</p>
-              </div>
+              <div className="cards donate center">{paypal}</div>
             </TabPanel>
           </Tabs>
         </div>

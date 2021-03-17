@@ -130,6 +130,16 @@ p {
   box-sizing: border-box;
 }
 
+.blocked {
+opacity: 0.5;
+pointer-events:stroke;
+cursor: not-allowed;
+}
+
+.donate {
+  width: 100%;
+}
+
 .cardtitle {
   font-size: 22px;
   font-weight: bolder;
@@ -594,6 +604,15 @@ h1, h2, h3, h4, h5, h6 {
   width: 400px;
   margin-top: 20px !important;
   margin: auto;
+}
+
+.paypal-buttons {
+  zoom: 1.5;
+  color: white;
+}
+
+.paypal-button-text {
+  color: white !important;
 }
 
 blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
