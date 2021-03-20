@@ -86,15 +86,6 @@ export default function UserPage({ profile, user, posts }) {
           id="amount"
         ></input>
         <br />
-        <textarea
-          className="textarea blocked"
-          value={message}
-          placeholder="Donation message"
-          autoFocus
-          name="amount"
-          id="amount"
-        ></textarea>
-        <br />
         <button
           className="bg-green-500 text-white hover:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
           type="button"
@@ -671,7 +662,7 @@ export default function UserPage({ profile, user, posts }) {
               {discord}
             </div>
           </div>
-          <div className="flex">
+          <div className="flex responsive">
             <div className="flexsocial">{glimeshStats}</div>
             <div className="cards donate center mr-10">{paypal}</div>
             <Tabs>
