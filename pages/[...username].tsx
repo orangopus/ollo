@@ -162,7 +162,7 @@ export default function UserPage({ profile, user, posts }) {
       </>
     );
   } else {
-    paypal = <p>{profile.username} hasn't set up their Donate tab.</p>;
+    paypal = <p>{profile.username} hasn't set up their donation item.</p>;
   }
 
   let glimeshStatusChecker = glimeshStatus;
@@ -643,11 +643,12 @@ export default function UserPage({ profile, user, posts }) {
             <div className="info mt-4">
               <h1 className="username">
                 {profile.displayname ? profile.displayname : profile.username}{" "}
+                {verifiedChecker}
                 <div>
                   <span className="handle">@{profile.username}</span>
                 </div>
                 <div className="mt-3">
-                  {staffChecker} {modChecker} {verifiedChecker} {proChecker}{" "}
+                  {staffChecker} {modChecker} {proChecker}{" "}
                 </div>
               </h1>
               <p></p>
@@ -670,69 +671,71 @@ export default function UserPage({ profile, user, posts }) {
               {discord}
             </div>
           </div>
-          <Tabs>
-            <div className="flexsocial">
-              <div>
-                <TabList>
-                  <Tab>About</Tab>
-                  <Tab>Posts</Tab>
-                  <Tab>Schedule</Tab>
-                  <Tab>Donate</Tab>
-                </TabList>
-              </div>
-              {glimeshStats}
-            </div>
-            <TabPanel>
-              <div className="cards auto width">
-                <Markdown
-                  plugins={[gfm]}
-                  children={profile.html}
-                  allowDangerousHtml={true}
-                />
-                <Markdown
-                  plugins={[gfm]}
-                  children={glimeshHTML}
-                  allowDangerousHtml={true}
-                />
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="posts">
-                {posts.data.map((post, index) => (
-                  <div className="cards cardspost">
-                    <div className="flex">
-                      <div className="avatarcont">
-                        <a href={`/${post.username}`}>
-                          <img className="avatar avatar2" src={post.avatar} />
-                        </a>
-                      </div>
-                      <div className="info ml-4">
-                        <h1 className="username mb-2 left">
-                          {post.displayname ? post.displayname : post.username}{" "}
-                          <span className="handle">@{post.username}</span>
-                          <span className="minutesago">
-                            {formatDate(post.published_at)}
-                          </span>
-                        </h1>
+          <div className="flex">
+            <div className="flexsocial">{glimeshStats}</div>
+            <div className="cards donate center mr-10">{paypal}</div>
+            <Tabs>
+              <TabList>
+                <Tab>Posts</Tab>
+                <Tab>About</Tab>
+              </TabList>
+              <TabPanel>
+                <div className="posts">
+                  {posts.data.map((post, index) => (
+                    <div className="cards cardspost">
+                      <div className="flex">
+                        <div className="avatarcont">
+                          <a href={`/${post.username}`}>
+                            <img className="avatar avatar2" src={post.avatar} />
+                          </a>
+                        </div>
+                        <div className="info ml-4">
+                          <h1 className="username mb-2 left">
+                            {post.displayname
+                              ? post.displayname
+                              : post.username}{" "}
+                            <span className="handle">@{post.username}</span>
+                            <span className="minutesago">
+                              {formatDate(post.published_at)}
+                            </span>
+                          </h1>
 
-                        <p className="postcontent">
-                          <Markdown plugins={[gfm]} children={post.content} />
-                        </p>
+                          <p className="postcontent">
+                            <Markdown plugins={[gfm]} children={post.content} />
+                          </p>
+                        </div>
                       </div>
                     </div>
+                  ))}
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="cards auto width">
+                  <Markdown
+                    plugins={[gfm]}
+                    children={profile.html}
+                    allowDangerousHtml={true}
+                  />
+                  <div>
+                    {glimeshHTML && (
+                      <div>
+                        <div className="mb-5">
+                          <span className="p-3 bg-blue-600 rounded-full">
+                            Content synced from Glimesh
+                          </span>
+                        </div>
+                        <Markdown
+                          plugins={[gfm]}
+                          children={`${glimeshHTML}`}
+                          allowDangerousHtml={true}
+                        />
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="cards auto">
-                <p>Schedule isn't available in this early alpha.</p>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              <div className="cards donate center">{paypal}</div>
-            </TabPanel>
-          </Tabs>
+                </div>
+              </TabPanel>
+            </Tabs>
+          </div>
         </div>
       </div>
     </>

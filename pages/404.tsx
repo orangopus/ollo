@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function FourOhFour(profile) {
+export default function FourOhFour() {
   return (
     <>
       <div className="herocont padd2 center">
@@ -14,11 +14,6 @@ export default function FourOhFour(profile) {
         <Link href="/dashboard">
           <button className="button">Enlist</button>
         </Link>
-        <br />
-        <br />
-        <br />
-        <br />
-        <p className="text">l̵͚͎͐̒͜͝i̵̢͚͙͋͛͒b̵̢͙͖̿̈́̔b̴̟͇͆̾͜y̸͖̫̾̽͘ i̵̼̪͚͐͛͐s̵̡̼͇̐̈́̈́ e̵̠͉̘̓̈́̈́v̸͙̘͐̒̕͜i̵̡̼͇̿͊̽l̵̢̻̦̓͐͝ d̴̡̺͇̾́́o̴̙͇͕͋̐̽n̴͕͕̟̐͊'̵͓̞̞̒͊͐t̵̟̞͖͌͒͋ s̴͇͉̓̀̿͜i̵͔͓̟̽̈́g̸̝̞̘̈́̔͒ǹ̵͎̻͔͆͆ u̸͕̼̟̔̒́ṕ̸͎̘̚̚</p>
       </div>
     </>
   );
