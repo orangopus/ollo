@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { supabase } from "../utils/initSupabase";
 import { useState, useEffect } from "react";
+import ImageFallback from "react-image-fallback";
 
 export default function Index({ profile }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,7 +49,13 @@ export default function Index({ profile }) {
                   style={{ backgroundImage: `url(${profile.background_url})` }}
                 >
                   <div className="avatarcont">
-                    <img className="avatar center" src={profile.avatar} />
+                    <ImageFallback
+                      data-tip
+                      data-for={profile.username}
+                      className="avatar center"
+                      fallbackImage="avatar.png"
+                      src={profile.avatar}
+                    />
                   </div>
                   <div className="info marginone">
                     <h1 className="username">

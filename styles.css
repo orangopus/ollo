@@ -949,9 +949,7 @@ input {
 }
 
 .fullscreen {
-  height: 100vh;
   border-radius: 0 !important;
-  display: grid;
   margin: auto;
 }
 

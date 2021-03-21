@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase } from "../utils/initSupabase";
 import Tilt from "react-parallax-tilt";
 import ReactTooltip from "react-tooltip";
+import ImageFallback from "react-image-fallback";
 
 export default function Index({ profile }) {
   return (
@@ -13,16 +14,10 @@ export default function Index({ profile }) {
       <div className="herocont">
         <div className="row heropadding">
           <div className="center">
-            <p className="herotext text-center">
-              Branded profiles for creators and beyond.
-            </p>
+            <p className="herotext text-center">Branded profiles for anyone.</p>
             <p className="text padding text-center">
-              Quickly create a profile page with your brand in mind.
+              "It's like MySpace 2!" - Matty
             </p>
-            <Link href="/dashboard">
-              <button className="button">Get started</button>
-            </Link>
-            <p className="tiny">libby is free forever!</p>
             <div className="justify-center center flex">
               {profile
                 .filter((n) => n.username)
@@ -34,10 +29,11 @@ export default function Index({ profile }) {
                       className="profileavatar"
                       href={`/${profile.username ? profile.username : ""}`}
                     >
-                      <img
+                      <ImageFallback
                         data-tip
                         data-for={profile.username}
                         className="avatar small avatar2"
+                        fallbackImage="avatar.png"
                         src={profile.avatar}
                       />
                     </a>
@@ -53,13 +49,15 @@ export default function Index({ profile }) {
                   </div>
                 ))}
             </div>
+            <Link href="/dashboard">
+              <button className="button">Get started</button>
+            </Link>
+            <p className="tiny">libby is free forever!</p>
             <div>
-              <Tilt tiltReverse={true}>
-                <img
-                  className="profile mainimage center"
-                  src="libby-profile-page.png"
-                />
-              </Tilt>
+              <img
+                className="profile mainimage center"
+                src="libby-profile-page.png"
+              />
             </div>
 
             <div className="producthunt justify-center ">

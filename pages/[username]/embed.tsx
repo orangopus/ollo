@@ -1,41 +1,23 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/initSupabase";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Markdown from "react-markdown";
 import Link from "next/link";
-import gfm from "remark-gfm";
-import ReactTooltip from "react-tooltip";
-import { TwitterTimelineEmbed } from "react-twitter-embed";
-import { url } from "inspector";
-import axios from "axios";
+import ImageFallback from "react-image-fallback";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
 import { useRouter } from "next/router";
 
-export default function Page() {
+export default function Embed({ profile }) {
   const router = useRouter();
   const { username } = router.query;
   if (!username) return null;
-
-  const [profile, setProfile] = useState("");
-
-  useEffect(() => {
-    // GET request using axios inside useEffect React hook
-    axios
-      .get(`//${window.location.host}/api/profile/${username}`)
-      .then((response) => setProfile(response.data));
-
-    // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, [profile]);
 
   return (
     <>
@@ -54,11 +36,11 @@ export default function Page() {
         <meta property="image" content={`${profile.avatar}`} />
       </Head>
       <div
-        className="flex profilecont fullscreen"
+        className="profilecont fullscreen"
         style={{ backgroundImage: `url(${profile.background_url})` }}
       >
         <div className="avatarcont">
-          <img className="avatar" src={profile.avatar} />
+          <img className="avatar center mb-10" src={profile.avatar} />
         </div>
         <div className="info marginone">
           <h1 className="username">
@@ -69,7 +51,7 @@ export default function Page() {
           <p className="bio">{profile.bio}</p>
           <Link href={`https://libby.gg/${username}`}>
             <a target="_blank">
-              <button className="button embedbutton">View profile</button>
+              <button className="button embedbutton">View libby profile</button>
             </a>
           </Link>
         </div>
@@ -89,4 +71,30 @@ export default function Page() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { body, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .ilike("username", context.params.username)
+    .single();
+
+  const posts = await supabase
+    .from("vw_posts_with_user")
+    .select()
+    .ilike("username", context.params.username);
+
+  if (!body) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      profile: body,
+      posts: posts,
+    }, // will be passed to the page component as props
+  };
 }
