@@ -646,25 +646,29 @@ export default function UserPage({ profile, user, posts }) {
               <p className="bio">{profile.bio}</p>
             </div>
           </div>
-          <div
-            className="cards flex socialcont"
-            style={{ backgroundImage: `url(${profile.background_url})` }}
-          >
-            <div className="socials">
-              {twitter}
-              {instagram}
-              {github}
-              {makerlog}
-              {sunshine}
-              {glimesh}
-              {twitch}
-              {guilded}
-              {discord}
+          {profile.social && (
+            <div
+              className="cards flex socialcont"
+              style={{ backgroundImage: `url(${profile.background_url})` }}
+            >
+              <div className="socials">
+                {twitter}
+                {instagram}
+                {github}
+                {makerlog}
+                {sunshine}
+                {glimesh}
+                {twitch}
+                {guilded}
+                {discord}
+              </div>
             </div>
-          </div>
+          )}
+          <div className="flexsocial mt-10">{glimeshStats}</div>
           <div className="flex responsive">
-            <div className="flexsocial">{glimeshStats}</div>
-            <div className="cards donate center mr-10">{paypal}</div>
+            <div className="block">
+              <div className="cards donate center mr-10">{paypal}</div>
+            </div>
             <Tabs>
               <TabList>
                 <Tab>Posts</Tab>
