@@ -664,7 +664,7 @@ export default function UserPage({ profile, user, posts }) {
               </div>
             </div>
           )}
-          <div className="flexsocial mt-10">{glimeshStats}</div>
+          <div className="mt-4">{glimeshStats}</div>
           <div className="flex responsive">
             <div className="block">
               <div className="cards donate center mr-10">{paypal}</div>
