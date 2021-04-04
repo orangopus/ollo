@@ -1,6 +1,6 @@
 {
   "name": "libby",
-  "version": "1.0.0",
+  "version": "1.0.1a",
   "description": "Branded profiles for creators and beyond.",
   "main": "index.js",
   "scripts": {

@@ -52,7 +52,13 @@ export default function Index({ profile }) {
             <Link href="/dashboard">
               <button className="button">Get started</button>
             </Link>
-            <p className="tiny">libby is free forever!</p>
+            <div className="mt-4 mb-5">
+              <Link href="https://github.com/pluralui/libby">
+                <span className="live">
+                  Currently in early alpha! <b>We're also open-source!</b>
+                </span>
+              </Link>
+            </div>
             <div>
               <img
                 className="profile mainimage center"
@@ -126,9 +132,8 @@ export default function Index({ profile }) {
                 <div className="cards domains">
                   <a
                     className="none"
-                    href={`https://libby.gg/${
-                      profile.username ? profile.username : ""
-                    }`}
+                    href={`https://libby.gg/${profile.username ? profile.username : ""
+                      }`}
                   >
                     libby.gg/{profile.username}
                   </a>
@@ -142,9 +147,8 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://streamer.is/${
-                      profile.username ? profile.username : ""
-                    }`}
+                    href={`https://streamer.is/${profile.username ? profile.username : ""
+                      }`}
                   >
                     streamer.is/{profile.username}
                   </a>
@@ -159,9 +163,8 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://maker.direct/${
-                      profile.username ? profile.username : ""
-                    }`}
+                    href={`https://maker.direct/${profile.username ? profile.username : ""
+                      }`}
                   >
                     maker.direct/{profile.username}
                   </a>
@@ -175,9 +178,8 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://code.gdn/${
-                      profile.username ? profile.username : ""
-                    }`}
+                    href={`https://code.gdn/${profile.username ? profile.username : ""
+                      }`}
                   >
                     code.gdn/{profile.username}
                   </a>
@@ -192,9 +194,8 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://lists.surf/${
-                      profile.username ? profile.username : ""
-                    }`}
+                    href={`https://lists.surf/${profile.username ? profile.username : ""
+                      }`}
                   >
                     lists.surf/{profile.username}
                   </a>
