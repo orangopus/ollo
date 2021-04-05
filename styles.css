@@ -297,12 +297,17 @@ p {
   padding-bottom: 100px;
 }
 
+.properks {
+  display: block;
+}
+
 .proimage {
   max-height: 150px;
+  justify-content: center;
 }
 
 .probadge {
-  max-width: 100%;
+  max-width: 25%;
 }
 
 .cardtext {
@@ -421,6 +426,7 @@ ul {
 .procont {
   margin-left: 20% !important;
   margin-right: 20% !important;
+  display: block !important;
 }
 
 .sbui-typography,
