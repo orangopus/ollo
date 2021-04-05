@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { supabase } from "../utils/initSupabase";
-import Tilt from "react-parallax-tilt";
 import ReactTooltip from "react-tooltip";
 import ImageFallback from "react-image-fallback";
+import axios from "axios";
 
 export default function Index({ profile }) {
   return (
@@ -52,12 +52,17 @@ export default function Index({ profile }) {
             <Link href="/dashboard">
               <button className="button">Get started</button>
             </Link>
-            <div className="mt-4 mb-5">
-              <Link href="https://github.com/pluralui/libby">
-                <span className="live">
-                  Currently in early alpha! <b>We're also open-source!</b>
-                </span>
-              </Link>
+            <div className="mt-5 mb-5">
+              <span className="rounded-full bg-red-500 text-white py-2 px-6">
+                Currently in early alpha!{" "}
+                <a
+                  className="font-black"
+                  href="https://github.com/pluralui/libby"
+                  target="_blank"
+                >
+                  We're also open-source!
+                </a>
+              </span>
             </div>
             <div>
               <img
@@ -132,8 +137,9 @@ export default function Index({ profile }) {
                 <div className="cards domains">
                   <a
                     className="none"
-                    href={`https://libby.gg/${profile.username ? profile.username : ""
-                      }`}
+                    href={`https://libby.gg/${
+                      profile.username ? profile.username : ""
+                    }`}
                   >
                     libby.gg/{profile.username}
                   </a>
@@ -147,8 +153,9 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://streamer.is/${profile.username ? profile.username : ""
-                      }`}
+                    href={`https://streamer.is/${
+                      profile.username ? profile.username : ""
+                    }`}
                   >
                     streamer.is/{profile.username}
                   </a>
@@ -163,8 +170,9 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://maker.direct/${profile.username ? profile.username : ""
-                      }`}
+                    href={`https://maker.direct/${
+                      profile.username ? profile.username : ""
+                    }`}
                   >
                     maker.direct/{profile.username}
                   </a>
@@ -178,8 +186,9 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://code.gdn/${profile.username ? profile.username : ""
-                      }`}
+                    href={`https://code.gdn/${
+                      profile.username ? profile.username : ""
+                    }`}
                   >
                     code.gdn/{profile.username}
                   </a>
@@ -194,8 +203,9 @@ export default function Index({ profile }) {
                 <span className="cards domains">
                   <a
                     className="none"
-                    href={`https://lists.surf/${profile.username ? profile.username : ""
-                      }`}
+                    href={`https://lists.surf/${
+                      profile.username ? profile.username : ""
+                    }`}
                   >
                     lists.surf/{profile.username}
                   </a>
@@ -208,6 +218,7 @@ export default function Index({ profile }) {
             </span>
           </div>
         </div>
+        <div></div>
       </div>
     </div>
   );
@@ -215,6 +226,7 @@ export default function Index({ profile }) {
 
 export async function getServerSideProps() {
   const { body, error } = await supabase.from("profiles").select("*");
+
   if (!body) {
     return {
       notFound: true,

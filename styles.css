@@ -106,12 +106,18 @@ p {
 }
 
 .footersocial {
-  margin-right: 35px;
+  margin-left: 35px;
   font-size: 30px;
 }
 
 .footerlinks {
   padding: 20px;
+  font-size: 18px;
+}
+
+.orangopus {
+  color: #ff923e !important;
+  font-weight: bolder;
 }
 
 .heropadding {
