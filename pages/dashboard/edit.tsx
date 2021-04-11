@@ -27,6 +27,7 @@ export default function UserPage({ profile }) {
   const [guilded, setGuilded] = useState(profile.social.guilded);
   const [discord, setDiscord] = useState(profile.social.discord);
   const [html, setHTML] = useState(profile.html);
+  const [css, setCSS] = useState(profile.css);
   const [text, setText] = useState("Update");
   const [count, setCount] = useState(0);
 
@@ -45,6 +46,7 @@ export default function UserPage({ profile }) {
       .update({
         bio,
         html,
+        css,
         username,
         displayname,
         avatar,
@@ -167,13 +169,26 @@ export default function UserPage({ profile }) {
               <br />
               <br />
               <h1 className="edit">About</h1>
-              <p className="editsub">Markdown/HTML/CSS supported</p>
+              <p className="editsub">Markdown/HTML supported</p>
               <textarea
                 autoFocus
                 id="bio"
                 name="bio"
                 value={html}
                 onChange={(event) => setHTML(event.target.value)}
+                placeholder="..."
+                className="textarea"
+              />
+              <br />
+              <br />
+              <h1 className="edit">Custom CSS</h1>
+              <p className="editsub">Warning: Be careful.</p>
+              <textarea
+                autoFocus
+                id="bio"
+                name="bio"
+                value={css}
+                onChange={(event) => setCSS(event.target.value)}
                 placeholder="..."
                 className="textarea"
               />
@@ -327,6 +342,11 @@ export default function UserPage({ profile }) {
             </div>
           </div>
           <div className="container cards">
+            <style
+              dangerouslySetInnerHTML={{
+                __html: css,
+              }}
+            />
             <Markdown
               plugins={[gfm]}
               children={html}

@@ -622,6 +622,11 @@ export default function UserPage({ profile, user, posts }) {
       `,
         }}
       />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: profile.css,
+        }}
+      />
       <div>
         <div className="herocont padd userdetails">
           <div

@@ -112,14 +112,24 @@ export default function Nav(profiles) {
                   </button>
                 </Link>
               </Dropdown.Item>
-              <Dropdown.Item>
-                <Link href="/pro">
-                  <button className="buttonwhite probutton">
-                    <FontAwesomeIcon icon={["fas", "unlock-alt"]} /> upgrade to
-                    pro
-                  </button>
-                </Link>
-              </Dropdown.Item>
+              {profile.pro ? (
+                <Dropdown.Item>
+                  <Link href="/pro">
+                    <button className="buttonwhite probutton">
+                      <FontAwesomeIcon icon={["fas", "lock"]} /> manage pro
+                    </button>
+                  </Link>
+                </Dropdown.Item>
+              ) : (
+                <Dropdown.Item>
+                  <Link href="/pro">
+                    <button className="buttonwhite probutton">
+                      <FontAwesomeIcon icon={["fas", "unlock-alt"]} /> upgrade
+                      to pro
+                    </button>
+                  </Link>
+                </Dropdown.Item>
+              )}
               <hr className="sep" />
               <Dropdown.Item>
                 <button
