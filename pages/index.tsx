@@ -57,7 +57,7 @@ export default function Index({ profile }) {
                 Currently in early alpha!{" "}
                 <a
                   className="font-black"
-                  href="https://github.com/pluralui/libby"
+                  href="https://github.com/orangopus/libby"
                   target="_blank"
                 >
                   We're also open-source!
