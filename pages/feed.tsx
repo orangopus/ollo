@@ -53,6 +53,7 @@ export default function UserPage({ posts, user, profiles }) {
   const createPost = async (event) => {
     event.preventDefault();
     await supabase.from("posts").insert([{ content: post, user_id: user.id }]);
+    setPost("");
   };
 
   const formatDate = (date: string) => {
@@ -82,6 +83,7 @@ export default function UserPage({ posts, user, profiles }) {
                       <textarea
                         id="clearPost"
                         name="bio"
+                        value={post}
                         onChange={(event) => setPost(event.target.value)}
                         placeholder="What have you done today?"
                         className="textarea postinput"
