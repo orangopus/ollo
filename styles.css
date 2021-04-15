@@ -111,13 +111,16 @@ p {
 }
 
 .footerlinks {
-  padding: 20px;
+  margin-left: 25px;
   font-size: 18px;
 }
 
 .orangopus {
   color: #ff923e !important;
   font-weight: bolder;
+  max-height: 40px;
+  display: inline;
+  text-decoration: none !important;
 }
 
 .heropadding {

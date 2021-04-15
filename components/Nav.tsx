@@ -151,7 +151,7 @@ export default function Nav(profiles) {
     return (
       <nav className="navbar">
         <a className="navbar-brand" href="/">
-          <img className="logo" src="../logo.png" />
+          <img className="logo" src="../logo.svg" />
         </a>
         <form className="form-inline">
           <Link href="/feed">

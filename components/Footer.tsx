@@ -13,24 +13,19 @@ const Footer = () => {
       <footer className="footer">
         <div className="footercontainer navbar navpad">
           <div>
-            <Link href="https://plural.enterprises">
-              <a target="_blank">
-                <img className="plural" src="../plural.png" />
-              </a>
-            </Link>
             <p>
-              Plural is an open-source CIC subsidary of the{" "}
               <a
                 className="orangopus"
                 href="https://orangopus.com"
                 target="_blank"
               >
-                Orangopus Initiative
+                <img className="orangopus" src="../orangopus.png" /> Orangopus
+                Initiative
               </a>{" "}
               licensed under{" "}
               <a
                 className="font-black"
-                href="https://github.com/pluralui/libby/blob/main/LICENSE"
+                href="https://github.com/orangopus/libby/blob/main/LICENSE"
                 target="_blank"
               >
                 MIT
