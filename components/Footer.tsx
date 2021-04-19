@@ -59,7 +59,7 @@ const Footer = () => {
             <a
               target="_blank"
               className="footerlinks"
-              href="https://github.com/pluralui/libby"
+              href="https://github.com/orangopus/libby"
             >
               Open-source ❤️
             </a>
