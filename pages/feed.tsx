@@ -11,6 +11,7 @@ import Markdown from "react-markdown";
 import gfm from "remark-gfm";
 import Link from "next/link";
 import Head from "next/head";
+import ImageFallback from "react-image-fallback";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -129,10 +130,11 @@ export default function UserPage({ posts, user, profiles }) {
                                   profile.username ? profile.username : ""
                                 }`}
                               >
-                                <img
+                                <ImageFallback
                                   data-tip
                                   data-for={profile.username}
                                   className="avatar avatar3"
+                                  fallbackImage="avatar.png"
                                   src={profile.avatar}
                                 />
                               </a>
@@ -148,7 +150,13 @@ export default function UserPage({ posts, user, profiles }) {
                   <div className="flex">
                     <div className="avatarcont ml-0 mr-0">
                       <a href={`/${post.username}`}>
-                        <img className="avatar avatar2" src={post.avatar} />
+                        <ImageFallback
+                          data-tip
+                          data-for={post.username}
+                          className="avatar avatar2"
+                          fallbackImage="avatar.png"
+                          src={post.avatar}
+                        />
                       </a>
                     </div>
                     <div className="info ml-4">

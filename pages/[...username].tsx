@@ -17,6 +17,7 @@ import { url } from "inspector";
 import axios from "axios";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import React from "react";
+import ImageFallback from "react-image-fallback";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -634,7 +635,13 @@ export default function UserPage({ profile, user, posts }) {
             style={{ backgroundImage: `url(${profile.background_url})` }}
           >
             <div className="center avatarcont">
-              <img className="avatar center" src={profile.avatar} />
+              <ImageFallback
+                data-tip
+                data-for={profile.username}
+                className="avatar center"
+                fallbackImage="avatar.png"
+                src={profile.avatar}
+              />
             </div>
             <div className="info mt-4">
               <h1 className="username">
