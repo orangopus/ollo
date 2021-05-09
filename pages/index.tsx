@@ -9,16 +9,17 @@ export default function Index({ profile }) {
   return (
     <div>
       <Head>
-        <title>libby</title>
+        <title>Libby | Home</title>
       </Head>
       <div className="herocont">
         <div className="row heropadding">
           <div className="center">
-            <p className="herotext text-center">Branded profiles for anyone.</p>
-            <p className="text padding text-center">
-              "It's like MySpace 2!" - Matty
+            <p className="herotext text-center">Library Of Your Content.</p>
+            <p className="blurb padding text-center mb-4">
+              With powerful customization tools and a time-based feed, Libby is
+              the only page you need.
             </p>
-            <div className="justify-center center flex">
+            <div className="justify-center center flex mr-8">
               {profile
                 .filter((n) => n.username)
                 .sort(() => Math.random() - Math.random())
@@ -50,7 +51,7 @@ export default function Index({ profile }) {
                 ))}
             </div>
             <Link href="/dashboard">
-              <button className="button">Get started</button>
+              <button className="button">GET STARTED</button>
             </Link>
             <div className="mt-5 mb-5">
               <span className="rounded-full bg-red-500 text-white py-2 px-6">
@@ -64,26 +65,12 @@ export default function Index({ profile }) {
                 </a>
               </span>
             </div>
+
             <div>
               <img
                 className="profile mainimage center"
                 src="libby-profile-page.png"
               />
-            </div>
-
-            <div className="producthunt justify-center ">
-              <a
-                href="https://www.producthunt.com/posts/libbybio?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-libbybio"
-                target="_blank"
-              >
-                <img
-                  className="center"
-                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=285339&theme=dark"
-                  alt="libbybio - Branded profiles for creators and beyond. | Product Hunt"
-                  width="250"
-                  height="54"
-                />
-              </a>
             </div>
           </div>
         </div>

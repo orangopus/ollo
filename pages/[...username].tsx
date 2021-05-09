@@ -598,11 +598,11 @@ export default function UserPage({ profile, user, posts }) {
   return (
     <>
       <Head>
-        <title>{profile.username} | libby</title>
+        <title>{profile.username} | Libby</title>
         <link rel="icon" type="image/png" href={profile.avatar}></link>
         <meta
           property="title"
-          content={`${profile.username}'s Profile | libby`}
+          content={`${profile.username}'s Profile | Libby`}
         />
         <meta property="description" content={`${profile.bio}`} />
         <meta

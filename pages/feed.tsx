@@ -10,6 +10,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Markdown from "react-markdown";
 import gfm from "remark-gfm";
 import Link from "next/link";
+import Head from "next/head";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -70,6 +71,9 @@ export default function UserPage({ posts, user, profiles }) {
 
   return (
     <>
+      <Head>
+        <title>Feed | Libby</title>
+      </Head>
       <div>
         <div className="herocont padd2 postsfeed">
           <div>

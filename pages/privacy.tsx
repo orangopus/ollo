@@ -5,7 +5,7 @@ export default function Index() {
   return (
     <div>
       <Head>
-        <title>libby - privacy policy</title>
+        <title>Libby | Privacy Policy</title>
       </Head>
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px" }}>

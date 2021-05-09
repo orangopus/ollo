@@ -52,12 +52,13 @@ p {
 .buttonwhite {
   padding: 10px 25px;
   margin-right: 20px;
-  border-radius: 50px;
+  border-radius: 10px;
   font-size: 25px;
   border: none;
   font-weight: bolder;
   font-family: Quicksand;
   cursor: pointer;
+  text-transform: uppercase;
   background: transparent;
   color: #fff;
 }
@@ -884,7 +885,7 @@ img {
 
 .button {
   padding: 10px 25px;
-  border-radius: 50px;
+  border-radius: 10px;
   font-size: 25px;
   border: none;
   font-weight: bolder;
@@ -893,6 +894,7 @@ img {
   cursor: pointer;
   background: #ffffff;
   color: #212121;
+  text-transform: uppercase;
 }
 
 .button:focus {
@@ -936,10 +938,17 @@ input {
 }
 
 .herotext {
-  font-size: 47px;
+  font-size: 70px;
   font-weight: bolder;
   text-align: left;
   margin-top: 50px;
+}
+
+.blurb {
+  font-size: 30px;
+  font-weight: bold;
+  width: 60%;
+  margin: auto;
 }
 
 .herotext2 {

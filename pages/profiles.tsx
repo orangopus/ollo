@@ -21,7 +21,7 @@ export default function Index({ profile }) {
   return (
     <div>
       <Head>
-        <title>libby Profiles</title>
+        <title>Profiles | Libby</title>
       </Head>
       <div className="profilescont">
         <h1 className="text-3xl font-bold">

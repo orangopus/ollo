@@ -5,7 +5,7 @@ export default function Index() {
   return (
     <div>
       <Head>
-        <title>libby Pro</title>
+        <title>Libby Pro</title>
       </Head>
       <div className="row herocont">
         <div className="center">
