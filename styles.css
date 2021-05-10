@@ -1065,7 +1065,6 @@ li {
 input {
   background: none;
   border: 0 !important;
-  width: unset !important;
 }
 
 .avatar {
