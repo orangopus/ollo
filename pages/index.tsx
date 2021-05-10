@@ -12,7 +12,7 @@ export default function Index({ profile }) {
         <title>Libby | Home</title>
       </Head>
       <div className="herocont">
-        <div className="row heropadding">
+        <div className="row heropadding herobg">
           <div className="center">
             <p className="herotext text-center">Library Of Your Content.</p>
             <p className="blurb padding text-center mb-4">

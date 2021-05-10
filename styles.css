@@ -1,7 +1,7 @@
 body {
   font-family: "Quicksand" !important;
   margin: 0;
-  background: #212121 !important;
+  background: #111111 !important;
   overflow-x: hidden;
   zoom: 75%;
 }
@@ -81,7 +81,7 @@ p {
   width: 100%;
   margin: 0;
   line-height: 60px;
-  background: #121212;
+  background: #0e0e0e;
   padding: 50px 0;
 }
 
@@ -134,10 +134,15 @@ p {
   height: fit-content;
 }
 
+.herobg {
+  background-image: url("https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/sign/uploads/magic-pattern-geometric-1620664953241.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ1cGxvYWRzL21hZ2ljLXBhdHRlcm4tZ2VvbWV0cmljLTE2MjA2NjQ5NTMyNDEucG5nIiwiaWF0IjoxNjIwNjY1MDI2LCJleHAiOjE5MzYwMjUwMjZ9.up1i4crV7CcfYtGKxBXfYVA3wpB3AI6JXVBXHvQWbVs") !important;
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
 .cards {
-  background: #121212;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
-  border-radius: 25px;
+  background: #0c0c0c;
+  border-radius: 10px;
   margin-top: 30px;
   padding: 30px;
   color: #fff;
@@ -378,6 +383,7 @@ ul {
 .mainimage {
   border-radius: 25px;
   box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25);
+  max-width: 1125px;
 }
 
 .sbui-card {
@@ -443,8 +449,7 @@ a.sbui-typography,
 }
 
 .domains {
-  background: #1f1f1f;
-  box-shadow: 0px 4px 49px rgba(0, 0, 0, 0.25);
+  background: #0c0c0c;
   border-radius: 100px;
   width: fit-content;
   font-family: Quicksand;
@@ -1003,11 +1008,10 @@ input {
 
 .profilecont {
   padding: 28px;
-  border-radius: 25px;
+  border-radius: 10px;
   display: block;
   text-align: center;
-  background: #121212;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.07);
+  background: #0c0c0c;
   background-size: cover;
 }
 
