@@ -9,7 +9,7 @@ export default function Index({ profile }) {
   return (
     <div>
       <Head>
-        <title>Libby | Home</title>
+        <title>Libby | Library Of Your Content.</title>
       </Head>
       <div className="herocont">
         <div className="row heropadding herobg">
