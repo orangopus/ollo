@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fas, faSatelliteDish } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../../utils/initSupabase";
 import Link from "next/link";
 import Markdown from "react-markdown";
 import gfm from "remark-gfm";
+import EdiText from "react-editext";
 
 library.add(fab, fas);
 
@@ -15,6 +16,7 @@ export default function UserPage({ profile }) {
   const [username, setUsername] = useState(profile.username);
   const [displayname, setDisplayName] = useState(profile.displayname);
   const [avatar, setAvatar] = useState(profile.avatar);
+  const [paypal, setPayPal] = useState(profile.paypal);
   const [background, setBackground] = useState(profile.background_url);
   const [backgroundURL, setBackgroundURL] = useState(profile.background);
   const [twitter, setTwitter] = useState(profile.social.twitter);
@@ -39,17 +41,45 @@ export default function UserPage({ profile }) {
     return () => clearInterval(interval);
   }, []);
 
+  const updateDisplayName = async (displayname) => {
+    setDisplayName(displayname);
+    await supabase
+      .from("profiles")
+      .update({
+        displayname,
+      })
+      .eq("id", profile.id);
+  };
+
+  const updateUsername = async (username) => {
+    setUsername(username);
+    await supabase
+      .from("profiles")
+      .update({
+        username,
+      })
+      .eq("id", profile.id);
+  };
+
+  const updateBio = async (bio) => {
+    setBio(bio);
+    await supabase
+      .from("profiles")
+      .update({
+        bio,
+      })
+      .eq("id", profile.id);
+  };
+
   const updateProfile = async (event) => {
     event.preventDefault();
     await supabase
       .from("profiles")
       .update({
-        bio,
         html,
         css,
-        username,
-        displayname,
         avatar,
+        paypal,
         background: backgroundURL,
         background_url: background,
         social: {
@@ -126,48 +156,6 @@ export default function UserPage({ profile }) {
                 className="input"
               />
               <br />
-              <h1 className="edit">Display Name</h1>
-              <input
-                autoFocus
-                id="bio"
-                name="bio"
-                value={displayname}
-                onChange={(event) => setDisplayName(event.target.value)}
-                type="text"
-                placeholder="Change your display name..."
-                className="input"
-              />
-              <br />
-              <h1 className="edit">Username</h1>
-              <input
-                autoFocus
-                id="bio"
-                name="bio"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                type="text"
-                placeholder="Change your username..."
-                required
-                className="input"
-              />
-              <br />
-              <h1 className="edit">Bio</h1>
-              <p className="editsub">125 characters</p>
-              <textarea
-                autoFocus
-                id="bio"
-                name="bio"
-                value={bio}
-                maxLength={125}
-                onChange={(event) => {
-                  setBio(event.target.value);
-                  setCount(event.target.value.length);
-                }}
-                placeholder="Change your bio..."
-                className="textarea"
-              />
-              <br />
-              <br />
               <h1 className="edit">About</h1>
               <p className="editsub">Markdown/HTML supported</p>
               <textarea
@@ -194,6 +182,20 @@ export default function UserPage({ profile }) {
               />
               <br />
               <br />
+              <h1 className="edit">Donations</h1>
+              <p className="editsub">
+                Please note your PayPal email will be public in the API.
+              </p>
+              <input
+                autoFocus
+                id="bio"
+                name="bio"
+                value={paypal}
+                onChange={(event) => setPayPal(event.target.value)}
+                type="text"
+                placeholder="PayPal email..."
+                className="input"
+              />
               <h1 className="edit">Twitter</h1>
               <input
                 autoFocus
@@ -328,10 +330,39 @@ export default function UserPage({ profile }) {
             </div>
             <div className="info mt-4">
               <h1 className="username">
-                {displayname ? displayname : username}{" "}
-                <span className="handle">@{username}</span>
+                <EdiText
+                  value={displayname}
+                  onSave={updateDisplayName}
+                  editOnViewClick={true}
+                  type="text"
+                  editContainerClassName="editflex"
+                  mainContainerClassName="editflex"
+                  viewContainerClassName="editflex"
+                />
+                <span className="handle">
+                  @
+                  <EdiText
+                    value={username}
+                    onSave={updateUsername}
+                    editOnViewClick={true}
+                    type="text"
+                    editContainerClassName="editflex"
+                    mainContainerClassName="editflex"
+                    viewContainerClassName="editflex"
+                  />
+                </span>
               </h1>
-              <p className="bio">{bio}</p>
+              <p className="bio">
+                <EdiText
+                  value={bio}
+                  onSave={updateBio}
+                  editOnViewClick={true}
+                  type="textarea"
+                  editContainerClassName="bio"
+                  mainContainerClassName="bio"
+                  viewContainerClassName="bio"
+                />
+              </p>
               <div className="profilelink">
                 <Link href={`/${username}`}>
                   <a target="_blank">

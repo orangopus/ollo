@@ -585,6 +585,30 @@ a.sbui-typography,
   text-align: center;
 }
 
+.styles-module_Editext__button__sxYQX {
+  outline: none;
+  padding: 0 !important;
+  min-width: 30px;
+  height: 100%;
+  border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  border-style: solid;
+  border-width: 0px !important;
+  color: white !important;
+}
+
+.styles-module_Editext__button__sxYQX:hover {
+  background: none !important;
+}
+
+.styles-module_Editext__input__2-M50 {
+  background: none !important;
+  font-weight: bolder;
+}
+
+.editflex {
+  display: inline-flex !important;
+}
+
 .buttonmargin {
   margin: 20px;
 }
@@ -1036,6 +1060,12 @@ li {
   text-overflow: ellipsis;
   display: block;
   width: 40vw;
+}
+
+input {
+  background: none;
+  border: 0 !important;
+  width: unset !important;
 }
 
 .avatar {
