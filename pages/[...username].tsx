@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -26,6 +27,8 @@ export default function UserPage({ profile, user, posts }) {
   if (profile.html === null) {
     profile.html = "";
   }
+
+  const session = supabase.auth.session();
 
   const [glimeshHTML, setGlimeshHTML] = useState([]);
   const [glimeshTitle, setGlimeshTitle] = useState([]);
@@ -66,6 +69,23 @@ export default function UserPage({ profile, user, posts }) {
         return orderID;
       });
   }
+
+  useEffect(() => {
+    // subscription
+    supabase
+      .from("vw_posts_with_user")
+      .on("*", (_payload) => {
+        refreshData();
+      })
+      .subscribe();
+  }, []);
+
+  const router = useRouter();
+  // Call this function whenever you want to
+  // refresh props!
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   function onChange({ target: { value } }) {
     setAmount(value);
@@ -544,6 +564,15 @@ export default function UserPage({ profile, user, posts }) {
     );
   }
 
+  const deletePost = async (postID) => {
+    await supabase
+      .from("posts")
+      .delete()
+      .match({ id: `${postID}` });
+
+    refreshData();
+  };
+
   const formatDate = (date: string) => {
     return dayjs().to(dayjs(date));
   };
@@ -712,6 +741,21 @@ export default function UserPage({ profile, user, posts }) {
                           </p>
                         </div>
                       </div>
+                      <div>
+                        {session &&
+                          (session.user.id === post.user_id ? (
+                            <>
+                              <button
+                                onClick={() => deletePost(post.id)}
+                                className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
+                              >
+                                DELETE
+                              </button>
+                            </>
+                          ) : (
+                            <p></p>
+                          ))}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -749,7 +793,7 @@ export default function UserPage({ profile, user, posts }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context, req) {
   const { body, error } = await supabase
     .from("profiles")
     .select("*")

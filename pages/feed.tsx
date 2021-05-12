@@ -58,16 +58,15 @@ export default function UserPage({ posts, user, profiles }) {
     setPost("");
   };
 
-  const formatDate = (date: string) => {
-    return dayjs().to(dayjs(date));
+  const deletePost = async (postID) => {
+    await supabase
+      .from("posts")
+      .delete()
+      .match({ id: `${postID}` });
   };
 
-  const UserActions = () => {
-    if (user.id === posts.id) {
-      return <span>Test</span>;
-    } else {
-      return null;
-    }
+  const formatDate = (date: string) => {
+    return dayjs().to(dayjs(date));
   };
 
   return (
@@ -172,6 +171,20 @@ export default function UserPage({ posts, user, profiles }) {
                         <Markdown plugins={[gfm]} children={post.content} />
                       </p>
                     </div>
+                  </div>
+                  <div>
+                    {post.user_id === user.id ? (
+                      <>
+                        <button
+                          onClick={() => deletePost(post.id)}
+                          className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
+                        >
+                          DELETE
+                        </button>
+                      </>
+                    ) : (
+                      <p></p>
+                    )}
                   </div>
                 </div>
               ))}
