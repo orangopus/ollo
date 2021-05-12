@@ -12,6 +12,7 @@ import gfm from "remark-gfm";
 import Link from "next/link";
 import Head from "next/head";
 import ImageFallback from "react-image-fallback";
+import EdiText from "react-editext";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -20,6 +21,7 @@ export default function UserPage({ posts, user, profiles }) {
   const [post, setPost] = useState(posts.content);
   const session = supabase.auth.session();
   const [profile, setProfile] = useState([]);
+  const [edit, editPost] = useState([]);
 
   const router = useRouter();
   // Call this function whenever you want to
@@ -56,6 +58,15 @@ export default function UserPage({ posts, user, profiles }) {
     event.preventDefault();
     await supabase.from("posts").insert([{ content: post, user_id: user.id }]);
     setPost("");
+  };
+
+  const editPosts = async (edit, editID) => {
+    await supabase
+      .from("posts")
+      .update({
+        content: edit,
+      })
+      .eq("id", editID);
   };
 
   const deletePost = async (postID) => {
@@ -168,23 +179,48 @@ export default function UserPage({ posts, user, profiles }) {
                       </h1>
 
                       <p className="postcontent">
-                        <Markdown plugins={[gfm]} children={post.content} />
+                        {session &&
+                          (user.id === post.user_id ? (
+                            <>
+                              <EdiText
+                                key={post.id}
+                                value={post.content}
+                                onSave={(value) => editPosts(value, post.id)}
+                                submitOnEnter
+                                type="textarea"
+                                renderValue={(value) => {
+                                  return (
+                                    <Markdown
+                                      plugins={[gfm]}
+                                      children={post.content}
+                                    />
+                                  );
+                                }}
+                              />
+                            </>
+                          ) : (
+                            <Markdown plugins={[gfm]} children={post.content} />
+                          ))}
+                        {session === null && (
+                          <Markdown plugins={[gfm]} children={post.content} />
+                        )}
                       </p>
                     </div>
                   </div>
                   <div>
-                    {post.user_id === user.id ? (
-                      <>
-                        <button
-                          onClick={() => deletePost(post.id)}
-                          className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
-                        >
-                          DELETE
-                        </button>
-                      </>
-                    ) : (
-                      <p></p>
-                    )}
+                    {session &&
+                      (session.user.id === post.user_id ? (
+                        <>
+                          <button
+                            onClick={() => deletePost(post.id)}
+                            className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
+                          >
+                            DELETE
+                          </button>
+                        </>
+                      ) : (
+                        <p></p>
+                      ))}
                   </div>
                 </div>
               ))}
