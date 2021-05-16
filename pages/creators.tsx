@@ -21,18 +21,18 @@ export default function Index({ profile }) {
   return (
     <div>
       <Head>
-        <title>Profiles | Libby</title>
+        <title>Creators | Libby</title>
       </Head>
       <div className="profilescont">
         <h1 className="text-3xl font-bold">
-          Profiles{" "}
+          Creators{" "}
           <span className="verified">
             {searchResults.filter((n) => n.username).length}
           </span>
         </h1>
         <input
           className="cards search"
-          placeholder="Search for a profile..."
+          placeholder="Search for a creator..."
           value={searchTerm}
           onChange={handleChange}
         ></input>

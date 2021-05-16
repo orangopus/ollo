@@ -20,7 +20,6 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Libby</title>
         <link rel="icon" type="image/png" href="favicon.png"></link>
       </Head>
       <Nav />

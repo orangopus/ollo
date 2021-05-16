@@ -17,7 +17,7 @@ export default function Index({ profile }) {
             <p className="herotext text-center">Library Of Your Content.</p>
             <p className="blurb padding text-center mb-4">
               With powerful customization tools and a time-based feed, Libby is
-              the only page you need.
+              the only page you need for creators.
             </p>
             <div className="justify-center center flex mr-8">
               {profile
@@ -84,30 +84,6 @@ export default function Index({ profile }) {
               Featuring Live Cards and About Sync.
             </p>
             <img className="profile center" src="glimesh-integration.png" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="container text-center">
-            <h1 className="h1">
-              Post Integrations <span className="live">COMING SOON</span>
-            </h1>
-            <p className="text padding text-center">
-              Organise your social media in a clean posts tab.
-            </p>
-            <img className="profile center" src="postintegrations.png" />
-            <img className="profile center" src="tweets.png" />
-          </div>
-        </div>
-        <div className="row">
-          <div className="container text-center">
-            <h1 className="h1">
-              Schedules <span className="live">COMING SOON</span>
-            </h1>
-            <p className="text padding text-center">
-              A nice looking schedule for your profile.
-            </p>
-
-            <img className="profile schedule center" src="schedule.png" />
           </div>
         </div>
         <div className="row padd">

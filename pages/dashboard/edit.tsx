@@ -118,7 +118,7 @@ export default function UserPage({ profile }) {
         <div className="herocont padd">
           <div className="cards">
             <form onSubmit={updateProfile}>
-              <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
+              <h1 className="text-2xl font-bold mb-4">Edit Creator</h1>
               <hr />
               <h1 className="edit">Avatar URL</h1>
               <input
@@ -366,7 +366,7 @@ export default function UserPage({ profile }) {
               <div className="profilelink">
                 <Link href={`/${username}`}>
                   <a target="_blank">
-                    <button className="button">View profile</button>
+                    <button className="button">View creator</button>
                   </a>
                 </Link>
               </div>

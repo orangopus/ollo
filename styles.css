@@ -16,6 +16,10 @@ p {
   transform: translate(-243px, 97px) !important;
 }
 
+.navicon {
+  margin-right: 0.5em;
+}
+
 .react-tabs__tab {
   display: inline-block;
   position: relative;

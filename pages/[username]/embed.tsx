@@ -51,7 +51,7 @@ export default function Embed({ profile }) {
           <p className="bio">{profile.bio}</p>
           <Link href={`https://libby.gg/${username}`}>
             <a target="_blank">
-              <button className="button embedbutton">View libby profile</button>
+              <button className="button embedbutton">View libby creator</button>
             </a>
           </Link>
         </div>

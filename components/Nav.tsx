@@ -86,10 +86,16 @@ export default function Nav(profiles) {
         </a>
         <form className="form-inline">
           <Link href="/feed">
-            <button className="buttonwhite">feed</button>
+            <button className="buttonwhite">
+              <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
+              feed
+            </button>
           </Link>
-          <Link href="/profiles">
-            <button className="buttonwhite">profiles</button>
+          <Link href="/creators">
+            <button className="buttonwhite">
+              <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
+              creators
+            </button>
           </Link>
           <Dropdown>
             <Dropdown.Toggle variant="success">
@@ -100,7 +106,7 @@ export default function Nav(profiles) {
               <Dropdown.Item>
                 <Link href={`/${profile.username}`}>
                   <button className="buttonwhite">
-                    <FontAwesomeIcon icon={["fas", "eye"]} /> view profile
+                    <FontAwesomeIcon icon={["fas", "eye"]} /> view creator
                   </button>
                 </Link>
               </Dropdown.Item>
@@ -108,7 +114,7 @@ export default function Nav(profiles) {
                 <Link href="/dashboard/edit">
                   <button className="buttonwhite">
                     <FontAwesomeIcon icon={["fas", "paint-brush"]} /> edit
-                    profile
+                    creator
                   </button>
                 </Link>
               </Dropdown.Item>
@@ -155,10 +161,16 @@ export default function Nav(profiles) {
         </a>
         <form className="form-inline">
           <Link href="/feed">
-            <button className="buttonwhite">feed</button>
+            <button className="buttonwhite">
+              <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
+              feed
+            </button>
           </Link>
-          <Link href="/profiles">
-            <button className="buttonwhite">profiles</button>
+          <Link href="/creators">
+            <button className="buttonwhite">
+              <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
+              creators
+            </button>
           </Link>
           <Link href="/dashboard">
             <button className="button">login</button>
