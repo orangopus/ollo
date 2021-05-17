@@ -1093,6 +1093,7 @@ input {
 
 .-my-14 {
   margin-top: -3.5rem;
+  margin-bottom: -2rem;
 }
 
 .object-cover {
@@ -1101,6 +1102,11 @@ input {
 
 .h-full {
   height: 100%;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
 .username2 {
