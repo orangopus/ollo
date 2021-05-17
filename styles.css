@@ -1095,6 +1095,14 @@ input {
   margin-top: -3.5rem;
 }
 
+.object-cover {
+  object-fit: cover;
+}
+
+.h-full {
+  height: 100%;
+}
+
 .username2 {
   font-size: 32px !important;
 }
