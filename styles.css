@@ -20,6 +20,10 @@ p {
   margin-right: 0.5em;
 }
 
+.paddingnone {
+  padding: 0 !important;
+}
+
 .react-tabs__tab {
   display: inline-block;
   position: relative;
@@ -1087,8 +1091,19 @@ input {
   height: 130px;
 }
 
+.avatarcreator {
+  box-shadow: none;
+  border: 15px solid#0c0c0c;
+  box-sizing: border-box;
+  background: #0c0c0c;
+}
+
+.username2 {
+  font-size: 32px !important;
+}
+
 .grow {
-  height: 450px;
+  height: 750px;
   transition: all 0.2s ease-in-out;
 }
 
