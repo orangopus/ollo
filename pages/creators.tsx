@@ -56,7 +56,7 @@ export default function Index({ profile }) {
                         src={profile.background_url}
                       />
                     </div>
-                    <div className="relative shadow h-25 w-25 -my-14 -my-1 ml-4">
+                    <div className="relative shadow h-25 w-25 -my-14 ml-5">
                       <ImageFallback
                         data-tip
                         data-for={profile.username}
