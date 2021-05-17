@@ -1091,13 +1091,6 @@ input {
   height: 130px;
 }
 
-.avatarcreator {
-  box-shadow: none;
-  border: 15px solid#0c0c0c;
-  box-sizing: border-box;
-  background: #0c0c0c;
-}
-
 .username2 {
   font-size: 32px !important;
 }
