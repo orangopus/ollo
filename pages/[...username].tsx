@@ -793,28 +793,18 @@ export default function UserPage({ profile, user, posts }) {
   );
 }
 
-export async function getServerSideProps(context, req) {
+UserPage.getInitialProps = async (ctx) => {
+  const { query } = ctx;
   const { body, error } = await supabase
     .from("profiles")
     .select("*")
-    .ilike("username", context.params.username)
+    .ilike("username", query.username)
     .single();
 
   const posts = await supabase
     .from("vw_posts_with_user")
     .select()
-    .ilike("username", context.params.username);
+    .ilike("username", query.username);
 
-  if (!body) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return {
-    props: {
-      profile: body,
-      posts: posts,
-    }, // will be passed to the page component as props
-  };
-}
+  return { profile: body, posts: posts };
+};
