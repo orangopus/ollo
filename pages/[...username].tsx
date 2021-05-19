@@ -19,6 +19,7 @@ import axios from "axios";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import React from "react";
 import ImageFallback from "react-image-fallback";
+import { HeaderController } from "../utils/HeaderController";
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -627,20 +628,11 @@ export default function UserPage({ profile, user, posts }) {
 
   return (
     <>
-      <Head>
-        <title>{profile.username} | Libby</title>
-        <link rel="icon" type="image/png" href={profile.avatar}></link>
-        <meta
-          property="title"
-          content={`${profile.username}'s Profile | Libby`}
-        />
-        <meta property="description" content={`${profile.bio}`} />
-        <meta
-          property="url"
-          content={`${window.location.host}/${profile.username}`}
-        />
-        <meta property="image" content={`${profile.avatar}`} />
-      </Head>
+      <HeaderController
+        title={profile.username}
+        embed={{ image: profile.avatar }}
+        description={profile.bio ? profile.bio : undefined}
+      />
       <style
         dangerouslySetInnerHTML={{
           __html: `
