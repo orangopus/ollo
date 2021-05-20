@@ -25,7 +25,7 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
         name="keywords"
         content={`Libby, ${additionalKeywords?.map((k) => `, ${k}`)}`}
       />
-      <meta name="theme-color" content={embed?.hexColor || "#EFE7DD"} />
+      <meta name="theme-color" content={embed?.hexColor || "#FFFFFF"} />
       {embed ? (
         <>
           <meta name="og:title" content={title || "Libby"} />

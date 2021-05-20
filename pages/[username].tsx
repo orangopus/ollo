@@ -626,13 +626,30 @@ export default function UserPage({ profile, user, posts }) {
     profile.social = "";
   }
 
+  const encodedDisplayname = encodeURI(profile.displayname);
+  const encodedAvatar = encodeURI(profile.avatar);
+  const encodedBio = encodeURI(profile.bio);
+
   return (
     <>
       <HeaderController
-        title={profile.username}
+        title={profile.displayname}
         embed={{ image: profile.avatar }}
         description={profile.bio ? profile.bio : undefined}
       />
+      <Head>
+        <meta
+          property="og:image"
+          content={`https://api.placid.app/u/lf8kbnviy?&bio[text]=${encodedBio}&avatar[image]=${encodedAvatar}&displayname[text]=${encodedDisplayname}`}
+        />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:width" content="1200" />
+        <meta
+          property="twitter:image"
+          content={`https://api.placid.app/u/lf8kbnviy?&bio[text]=${encodedBio}&avatar[image]=${encodedAvatar}&displayname[text]=${encodedDisplayname}`}
+        />
+        <meta name="twitter:card" content="summary_large_image"></meta>
+      </Head>
       <style
         dangerouslySetInnerHTML={{
           __html: `
