@@ -1,4 +1,5 @@
-# Libby
+
+![github-banner](https://user-images.githubusercontent.com/45247477/149642872-1c7fa574-a101-4973-8419-68a836d64055.png)
 
 Branded profiles for creators and beyond.
 
@@ -17,10 +18,6 @@ Branded profiles for creators and beyond.
 - [ ] Schedules (Google Calendar integration, maybe)
 - [ ] Donations (Streamlabs, StreamElements, TipeeeStream integration)
 - [ ] ~~Glimesh~~, Twitch, Dlive, Trovo integration
-
-## Example Page
-
-![](https://libby.gg/libby-profile-page.png)
 
 ## Attributions
 
