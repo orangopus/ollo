@@ -16,7 +16,7 @@ const Footer = () => {
             <p>
               <a
                 className="orangopus"
-                href="https://orangopus.com"
+                href="https://orangopus.org"
                 target="_blank"
               >
                 <img className="orangopus" src="../orangopus.png" /> Orangopus
@@ -25,7 +25,7 @@ const Footer = () => {
               licensed under{" "}
               <a
                 className="font-black"
-                href="https://github.com/orangopus/libby/blob/main/LICENSE"
+                href="https://github.com/orangopus/ollo/blob/main/LICENSE"
                 target="_blank"
               >
                 MIT
@@ -36,44 +36,44 @@ const Footer = () => {
           <div>
             <a
               className="footersocial"
-              href={`https://twitter.com/libbybio`}
+              href={`https://twitter.com/ollofyi`}
               target="_blank"
             >
               <FontAwesomeIcon icon={["fab", "twitter"]} />
             </a>
             <a
               className="footersocial"
-              href={`https://guilded.gg/Orangopus`}
+              href={`https://orangop.us/discord`}
               target="_blank"
             >
-              <FontAwesomeIcon icon={["fab", "guilded"]} />
+              <FontAwesomeIcon icon={["fab", "discord"]} />
             </a>
           </div>
         </div>
         <hr className="footersep" />
         <div className="footercontainer navbar navpad">
           <a className="navbar-brand" href="/">
-            <img className="small" src="../logosmall.png" />
+            <img className="small" src="../logo.svg" />
           </a>
           <form className="form-inline">
             <a
               target="_blank"
               className="footerlinks"
-              href="https://github.com/orangopus/libby"
+              href="https://github.com/orangopus/ollo"
             >
               Open-source ❤️
             </a>
             <a
               target="_blank"
               className="footerlinks"
-              href="https://status.orangopus.com"
+              href="https://status.orangopus.org"
             >
               Status
             </a>
             <a
               target="_blank"
               className="footerlinks"
-              href="https://feedback.orangopus.com/libby"
+              href="https://feedback.orangopus.org/ollo"
             >
               Feedback
             </a>

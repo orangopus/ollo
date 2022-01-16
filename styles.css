@@ -1,7 +1,7 @@
 body {
   font-family: "Quicksand" !important;
   margin: 0;
-  background: #111111 !important;
+  background: #1A2235 !important;
   overflow-x: hidden;
   zoom: 75%;
 }
@@ -81,7 +81,7 @@ p {
 }
 
 .small {
-  max-width: 25px;
+  max-width: 85px;
 }
 
 .footer {
@@ -89,7 +89,7 @@ p {
   width: 100%;
   margin: 0;
   line-height: 60px;
-  background: #0e0e0e;
+  background: #141A27;
   padding: 50px 0;
 }
 
@@ -149,7 +149,7 @@ p {
 }
 
 .cards {
-  background: #0c0c0c;
+  background: #141A27;
   border-radius: 10px;
   margin-top: 30px;
   padding: 30px;
@@ -177,6 +177,13 @@ p {
   line-height: 1px;
   cursor: pointer;
   vertical-align: middle;
+}
+
+.organised {
+  color: #000;
+  background: #fff;
+  border-radius: 10px;
+  padding: 5px 20px;
 }
 
 .staff {
@@ -457,7 +464,7 @@ a.sbui-typography,
 }
 
 .domains {
-  background: #0c0c0c;
+  background: #141A27;
   border-radius: 100px;
   width: fit-content;
   font-family: Quicksand;
@@ -496,7 +503,6 @@ a.sbui-typography,
 }
 
 .created {
-  background-image: url("https://i.imgur.com/Qhpratm.png");
   position: relative;
   z-index: -200;
 
@@ -653,7 +659,7 @@ h6 {
 }
 
 .small {
-  width: 80px;
+  width: 150px;
 }
 
 .bio {
@@ -981,10 +987,48 @@ input {
   margin-top: 50px;
 }
 
+.jum-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jum-item {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+}
+
+.slide-track {
+  animation: scroll 20s linear infinite;
+  display: flex;
+  width: calc(130px * 14);
+}
+
+.slide-track-i {
+  animation: scrolli 20s linear infinite;
+  display: flex;
+  width: calc(130px * 14);
+}
+
+.slide {
+  height: 130px;
+  width: 130px;
+}
+
+@keyframes scroll {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(130px * 7))}
+}
+
+@keyframes scrolli {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(-130px * 7))}
+}
+
 .blurb {
   font-size: 30px;
   font-weight: bold;
-  width: 60%;
   margin: auto;
 }
 
@@ -1019,7 +1063,7 @@ input {
   border-radius: 10px;
   display: block;
   text-align: center;
-  background: #0c0c0c;
+  background: #141A27;
   background-size: cover;
 }
 

@@ -22,7 +22,7 @@ export default function Embed({ profile }) {
   return (
     <>
       <Head>
-        <title>{profile.username}'s Embed | libby</title>
+        <title>{profile.username}'s Embed | ollo</title>
         <link rel="icon" type="image/png" href={profile.avatar}></link>
         <meta
           property="title"
@@ -51,7 +51,7 @@ export default function Embed({ profile }) {
           <p className="bio">{profile.bio}</p>
           <Link href={`https://libby.gg/${username}`}>
             <a target="_blank">
-              <button className="button embedbutton">View libby creator</button>
+              <button className="button embedbutton">View ollo</button>
             </a>
           </Link>
         </div>

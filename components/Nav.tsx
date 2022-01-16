@@ -85,16 +85,16 @@ export default function Nav(profiles) {
           <img className="logo" src="../logo.svg" />
         </a>
         <form className="form-inline">
-          <Link href="/feed">
+          <Link href="/fyi">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
-              feed
+              fyi
             </button>
           </Link>
-          <Link href="/creators">
+          <Link href="/ollos">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
-              creators
+              ollos
             </button>
           </Link>
           <Dropdown>
@@ -106,7 +106,7 @@ export default function Nav(profiles) {
               <Dropdown.Item>
                 <Link href={`/${profile.username}`}>
                   <button className="buttonwhite">
-                    <FontAwesomeIcon icon={["fas", "eye"]} /> view creator
+                    <FontAwesomeIcon icon={["fas", "eye"]} /> my ollo
                   </button>
                 </Link>
               </Dropdown.Item>
@@ -114,7 +114,7 @@ export default function Nav(profiles) {
                 <Link href="/dashboard/edit">
                   <button className="buttonwhite">
                     <FontAwesomeIcon icon={["fas", "paint-brush"]} /> edit
-                    creator
+                    ollo
                   </button>
                 </Link>
               </Dropdown.Item>
@@ -160,16 +160,16 @@ export default function Nav(profiles) {
           <img className="logo" src="../logo.svg" />
         </a>
         <form className="form-inline">
-          <Link href="/feed">
+          <Link href="/fyi">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
-              feed
+              fyi
             </button>
           </Link>
-          <Link href="/creators">
+          <Link href="/ollos">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
-              creators
+              ollos
             </button>
           </Link>
           <Link href="/dashboard">

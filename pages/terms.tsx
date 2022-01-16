@@ -5,11 +5,11 @@ export default function Index() {
   return (
     <div>
       <Head>
-        <title>Libby | Terms</title>
+        <title>ollo | Terms</title>
       </Head>
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px" }}>
-          <h2 className="text-4xl mb-4 font-bold">Plural Terms of Service</h2>
+          <h2 className="text-4xl mb-4 font-bold">ollo Terms of Service</h2>
           <h3 className="text-2xl mb-4 font-bold mt-4">1. Terms</h3>
           <p>
             By accessing the website at{" "}
@@ -25,7 +25,7 @@ export default function Index() {
           <ol className="list-disc" type="a">
             <li>
               Permission is granted to temporarily download one copy of the
-              materials (information or software) on Plural's website for
+              materials (information or software) on ollo's website for
               personal, non-commercial transitory viewing only. This is the
               grant of a license, not a transfer of title, and under this
               license you may not:
@@ -37,7 +37,7 @@ export default function Index() {
                 </li>
                 <li>
                   attempt to decompile or reverse engineer any software
-                  contained on Plural's website;
+                  contained on ollo's website;
                 </li>
                 <li>
                   remove any copyright or other proprietary notations from the
@@ -51,7 +51,7 @@ export default function Index() {
             </li>
             <li>
               This license shall automatically terminate if you violate any of
-              these restrictions and may be terminated by Plural at any time.
+              these restrictions and may be terminated by ollo at any time.
               Upon terminating your viewing of these materials or upon the
               termination of this license, you must destroy any downloaded
               materials in your possession whether in electronic or printed
@@ -61,8 +61,8 @@ export default function Index() {
           <h3 className="text-2xl mb-4 font-bold mt-4">3. Disclaimer</h3>
           <ol type="a">
             <li>
-              The materials on Plural's website are provided on an 'as is'
-              basis. Plural makes no warranties, expressed or implied, and
+              The materials on ollo's website are provided on an 'as is'
+              basis. ollo makes no warranties, expressed or implied, and
               hereby disclaims and negates all other warranties including,
               without limitation, implied warranties or conditions of
               merchantability, fitness for a particular purpose, or
@@ -70,7 +70,7 @@ export default function Index() {
               rights.
             </li>
             <li>
-              Further, Plural does not warrant or make any representations
+              Further, ollo does not warrant or make any representations
               concerning the accuracy, likely results, or reliability of the use
               of the materials on its website or otherwise relating to such
               materials or on any sites linked to this site.
@@ -78,10 +78,10 @@ export default function Index() {
           </ol>
           <h3 className="text-2xl mb-4 font-bold mt-4">4. Limitations</h3>
           <p>
-            In no event shall Plural or its suppliers be liable for any damages
+            In no event shall ollo or its suppliers be liable for any damages
             (including, without limitation, damages for loss of data or profit,
             or due to business interruption) arising out of the use or inability
-            to use the materials on Plural's website, even if Plural or a Plural
+            to use the materials on ollo's website, even if ollo or a ollo
             authorized representative has been notified orally or in writing of
             the possibility of such damage. Because some jurisdictions do not
             allow limitations on implied warranties, or limitations of liability
@@ -92,23 +92,23 @@ export default function Index() {
             5. Accuracy of materials
           </h3>
           <p>
-            The materials appearing on Plural's website could include technical,
-            typographical, or photographic errors. Plural does not warrant that
+            The materials appearing on ollo's website could include technical,
+            typographical, or photographic errors. ollo does not warrant that
             any of the materials on its website are accurate, complete or
-            current. Plural may make changes to the materials contained on its
-            website at any time without notice. However Plural does not make any
+            current. ollo may make changes to the materials contained on its
+            website at any time without notice. However ollo does not make any
             commitment to update the materials.
           </p>
           <h3 className="text-2xl mb-4 font-bold mt-4">6. Links</h3>
           <p>
-            Plural has not reviewed all of the sites linked to its website and
+            ollo has not reviewed all of the sites linked to its website and
             is not responsible for the contents of any such linked site. The
-            inclusion of any link does not imply endorsement by Plural of the
+            inclusion of any link does not imply endorsement by ollo of the
             site. Use of any such linked website is at the user's own risk.
           </p>
           <h3 className="text-2xl mb-4 font-bold mt-4">7. Modifications</h3>
           <p>
-            Plural may revise these terms of service for its website at any time
+            ollo may revise these terms of service for its website at any time
             without notice. By using this website you are agreeing to be bound
             by the then current version of these terms of service.
           </p>

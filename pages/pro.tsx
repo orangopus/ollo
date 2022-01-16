@@ -5,19 +5,19 @@ export default function Index() {
   return (
     <div>
       <Head>
-        <title>Libby Pro</title>
+        <title>ollo Pro</title>
       </Head>
       <div className="row herocont">
         <div className="center">
-          <img className="center proimage" src="pro.png" />
-          <h1 className="subtitle">Want to support libby's development?</h1>
+          <img className="center proimage" src="logo.svg" />
+          <h1 className="subtitle">Want to support ollo's development?</h1>
           <p className="subtext">
             Our core features will always be 100% free, but consider supporting
             our cause. You'll unlock some awesome perks!
           </p>
           <a
             target="_blank"
-            href="https://opencollective.com/orangopus/contribute/libby-pro-24673"
+            href="https://opencollective.com/orangopus/contribute/ollo-pro-24673"
           >
             <button className="mb-5 mt-5 button">Upgrade</button>
           </a>

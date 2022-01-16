@@ -118,7 +118,7 @@ export default function UserPage({ profile }) {
         <div className="herocont padd">
           <div className="cards">
             <form onSubmit={updateProfile}>
-              <h1 className="text-2xl font-bold mb-4">Edit Creator</h1>
+              <h1 className="text-2xl font-bold mb-4">Edit Ollo</h1>
               <hr />
               <h1 className="edit">Avatar URL</h1>
               <input
@@ -182,7 +182,7 @@ export default function UserPage({ profile }) {
               />
               <br />
               <br />
-              <h1 className="edit">Donations</h1>
+              <h1 className="edit">Dollo</h1>
               <p className="editsub">
                 Please note your PayPal email will be public in the API.
               </p>
@@ -366,7 +366,7 @@ export default function UserPage({ profile }) {
               <div className="profilelink">
                 <Link href={`/${username}`}>
                   <a target="_blank">
-                    <button className="button">View creator</button>
+                    <button className="button">View ollo</button>
                   </a>
                 </Link>
               </div>

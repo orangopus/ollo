@@ -5,15 +5,15 @@ export default function Index() {
   return (
     <div>
       <Head>
-        <title>Libby | Privacy Policy</title>
+        <title>ollo | Privacy Policy</title>
       </Head>
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px" }}>
           <h2 className="mb-4 font-bold text-2xl">Privacy Policy</h2>
           <p className="mb-2">
-            Your privacy is important to us. It is Orangopus' policy to respect
+            Your privacy is important to us. It is ollo's policy to respect
             your privacy regarding any information we may collect from you
-            across our website, <a href="http://libby.gg">http://libby.gg</a>,
+            across our website, <a href="http://ollo.fyi">ollo.fyi</a>,
             and other sites we own and operate.
           </p>
           <p className="mb-2">

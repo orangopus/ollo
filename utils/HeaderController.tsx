@@ -11,19 +11,19 @@ export interface HeaderControllerProps {
 
 export const HeaderController: NextPage<HeaderControllerProps> = ({
   title,
-  description = "Library Of Your Content",
+  description = "Open Library Let's Observe",
   owner,
   additionalKeywords = [],
   embed,
 }) => {
   return (
     <Header>
-      {title ? <title>{title} | Libby</title> : <title>Libby</title>}
+      {title ? <title>{title} | ollo</title> : <title>ollo</title>}
       <meta name="description" content={description} />
       {owner ? <meta name="author" content={owner} /> : ""}
       <meta
         name="keywords"
-        content={`Libby, ${additionalKeywords?.map((k) => `, ${k}`)}`}
+        content={`ollo, ${additionalKeywords?.map((k) => `, ${k}`)}`}
       />
       <meta name="theme-color" content={embed?.hexColor || "#FFFFFF"} />
       {embed ? (
@@ -35,7 +35,7 @@ export const HeaderController: NextPage<HeaderControllerProps> = ({
           />
           {owner ? <meta name="music:creator" content={owner} /> : ""}
           <meta name="og:description" content={description} />
-          <meta name="og:site_name" content="Libby" />
+          <meta name="og:site_name" content="ollo" />
         </>
       ) : (
         ""

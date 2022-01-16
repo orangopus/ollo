@@ -114,7 +114,7 @@ export default function UserPage({ profile, user, posts }) {
           style={{ transition: "all .15s ease" }}
           onClick={() => setShowModal(true)}
         >
-          Donate
+          Send dollo
         </button>
         {showModal ? (
           <>
@@ -128,7 +128,7 @@ export default function UserPage({ profile, user, posts }) {
                   {/*header*/}
                   <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
                     <h3 className="text-5xl center font-semibold ">
-                      Donating ${amount} to {profile.username}
+                      Send ${amount} to {profile.username}
                     </h3>
                     <p>{message}</p>
                     <button
@@ -163,7 +163,7 @@ export default function UserPage({ profile, user, posts }) {
                       style={{ transition: "all .15s ease" }}
                       onClick={() => setShowModal(false)}
                     >
-                      Cancel donation
+                      Cancel dollo
                     </button>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export default function UserPage({ profile, user, posts }) {
       </>
     );
   } else {
-    paypal = <p>{profile.username} hasn't set up their donation item.</p>;
+    paypal = <p>{profile.username} hasn't set up their dollo item.</p>;
   }
 
   let glimeshStatusChecker = glimeshStatus;
@@ -721,7 +721,7 @@ export default function UserPage({ profile, user, posts }) {
             </div>
             <Tabs>
               <TabList>
-                <Tab>Posts</Tab>
+                <Tab>Fyis</Tab>
                 <Tab>About</Tab>
               </TabList>
               <TabPanel>
