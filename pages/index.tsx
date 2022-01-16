@@ -25,20 +25,7 @@ export default function Index({ profile }) {
             </p>
             
             <br/>
-            <Link href="/dashboard">
-              <button className="button">GET STARTED</button>
-            </Link>
             <div className="mt-5 mb-5">
-              <span className="rounded-full bg-red-500 text-white py-2 px-6">
-                Currently in early alpha!{" "}
-                <a
-                  className="font-black"
-                  href="https://github.com/orangopus/libby"
-                  target="_blank"
-                >
-                  We're also open-source!
-                </a>
-              </span>
             </div>
             <div className="jumc">
             <div className="jum-container slide-track">
@@ -84,7 +71,9 @@ export default function Index({ profile }) {
                 ))}                              
             </div>
             </div>
-
+            <Link href="/dashboard">
+              <button className="mt-16 button">GET STARTED</button>
+            </Link>
             <div>
             </div>
           </div>
