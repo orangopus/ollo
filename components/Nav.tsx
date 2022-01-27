@@ -85,16 +85,16 @@ export default function Nav(profiles) {
           <img className="logo" src="../logo.svg" />
         </a>
         <form className="form-inline">
-          <Link href="/fyi">
+          <Link href="/home">
             <button className="buttonwhite">
-              <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
-              fyi
+              <FontAwesomeIcon className="navicon" icon={["fas", "stream"]} />{" "}
+              home
             </button>
           </Link>
-          <Link href="/ollos">
+          <Link href="/explore">
             <button className="buttonwhite">
-              <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
-              ollos
+              <FontAwesomeIcon className="navicon" icon={["fas", "shapes"]} />{" "}
+              explore
             </button>
           </Link>
           <Dropdown>
@@ -160,16 +160,16 @@ export default function Nav(profiles) {
           <img className="logo" src="../logo.svg" />
         </a>
         <form className="form-inline">
-          <Link href="/fyi">
+          <Link href="/home">
             <button className="buttonwhite">
-              <FontAwesomeIcon className="navicon" icon={["fas", "comments"]} />{" "}
-              fyi
+              <FontAwesomeIcon className="navicon" icon={["fas", "stream"]} />{" "}
+              home
             </button>
           </Link>
-          <Link href="/ollos">
+          <Link href="/explore">
             <button className="buttonwhite">
-              <FontAwesomeIcon className="navicon" icon={["fas", "users"]} />{" "}
-              ollos
+              <FontAwesomeIcon className="navicon" icon={["fas", "shapes"]} />{" "}
+              explore
             </button>
           </Link>
           <Link href="/dashboard">

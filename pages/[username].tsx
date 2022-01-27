@@ -24,7 +24,7 @@ import { HeaderController } from "../utils/HeaderController";
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
-export default function UserPage({ profile, user, posts }) {
+export default function UserPage({ profile, user, posts, wildcard }) {
   if (profile.html === null) {
     profile.html = "";
   }
@@ -815,5 +815,8 @@ UserPage.getInitialProps = async (ctx) => {
     .select()
     .ilike("username", query.username);
 
-  return { profile: body, posts: posts };
+    var wildcard = ctx.req.headers.host.split(".")[0];
+
+
+  return { profile: body, posts: posts, wildcard  };
 };
