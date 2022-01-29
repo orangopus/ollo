@@ -61,17 +61,17 @@ const Index = () => {
         )}
         {user && (
           <>
-            <Typography.Text strong>Welcome to Libby!</Typography.Text>
+            <Typography.Text strong>Welcome to ollo!</Typography.Text>
             <Typography.Text>Email: {user.email}</Typography.Text>
             <hr className="sep" />
             <Typography.Text strong>
-              To get started, click "Edit Profile" and set a username, not doing
+              To get started, click "Edit ollo" and set a username, not doing
               this will cause unintended side-effects and you won't show up in
-              /profiles.
+              /explore.
             </Typography.Text>
 
             <Link href="/dashboard/edit">
-              <button className="button">Edit Profile</button>
+              <button className="button">Edit ollo</button>
             </Link>
             <hr className="sep" />
             <button

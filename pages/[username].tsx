@@ -721,7 +721,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
             </div>
             <Tabs>
               <TabList>
-                <Tab>Fyis</Tab>
+                <Tab>Posts</Tab>
                 <Tab>About</Tab>
               </TabList>
               <TabPanel>
@@ -740,16 +740,17 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                               ? post.displayname
                               : post.username}{" "}
                             <span className="handle">@{post.username}</span>
+                            <br/>
                             <span className="minutesago">
                               {formatDate(post.published_at)}
                             </span>
                           </h1>
-
-                          <p className="postcontent">
-                            <Markdown plugins={[gfm]} children={post.content} />
-                          </p>
                         </div>
                       </div>
+                      <br/>
+                      <p className="postcontent">
+                            <Markdown plugins={[gfm]} children={post.content} />
+                          </p>
                       <div>
                         {session &&
                           (session.user.id === post.user_id ? (

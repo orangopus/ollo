@@ -80,6 +80,18 @@ export default function UserPage({ posts, user, profiles }) {
     return dayjs().to(dayjs(date));
   };
 
+  let verified = posts.verified;
+
+  if (verified) {
+    verified = (
+      <>
+        <span className="verified">
+          <FontAwesomeIcon icon={["fas", "check"]} /> verified
+        </span>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -173,12 +185,16 @@ export default function UserPage({ posts, user, profiles }) {
                       <h1 className="username mb-2 left">
                         {post.displayname ? post.displayname : post.username}{" "}
                         <span className="handle">@{post.username}</span>
+                        <span className="handle">{verified}</span>
+                        <br/>
                         <span className="minutesago">
                           {formatDate(post.published_at)}
                         </span>
                       </h1>
-
-                      <p className="postcontent">
+                      <br/>
+                      </div>
+                    </div>
+                    <p className="postcontent">
                         {session &&
                           (user.id === post.user_id ? (
                             <>
@@ -202,11 +218,16 @@ export default function UserPage({ posts, user, profiles }) {
                             <Markdown plugins={[gfm]} children={post.content} />
                           ))}
                         {session === null && (
+                          <>
                           <Markdown plugins={[gfm]} children={post.content} />
+                        </>
                         )}
                       </p>
-                    </div>
-                  </div>
+                      <div className="mt-2">
+                      <span className="minutesago reply">
+                          reply
+                        </span>
+                        </div>
                   <div>
                     {session &&
                       (session.user.id === post.user_id ? (

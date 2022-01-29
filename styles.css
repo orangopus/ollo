@@ -151,12 +151,35 @@ p {
 
 .cards {
   background: #141A27;
-  border-radius: 10px;
+  border-radius: 20px;
   margin-top: 30px;
   padding: 30px;
   color: #fff;
   display: inline-block;
   box-sizing: border-box;
+}
+
+.postcontent {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.reply:hover {
+  opacity: 0.5;
+  pointer-events: stroke;
+  cursor: not-allowed;
+}
+
+.reply:hover::after {
+  content: 'feature coming soon';
+  margin-left: 15px;
+  border-radius: 50px;
+  background: #dc3545;
+  color: #fff;
+  font-size: 15px;
+  padding: 5px 10px;
+  vertical-align: middle;
 }
 
 .blocked {
@@ -492,8 +515,8 @@ a.sbui-typography,
 
 .feed {
   display: grid;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 25%;
+  margin-right: 25%;
   margin-bottom: 100px;
 }
 
@@ -1073,7 +1096,7 @@ input {
 
 .profilecont {
   padding: 28px;
-  border-radius: 10px;
+  border-radius: 20px;
   display: block;
   text-align: center;
   background: #141A27;
@@ -1094,8 +1117,12 @@ input {
 }
 
 .minutesago {
+  margin-top: 5px;
   font-size: 20px;
-  margin-left: 20px;
+  border-radius: 20px;
+  padding: 10px 25px;
+  background: rgba(0, 0, 0, 0.25) !important;
+  display: inline-block;
 }
 
 .postcontent {
