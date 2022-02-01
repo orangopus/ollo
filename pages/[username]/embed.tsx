@@ -31,7 +31,7 @@ export default function Embed({ profile }) {
         <meta property="description" content={`${profile.bio}`} />
         <meta
           property="url"
-          content={`${window.location.host}/${profile.username}`}
+          content={`https://ollo.fyi/${profile.username}`}
         />
         <meta property="image" content={`${profile.avatar}`} />
       </Head>
@@ -49,7 +49,7 @@ export default function Embed({ profile }) {
           </h1>
           <p></p>
           <p className="bio">{profile.bio}</p>
-          <Link href={`https://libby.gg/${username}`}>
+          <Link href={`https://ollo.fyi/${username}`}>
             <a target="_blank">
               <button className="button embedbutton">View ollo</button>
             </a>

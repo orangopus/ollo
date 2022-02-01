@@ -49,7 +49,7 @@ export default function Index({ profile }) {
                   <div className="search-box">
                     <form className="flex">
                       <span
-                        className="flex items-center rounded rounded-r-none border-0 px-3 ml-3 font-bold text-white-100"><img src="logo.svg" className="h-12"/> </span>
+                        className="flex items-center rounded rounded-r-none border-0 px-3 ml-3 font-bold text-white-100"><img src="logo.svg" className="small"/> </span>
                       <input
                         className="h-16 text-grey-darker py-2 font-normal border-0 m-3 text-grey-darkest border border-gray-100 font-bold w-full py-1 px-2 outline-none text-lg text-gray-600"
                         type="text" placeholder="your username here" />
@@ -72,9 +72,15 @@ export default function Index({ profile }) {
               {profile
                 .filter((n) => n.username)
                 .sort(() => Math.random() - Math.random())
-                .slice(0, 1)
+                .slice(0, 5)
                 .map((profile) => (
-                  <div className="cards domains">
+                  <div className="cards domains inline-flex">
+                      <img
+                      data-tip
+                      data-for={profile.username}
+                      className="center avatar-hp"
+                      src={profile.avatar ? profile.avatar : "avatar.png"}
+                    />
                     <a
                       className="none"
                       href={`https://ollo.fyi/${profile.username ? profile.username : ""
@@ -84,6 +90,7 @@ export default function Index({ profile }) {
                     </a>
                   </div>
                 ))}{" "}
+                <br/>
               {profile
                 .filter((n) => n.username)
                 .sort(() => Math.random() - Math.random())

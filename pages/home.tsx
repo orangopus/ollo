@@ -80,18 +80,6 @@ export default function UserPage({ posts, user, profiles }) {
     return dayjs().to(dayjs(date));
   };
 
-  let verified = posts.verified;
-
-  if (verified) {
-    verified = (
-      <>
-        <span className="verified">
-          <FontAwesomeIcon icon={["fas", "check"]} /> verified
-        </span>
-      </>
-    );
-  }
-
   return (
     <>
       <Head>
@@ -184,12 +172,16 @@ export default function UserPage({ posts, user, profiles }) {
                     <div className="info ml-4">
                       <h1 className="username mb-2 left">
                         {post.displayname ? post.displayname : post.username}{" "}
-                        <span className="handle">@{post.username}</span>
-                        <span className="handle">{verified}</span>
-                        <br/>
-                        <span className="minutesago">
-                          {formatDate(post.published_at)}
+                        <span className="handle">{post.verified ? post.verified = (
+                          <span className="verify">
+                          <FontAwesomeIcon icon={["fas", "check"]} />
                         </span>
+                        ) : null}</span>
+                        <span className="handle">@{post.username}</span>
+                        <br/>
+                        <a className="minutesago" href={`posts/${post.id}`}>
+                          {formatDate(post.published_at)}
+                        </a>
                       </h1>
                       <br/>
                       </div>
@@ -234,9 +226,9 @@ export default function UserPage({ posts, user, profiles }) {
                         <>
                           <button
                             onClick={() => deletePost(post.id)}
-                            className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
+                            className="bg-red-500 text-gray-200 minutesago"
                           >
-                            DELETE
+                            delete
                           </button>
                         </>
                       ) : (

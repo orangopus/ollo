@@ -668,9 +668,13 @@ export default function UserPage({ profile, user, posts, wildcard }) {
       />
       <div>
         <div className="herocont padd userdetails">
-          <div
+          <div className="mt-4">{glimeshStats}</div>
+          <div className="flex responsive">
+            
+            <div className="block mr-5">
+            <div
             className="justify-center profilecont"
-            style={{ backgroundImage: `url(${profile.background_url})` }}
+            style={{ backgroundImage: `url(${profile.background_url})`, backdropFilter: "blur(4px)" }}
           >
             <div className="center avatarcont">
               <ImageFallback
@@ -694,14 +698,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
               </h1>
               <p></p>
               <p className="bio">{profile.bio}</p>
-            </div>
-          </div>
-          {profile.social && (
-            <div
-              className="cards flex socialcont"
-              style={{ backgroundImage: `url(${profile.background_url})` }}
-            >
-              <div className="socials">
+              <div className="socials mt-10">
                 {twitter}
                 {instagram}
                 {github}
@@ -712,15 +709,14 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                 {guilded}
                 {discord}
               </div>
+              <div className="cards mt-10 center">{paypal}</div>          
+
             </div>
-          )}
-          <div className="mt-4">{glimeshStats}</div>
-          <div className="flex responsive">
-            <div className="block">
-              <div className="cards donate center mr-10">{paypal}</div>
+            
+          </div>
             </div>
             <Tabs>
-              <TabList>
+              <TabList className="inline-flex mt-10">
                 <Tab>Posts</Tab>
                 <Tab>About</Tab>
               </TabList>
@@ -741,9 +737,9 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                               : post.username}{" "}
                             <span className="handle">@{post.username}</span>
                             <br/>
-                            <span className="minutesago">
+                            <a className="minutesago" href={`/posts/${post.id}`}>
                               {formatDate(post.published_at)}
-                            </span>
+                            </a>
                           </h1>
                         </div>
                       </div>
@@ -771,7 +767,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                 </div>
               </TabPanel>
               <TabPanel>
-                <div className="cards auto width">
+                <div className="cards">
                   <Markdown
                     plugins={[gfm]}
                     children={profile.html}
@@ -780,11 +776,6 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                   <div>
                     {glimeshHTML && (
                       <div>
-                        <div className="mb-5">
-                          <span className="p-3 bg-blue-600 rounded-full">
-                            Content synced from Glimesh
-                          </span>
-                        </div>
                         <Markdown
                           plugins={[gfm]}
                           children={`${glimeshHTML}`}

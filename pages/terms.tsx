@@ -13,7 +13,7 @@ export default function Index() {
           <h3 className="text-2xl mb-4 font-bold mt-4">1. Terms</h3>
           <p>
             By accessing the website at{" "}
-            <a href="http://libby.gg">http://libby.gg</a>, you are agreeing to
+            <a href="http://ollo.fyi">http://ollo.fyi</a>, you are agreeing to
             be bound by these terms of service, all applicable laws and
             regulations, and agree that you are responsible for compliance with
             any applicable local laws. If you do not agree with any of these
