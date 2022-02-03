@@ -4,13 +4,14 @@ body {
   background: #1A2235 !important;
   overflow-x: hidden;
   zoom: 75%;
+  font-weight: black;
 }
 
 p {
   font-size: 20px;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 .dropdown-menu.show {
   transform: translate(-243px, 97px) !important;
@@ -21,7 +22,7 @@ p {
 }
 
 .back {
-  margin-top: 5px;
+  margin: 20px 0;
   font-size: 20px;
   border-radius: 20px;
   padding: 10px 25px;
@@ -45,11 +46,11 @@ p {
   padding: 0 !important;
 }
 
-.react-tabs > ul {
+.react-tabs {
   background: #141A27;
   border-radius: 50px;
-  padding: 10px;
-  margin: 0 !important;
+  margin: 0;
+  margin-bottom: 30px !important;
 }
 
 .react-tabs__tab {
@@ -59,20 +60,13 @@ p {
   font-size: 30px;
   list-style: none;
   cursor: pointer;
-  margin: auto 0px;
-  padding: 10px 30px
-}
-
-.react-tabs__tab-list {
-  padding: 10px;
-  border: 2px !important;
+  margin: auto 10px;
+  padding: 10px 30px;
 }
 
 .react-tabs__tab--selected {
-  margin: 0;
   background: rgba(0, 0, 0, 0.25) !important;
   border-radius: 100px;
-  padding: 10px 30px;
 }
 
 .center {
@@ -88,11 +82,16 @@ p {
   font-size: 25px;
   border: none;
   font-weight: bolder;
-  font-family: Quicksand;
+  font-family: inherit;
   cursor: pointer;
   text-transform: uppercase;
   background: transparent;
   color: #fff;
+}
+
+.buttonwhite:hover {
+  background:rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
 }
 
 .paddinghero {
@@ -108,25 +107,32 @@ p {
   max-width: 85px;
 }
 
-.footer {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  margin-top: 50vh !important;
-  margin: 0;
-  line-height: 60px;
-  background: #141A27;
-  padding: 50px 0;
+.navlink {
+  padding: 10px;
 }
 
-.footercontainer {
-  margin: 0 200px;
+footer {
+  background: rgba(0, 0, 0, 0.5);
+  margin: 0 80px;
+  padding: 40px;
+  position: relative;
+  bottom: 100;
+}
+
+.footer {
+  line-height: 60px;
+  border-radius: 25px 25px 0 0 !important;
+  background:rgba(0, 0, 0, 0.5);
+}
+
+.gridsub {
+  font-weight: bolder;
+  font-size: 2.5em;
 }
 
 .footersep {
   border-color: #fff;
   opacity: 0.1;
-  margin: 0 200px;
   height: 2px;
   margin-top: 20px;
 }
@@ -160,7 +166,7 @@ p {
 
 .heropadding {
   padding: 0px 0 200px 0;
-  margin-bottom: 100px;
+  margin-bottom: 25px;
 }
 
 .donate {
@@ -175,10 +181,18 @@ p {
   background-position: center;
 }
 
+.suggested {
+  border-radius: 25px;
+  padding: 40px;
+  font-weight: bolder;
+  height: fit-content;
+  background: #141A27 !important;
+}
+
 .cards {
   background: #141A27;
   border-radius: 20px;
-  margin-top: 30px;
+  margin-bottom: 30px;
   padding: 30px;
   color: #fff;
   display: inline-block;
@@ -513,18 +527,37 @@ a.sbui-typography,
   color: #fff !important;
 }
 
+.dark {
+  background:rgba(0, 0, 0, 0.4);
+}
+
+.grid-card {
+  border-radius: 20px;
+}
+
 .domains {
   background: #141A27;
   border-radius: 100px;
   width: fit-content;
-  font-family: Quicksand;
+  font-family: inherit;
   font-style: normal;
   font-weight: bold;
-  margin-right: 20px;
+  margin: 20px;
   font-size: 30px;
   line-height: 37px;
   align-items: center;
   text-align: center;
+  cursor: pointer;
+}
+
+.domains:hover {
+  transform: rotate(1deg) scale(1.1)
+}
+
+.gridtitle {
+  font-size: 70px;
+  margin-top: 10px;
+  font-weight: bolder;
 }
 
 .right {
@@ -541,9 +574,16 @@ a.sbui-typography,
 
 .feed {
   display: grid;
-  margin-left: 25%;
-  margin-right: 25%;
+  margin: 0 10%;
   margin-bottom: 100px;
+}
+
+.feed2 {
+  margin: 0 10% 20%;
+}
+
+.greyhandle {
+  color: #747474 !important;
 }
 
 .postcontainer {
@@ -651,7 +691,7 @@ a.sbui-typography,
   color: #ffffff;
   font-weight: bolder;
   font-size: 40px;
-  text-align: center;
+  text-align: left;
 }
 
 .styles-module_Editext__button__sxYQX {
@@ -717,9 +757,63 @@ h6 {
   font-weight: bolder;
   font-weight: bold;
   font-size: 20px;
-  width: 400px;
-  margin-top: 20px !important;
-  margin: auto;
+  text-align: left;
+  margin-top: 20px;
+}
+
+.green {
+  background: #3C9940;
+  color: #000 !important;
+}
+
+.red {
+  background: #993C3C;
+}
+
+.personality {
+    font-style: italic;
+    color: #212529;
+    -webkit-text-stroke: 3px #212529;
+    border-radius: 25px 0;
+    background: linear-gradient(
+      75deg,
+      rgba(255, 0, 0, .1) 0%,
+      rgba(255, 154, 0, 1) 10%,
+      rgba(208, 222, 33, 1) 20%,
+      rgba(79, 220, 74, 1) 30%,
+      rgba(63, 218, 216, 1) 40%,
+      rgba(47, 201, 226, 1) 50%,
+      rgba(28, 127, 238, 1) 60%,
+      rgba(95, 21, 242, 1) 70%,
+      rgba(186, 12, 248, 1) 80%,
+      rgba(251, 7, 217, 1) 90%,
+      rgba(255, 0, 0, .1) 100%
+  );
+  background-size: 300% 400%;
+
+  animation: gradient 2.5s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 25%;
+	}
+	50% {
+		background-position: 75% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+.black {
+  background:#000;
+}
+
+.homeicon {
+  font-size: 2.5em;
+  color: #fff;
 }
 
 .paypal-buttons {
@@ -900,7 +994,7 @@ pre {
 }
 
 .social {
-  border-radius: 50%;
+  border-radius: 50px;
   color: #ffffff !important;
   font-size: 20px !important;
   line-height: 0px;
@@ -994,7 +1088,7 @@ img {
   font-size: 25px;
   border: none;
   font-weight: bolder;
-  font-family: Quicksand;
+  font-family: inherit;
   box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   background: #ffffff;
@@ -1036,7 +1130,7 @@ input {
   font-size: 25px;
   border: none;
   font-weight: bolder;
-  font-family: Quicksand;
+  font-family: inherit;
   cursor: pointer;
   background: #0472d8;
   color: #ffffff;
@@ -1267,8 +1361,24 @@ input {
   transition: all 0.2s ease-in-out;
 }
 
+.discord-card, .discord-text { 
+  background: #5865F2;
+  color: #fff !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.discord-card {
+  margin-top: 30px;
+}
+
+.discord-card:hover {
+  rotate: 1deg;
+  transform: scale(1.01);
+  box-shadow: 0px 4px 86px rgba(0, 0, 0, 0.25);
+}
+
 .grow:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .middle {
@@ -1306,8 +1416,9 @@ a {
 }
 
 .userdetails {
-  padding: 25px 100px;
-  width: 100%;
+  margin: 0 auto;
+  max-width: 90vw;
+
 }
 
 .editsub {
@@ -1365,8 +1476,7 @@ a {
   }
 
   .socials {
-    text-align: center;
-    display: inline-flex;
+    text-align: left;
     overflow: scroll;
   }
 

@@ -37,14 +37,14 @@ export default function Embed({ posts,session }) {
         <Head>
               <title>{posts[0].displayname} on ollo: {posts[0].content}</title>
         </Head>
-        <div className="feed">
+        <div className="container">
         <p>
         <a className="back" onClick={() => Router.back()}>go back</a>
 
         </p>
         {posts.map((post, index) => (
 
-<div className="cards padding postcard" style={{border: "4px solid rgba(0, 0, 0, 0.5)"}}>
+<div className="cards grid mb-10 padding postcard" style={{border: "4px solid rgba(0, 0, 0, 0.5)"}}>
   <div className="flex">
     <div className="avatarcont ml-0 mr-0">
       <a href={`/${post.username}`}>

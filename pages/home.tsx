@@ -86,158 +86,199 @@ export default function UserPage({ posts, user, profiles }) {
         <title>Home | ollo</title>
       </Head>
       <div>
-        <div className="herocont padd2 postsfeed">
-          <div>
-            <div></div>
-            <div className="feed">
-              {user && (
-                <div className="cards flex">
-                  <img className="avatar" src={`${profile}`} />
-                  <form className="postcontainer" onSubmit={createPost}>
-                    <div className="postcontainer">
-                      <textarea
-                        id="clearPost"
-                        name="bio"
-                        value={post}
-                        onChange={(event) => setPost(event.target.value)}
-                        placeholder="What have you done today?"
-                        className="textarea postinput"
-                      />
-                      <button className="button postsubmit" type="submit">
-                        Post
-                      </button>
-                      <p className="postmarkdown">
-                        <FontAwesomeIcon icon={["fab", "markdown"]} /> is
-                        supported
+        <div className="herocont feed2 grid gap-10 mx grid-cols-4 postsfeed">
+          <div className="grid col-span-3">
+            {user && (
+              <div className="cards flex">
+                <img className="avatar" src={`${profile}`} />
+                <form className="postcontainer" onSubmit={createPost}>
+                  <div className="postcontainer">
+                    <textarea
+                      id="clearPost"
+                      name="bio"
+                      value={post}
+                      onChange={(event) => setPost(event.target.value)}
+                      placeholder="What have you done today?"
+                      className="textarea postinput"
+                    />
+                    <button className="button postsubmit" type="submit">
+                      Post
+                    </button>
+                    <p className="postmarkdown">
+                      <FontAwesomeIcon icon={["fab", "markdown"]} /> is
+                      supported
+                    </p>
+                  </div>
+                </form>
+              </div>
+            )}
+            {user === null && (
+              <Link href="/dashboard">
+                <div className="created2">
+                  <div className="cards created">
+                    <div className="create">
+                      <h1 className="createTitle text-4xl">
+                        Create a post, edit your ollo and do more...
+                      </h1>
+                      <p className="createText text-2xl p-1">
+                        Create an ollo or login to make a post!
                       </p>
+                      <button className="button">Get started</button>
                     </div>
-                  </form>
-                </div>
-              )}
-              {user === null && (
-                <Link href="/dashboard">
-                  <div className="created2">
-                    <div className="cards created">
-                      <div className="create">
-                        <h1 className="createTitle text-4xl">
-                          Create a post, edit your ollo and do more...
-                        </h1>
-                        <p className="createText text-2xl p-1">
-                          Create an ollo or login to make a post!
-                        </p>
-                        <button className="button">Get started</button>
-                      </div>
-                      <div className="inline2">
-                        {profiles.data
-                          .filter((n) => n.username)
-                          .sort(() => Math.random() - Math.random())
-                          .slice(0, 30)
-                          .map((profile) => (
-                            <div className="item">
-                              <a
-                                className="profileavatar"
-                                href={`/${
-                                  profile.username ? profile.username : ""
+                    <div className="inline2">
+                      {profiles
+                        .filter((n) => n.username)
+                        .sort(() => Math.random() - Math.random())
+                        .slice(0, 30)
+                        .map((profile) => (
+                          <div className="item">
+                            <a
+                              className="profileavatar"
+                              href={`/${profile.username ? profile.username : ""
                                 }`}
-                              >
-                                <ImageFallback
-                                  data-tip
-                                  data-for={profile.username}
-                                  className="avatar avatar3"
-                                  fallbackImage="avatar.png"
-                                  src={profile.avatar}
-                                />
-                              </a>
-                            </div>
-                          ))}
-                      </div>
+                            >
+                              <ImageFallback
+                                data-tip
+                                data-for={profile.username}
+                                className="avatar avatar3"
+                                fallbackImage="avatar.png"
+                                src={profile.avatar}
+                              />
+                            </a>
+                          </div>
+                        ))}
                     </div>
                   </div>
-                </Link>
-              )}
-              {posts.data.map((post, index) => (
-                <div className="cards postcard">
-                  <div className="flex">
-                    <div className="avatarcont ml-0 mr-0">
-                      <a href={`/${post.username}`}>
-                        <ImageFallback
-                          data-tip
-                          data-for={post.username}
-                          className="avatar avatar2"
-                          fallbackImage="avatar.png"
-                          src={post.avatar}
-                        />
-                      </a>
-                    </div>
-                    <div className="info ml-4">
-                      <h1 className="username mb-2 left">
-                        {post.displayname ? post.displayname : post.username}{" "}
-                        <span className="handle">{post.verified ? post.verified = (
-                          <span className="verify">
+                </div>
+              </Link>
+            )}
+            {posts.data.map((post, index) => (
+              <div className="cards postcard">
+                <div className="flex">
+                  <div className="avatarcont ml-0 mr-0">
+                    <a href={`/${post.username}`}>
+                      <ImageFallback
+                        data-tip
+                        data-for={post.username}
+                        className="avatar avatar2"
+                        fallbackImage="avatar.png"
+                        src={post.avatar}
+                      />
+                    </a>
+                  </div>
+                  <div className="info ml-4">
+                    <h1 className="username mb-2 left">
+                      {post.displayname ? post.displayname : post.username}{" "}
+                      <span className="handle">{post.verified ? post.verified = (
+                        <span className="verify">
                           <FontAwesomeIcon icon={["fas", "check"]} />
                         </span>
-                        ) : null}</span>
-                        <span className="handle">@{post.username}</span>
-                        <br/>
-                        <a className="minutesago" href={`posts/${post.id}`}>
-                          {formatDate(post.published_at)}
-                        </a>
-                      </h1>
-                      <br/>
-                      </div>
-                    </div>
-                    <p className="postcontent">
-                        {session &&
-                          (user.id === post.user_id ? (
-                            <>
-                              <EdiText
-                                key={post.id}
-                                value={post.content}
-                                onSave={(value) => editPosts(value, post.id)}
-                                submitOnEnter
-                                type="textarea"
-                                renderValue={(value) => {
-                                  return (
-                                    <Markdown
-                                      plugins={[gfm]}
-                                      children={post.content}
-                                    />
-                                  );
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <Markdown plugins={[gfm]} children={post.content} />
-                          ))}
-                        {session === null && (
-                          <>
-                          <Markdown plugins={[gfm]} children={post.content} />
-                        </>
-                        )}
-                      </p>
-                      <div className="mt-2">
-                      <span className="minutesago reply">
-                          reply
-                        </span>
-                        </div>
-                  <div>
-                    {session &&
-                      (session.user.id === post.user_id ? (
-                        <>
-                          <button
-                            onClick={() => deletePost(post.id)}
-                            className="bg-red-500 text-gray-200 minutesago"
-                          >
-                            delete
-                          </button>
-                        </>
-                      ) : (
-                        <p></p>
-                      ))}
+                      ) : null}</span>
+                      <span className="handle">@{post.username}</span>
+                      <br />
+                      <a className="minutesago" href={`posts/${post.id}`}>
+                        {formatDate(post.published_at)}
+                      </a>
+                    </h1>
+                    <br />
                   </div>
                 </div>
-              ))}
+                <p className="postcontent">
+                  {session &&
+                    (user.id === post.user_id ? (
+                      <>
+                        <EdiText
+                          key={post.id}
+                          value={post.content}
+                          onSave={(value) => editPosts(value, post.id)}
+                          submitOnEnter
+                          type="textarea"
+                          renderValue={(value) => {
+                            return (
+                              <Markdown
+                                plugins={[gfm]}
+                                children={post.content}
+                              />
+                            );
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <Markdown plugins={[gfm]} children={post.content} />
+                    ))}
+                  {session === null && (
+                    <>
+                      <Markdown plugins={[gfm]} children={post.content} />
+                    </>
+                  )}
+                </p>
+                <div className="mt-2">
+                  <span className="minutesago reply">
+                    reply
+                  </span>
+                </div>
+                <div>
+                  {session &&
+                    (session.user.id === post.user_id ? (
+                      <>
+                        <button
+                          onClick={() => deletePost(post.id)}
+                          className="bg-red-500 text-gray-200 minutesago"
+                        >
+                          delete
+                        </button>
+                      </>
+                    ) : (
+                      <p></p>
+                    ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="col-span-1">
+            <h1 className="gridtitle ml-4">Recommended ollos</h1>
+            <br />
+            <div className="suggested dark">
+              {profiles
+                .sort(() => Math.random() - Math.random())
+                .filter((n) => n.username)
+                .slice(0, 5)
+                .map((profile) => (
+                  <div className=" flex text-left p-3">
+                    <ImageFallback
+                      data-tip
+                      data-for={profile.username}
+                      className="avatar-hp"
+                      fallbackImage="../avatar.png"
+                      src={profile.avatar ? profile.avatar : "../avatar.png"}
+                    />
+                    <div>
+                      <a
+                        className="handle"
+                        href={`/${profile.username ? profile.username : ""
+                          }`}
+                      >
+                        {profile.displayname ? profile.displayname : profile.username}
+                      </a>
+                      <p className="greyhandle">
+                        @{profile.username}
+                      </p>
+                    </div>
+                  </div>
+                ))}
             </div>
+          <a className="none" href="https://orangop.us.discord" target="_blank">
+          <div className="grid-card discord-card p-5">
+          <p className="gridsub discord-text">
+
+          <FontAwesomeIcon icon={["fab", "discord"]} size="6x" className="homeicon discord-text"/>
+          <br/>
+            Discord
+          </p>
+          <p className="discord-text">Become apart of our cult. Well it's not a cult exactly. Join our Discord for tips, tricks and assistance!</p>
+          </div>
+          </a>
+
           </div>
         </div>
       </div>
@@ -247,13 +288,13 @@ export default function UserPage({ posts, user, profiles }) {
 export async function getServerSideProps({ req }) {
   const { user } = await supabase.auth.api.getUserByCookie(req);
 
-  const profiles = await supabase.from("profiles").select("*");
+  const { body } = await supabase.from("profiles").select("*");
 
   const posts = await supabase.from("vw_posts_with_user").select();
 
   return {
     props: {
-      profiles: profiles,
+      profiles: body,
       user: user,
       posts: posts,
     },

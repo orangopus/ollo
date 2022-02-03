@@ -31,13 +31,6 @@ export default function UserPage({ profile, user, posts, wildcard }) {
 
   const session = supabase.auth.session();
 
-  const [glimeshHTML, setGlimeshHTML] = useState([]);
-  const [glimeshTitle, setGlimeshTitle] = useState([]);
-  const [glimeshCat, setGlimeshCat] = useState([]);
-  const [glimeshTags, setGlimeshTags] = useState([]);
-  const [glimeshThumb, setGlimeshThumb] = useState([]);
-  const [glimeshStatus, setGlimeshStatus] = useState([]);
-
   const options = {
     "client-id":
       "AZPEhV3kYvOSOCx0GmXTI9F3W6uk3E-rsjGWzzcGRXKkzg-Ka7kWDyppbj0UsFP1-AsObs57mOK67nU3",
@@ -175,123 +168,8 @@ export default function UserPage({ profile, user, posts, wildcard }) {
       </>
     );
   } else {
-    paypal = <p>{profile.username} hasn't set up their dollo item.</p>;
+    paypal = null;
   }
-
-  let glimeshStatusChecker = glimeshStatus;
-
-  let glimeshStats;
-
-  if (glimeshStatusChecker === "LIVE") {
-    glimeshStatusChecker = (
-      <>
-        <a
-          className="none"
-          href={`https://glimesh.tv/${profile.social.glimesh}`}
-          target="_blank"
-        >
-          <span data-tip data-for="glimTitle" className="live">
-            LIVE
-          </span>
-        </a>
-        <ReactTooltip
-          id="glimTitle"
-          backgroundColor="#000"
-          place="top"
-          type="dark"
-          effect="solid"
-        >
-          on Glimesh
-        </ReactTooltip>
-      </>
-    );
-
-    glimeshStats = (
-      <a className="none" href={`https://glimesh.tv/${profile.social.glimesh}`}>
-        <div className="cards flex cardGlimesh">
-          <div>
-            <img className="thumbnail" src={`${glimeshThumb}`} />
-          </div>
-          <div className="glimeshInfo">
-            <h1 className="glimeshTitle">
-              {glimeshStatusChecker}{" "}
-              <span className="category">{glimeshCat}</span> {glimeshTitle}
-            </h1>
-            <div className="tagscont">
-              {glimeshTags.map((tags) => (
-                <span className="tags">{tags.name}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </a>
-    );
-  } else {
-    glimeshStatusChecker = <></>;
-  }
-
-  async function getData() {
-    axios({
-      url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
-      method: "post",
-      headers: {
-        Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
-      },
-      data: {
-        query: `{
-        user(username: "${profile.social.glimesh}"){
-          profileContentHtml,
-          profileContentMd
-        }
-      }
-        `,
-      },
-    }).then((result) => {
-      setGlimeshHTML(result.data.data.user.profileContentMd);
-    });
-
-    axios({
-      url: "https://corsanywhere12.herokuapp.com/https://glimesh.tv/api",
-      method: "post",
-      headers: {
-        Authorization: `Client-ID 0096321eb6fdc5c33d664ecc7036e9629b9b957a4a787c9cac4df891ef39c224`,
-      },
-      data: {
-        query: `{
-      channel(username: "${profile.social.glimesh}"){
-        status,
-        title,
-        category {
-          name
-        },
-        tags {
-          name
-        },
-        stream {
-          countViewers,
-          thumbnail,
-          startedAt
-        } 
-      }
-    }
-        `,
-      },
-    }).then((result) => {
-      setGlimeshStatus(result.data.data.channel.status);
-      setGlimeshTitle(result.data.data.channel.title);
-      setGlimeshCat(result.data.data.channel.category.name);
-      setGlimeshTags(result.data.data.channel.tags);
-      if (result.data.data.channel.stream) {
-        setGlimeshThumb(result.data.data.channel.stream.thumbnail);
-      } else {
-        return null;
-      }
-    });
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   let twitter = profile.social.twitter;
 
@@ -303,11 +181,11 @@ export default function UserPage({ profile, user, posts, wildcard }) {
         <a
           data-tip
           data-for="twitterTip"
-          href={`https://twitter.com/${profile.social.twitter}`}
+          href={`https://twitter.com/${profile.social.twitter}`} 
           target="_blank"
           className="social twitter"
         >
-          <FontAwesomeIcon icon={["fab", "twitter"]} />
+          <FontAwesomeIcon icon={["fab", "twitter"]} /> {profile.social.twitter}
         </a>
         <ReactTooltip
           id="twitterTip"
@@ -341,7 +219,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
           target="_blank"
           className="social instagram"
         >
-          <FontAwesomeIcon icon={["fab", "instagram"]} />
+          <FontAwesomeIcon icon={["fab", "instagram"]} /> 
         </a>
         <ReactTooltip
           id="instagramTip"
@@ -441,38 +319,6 @@ export default function UserPage({ profile, user, posts, wildcard }) {
           effect="solid"
         >
           {profile.social.sunshine}
-        </ReactTooltip>
-      </>
-    );
-  }
-
-  let glimesh = profile.social.glimesh;
-
-  if (glimesh === null) {
-    glimesh = null;
-  } else if (glimesh) {
-    glimesh = (
-      <>
-        <a
-          data-tip
-          data-for="glimeshTip"
-          href={`https://glimesh.tv/${profile.social.glimesh}`}
-          target="_blank"
-          className="social glimesh"
-        >
-          <img
-            className="glimesh-img"
-            src="https://github.com/Glimesh/assets/blob/master/social/social-circle-middleish.png?raw=true"
-          />
-        </a>
-        <ReactTooltip
-          id="glimeshTip"
-          backgroundColor="#000"
-          place="top"
-          type="dark"
-          effect="solid"
-        >
-          {profile.social.glimesh}
         </ReactTooltip>
       </>
     );
@@ -666,10 +512,9 @@ export default function UserPage({ profile, user, posts, wildcard }) {
           __html: profile.css,
         }}
       />
-      <div>
-        <div className="herocont padd userdetails">
-          <div className="mt-4">{glimeshStats}</div>
-          <div className="flex responsive">
+      <div className="">
+        <div className="herocont padd mb-10 userdetails">
+          <div className="flex grid grid-cols-4">
             
             <div className="block mr-5">
             <div
@@ -680,45 +525,43 @@ export default function UserPage({ profile, user, posts, wildcard }) {
               <ImageFallback
                 data-tip
                 data-for={profile.username}
-                className="avatar center"
+                className="avatar"
                 fallbackImage="avatar.png"
                 src={profile.avatar}
               />
             </div>
-            <div className="info mt-4">
+            <div className="info mt-4 center">
               <h1 className="username">
                 {profile.displayname ? profile.displayname : profile.username}{" "}
                 {verifiedChecker}
                 <div>
-                  <span className="handle">@{profile.username}</span>
+                <span className="handle">@{profile.username}</span>
                 </div>
                 <div className="mt-3">
                   {staffChecker} {modChecker} {proChecker}{" "}
                 </div>
               </h1>
-              <p></p>
               <p className="bio">{profile.bio}</p>
               <div className="socials mt-10">
-                {twitter}
-                {instagram}
+              {instagram}
                 {github}
                 {makerlog}
                 {sunshine}
-                {glimesh}
-                {twitch}
+                 {twitch}
                 {guilded}
                 {discord}
               </div>
-              <div className="cards mt-10 center">{paypal}</div>          
+              <div className="cards mt-10 grid">{paypal}</div>          
 
             </div>
             
           </div>
             </div>
-            <Tabs>
-              <TabList className="inline-flex mt-10">
+            <Tabs className="col-span-3">
+              <TabList className="react-tabs inline-flex">             
                 <Tab>Posts</Tab>
                 <Tab>About</Tab>
+                <Tab>{twitter}</Tab>
               </TabList>
               <TabPanel>
                 <div className="posts">
@@ -753,7 +596,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                             <>
                               <button
                                 onClick={() => deletePost(post.id)}
-                                className="bg-red-500 text-gray-200 rounded hover:bg-red-400 px-6 py-2 focus:outline-none mx-1"
+                                className="minutesago link"
                               >
                                 DELETE
                               </button>
@@ -767,22 +610,13 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                 </div>
               </TabPanel>
               <TabPanel>
-                <div className="cards">
+                <div className="cards col-span-3">
                   <Markdown
                     plugins={[gfm]}
                     children={profile.html}
                     allowDangerousHtml={true}
                   />
                   <div>
-                    {glimeshHTML && (
-                      <div>
-                        <Markdown
-                          plugins={[gfm]}
-                          children={`${glimeshHTML}`}
-                          allowDangerousHtml={true}
-                        />
-                      </div>
-                    )}
                   </div>
                 </div>
               </TabPanel>
@@ -801,6 +635,14 @@ UserPage.getInitialProps = async (ctx) => {
     .select("*")
     .ilike("username", query.username)
     .single();
+
+    const profiles = await supabase
+    .from("profiles")
+    .select("*")
+    .ilike("username", query.username)
+    .single();
+
+  
 
   const posts = await supabase
     .from("vw_posts_with_user")

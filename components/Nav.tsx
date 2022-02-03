@@ -84,7 +84,7 @@ export default function Nav(profiles) {
         <a className="navbar-brand" href="/">
           <img className="logo" src="../logo.svg" />
         </a>
-        <form className="form-inline">
+        <form className="form-inline navlink">
           <Link href="/home">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "stream"]} />{" "}
@@ -159,7 +159,7 @@ export default function Nav(profiles) {
         <a className="navbar-brand" href="/">
           <img className="logo" src="../logo.svg" />
         </a>
-        <form className="form-inline">
+        <form className="form-inline navlink">
           <Link href="/home">
             <button className="buttonwhite">
               <FontAwesomeIcon className="navicon" icon={["fas", "stream"]} />{" "}
