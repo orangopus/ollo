@@ -3,6 +3,7 @@ import useSWR from "swr";
 import { Auth, Card, Typography, Space, Button, Icon } from "@supabase/ui";
 import { supabase } from "../utils/initSupabase";
 import { useEffect, useState } from "react";
+import { TIMEOUT } from "dns";
 
 const fetcher = (url, token) =>
   fetch(url, {

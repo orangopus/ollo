@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { icon, library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "../utils/initSupabase";
@@ -490,6 +490,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
         />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:width" content="1200" />
+        <link rel="icon" href={`${encodedAvatar}`}/>
         <meta
           property="twitter:image"
           content={`https://api.placid.app/u/lf8kbnviy?&bio[text]=${encodedBio}&avatar[image]=${encodedAvatar}&displayname[text]=${encodedDisplayname}`}
@@ -513,10 +514,12 @@ export default function UserPage({ profile, user, posts, wildcard }) {
         }}
       />
       <div className="">
-        <div className="herocont padd mb-10 userdetails">
+        <div className="herocont padd mb-10 mt-10 userdetails">
           <div className="flex grid grid-cols-4">
-            
             <div className="block mr-5">
+            {profile.avatar && (
+              profile.avatar
+            )}
             <div
             className="justify-center profilecont"
             style={{ backgroundImage: `url(${profile.background_url})`, backdropFilter: "blur(4px)" }}

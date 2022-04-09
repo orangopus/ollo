@@ -153,11 +153,12 @@ export default function Nav(profiles) {
         </form>
       </nav>
     );
-  } else {
+  } else if (!session){
     return (
+      <>
       <nav className="navbar">
         <a className="navbar-brand" href="/">
-          <img className="logo" src="../logo.svg" />
+          
         </a>
         <form className="form-inline navlink">
           <Link href="/home">
@@ -177,6 +178,7 @@ export default function Nav(profiles) {
           </Link>
         </form>
       </nav>
+      </>
     );
   }
 }

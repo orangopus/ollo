@@ -1,15 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
+import Nav from "../components/Nav";
 
 export default function Index() {
-  return (
+  return (      
     <div>
       <Head>
         <title>ollo Pro</title>
       </Head>
-      <div className="row herocont">
-        <div className="center">
-          <img className="center proimage" src="logo.svg" />
+      <Nav/>
+
+      <div className="">
+        <div className="">
+          <img className="proimage" src="logo.svg" />
           <h1 className="subtitle">Want to support ollo's development?</h1>
           <p className="subtext">
             Our core features will always be 100% free, but consider supporting

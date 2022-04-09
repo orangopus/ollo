@@ -13,6 +13,9 @@ import Link from "next/link";
 import Head from "next/head";
 import ImageFallback from "react-image-fallback";
 import EdiText from "react-editext";
+import SuperEllipse from "react-superellipse";
+import Nav from "../components/Nav"
+import Footer from "../components/Footer"
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
@@ -87,6 +90,7 @@ export default function UserPage({ posts, user, profiles }) {
       </Head>
       <div>
         <div className="herocont feed2 grid gap-10 mx grid-cols-4 postsfeed">
+
           <div className="grid col-span-3">
             {user && (
               <div className="cards flex">
@@ -127,8 +131,8 @@ export default function UserPage({ posts, user, profiles }) {
                     </div>
                     <div className="inline2">
                       {profiles
-                        .filter((n) => n.username)
                         .sort(() => Math.random() - Math.random())
+                        .filter((n) => n.username)
                         .slice(0, 30)
                         .map((profile) => (
                           <div className="item">
@@ -208,12 +212,37 @@ export default function UserPage({ posts, user, profiles }) {
                     ))}
                   {session === null && (
                     <>
-                      <Markdown plugins={[gfm]} children={post.content} />
+                      <Markdown plugins={[gfm]} 
+                      
+                      renderers={{
+                        link: (props) => {
+                          return props.href.endsWith('.gif') ? (
+                            <div>
+                            <a href={props.href}>{props.children}</a>
+                              <img className="grid-card" src={props.href}/>
+                            </div>
+                          ) : (
+                              <a href={props.href}>{props.children}</a> // All other links
+                          );
+                      },
+                      handle: (props) => {
+                        return props.username.startsWith('@') (
+                          <div>
+                          <a href={props.username}>{props.username}</a>
+                            {props.username}
+                          </div>
+                        )
+                    }
+                    }}
+                      children={post.content} />
                     </>
                   )}
                 </p>
                 <div className="mt-2">
-                  <span className="minutesago reply">
+                <span className="minutesago mr-2">
+                    {post.count} likes
+                  </span>
+                <span className="minutesago reply">
                     reply
                   </span>
                 </div>
@@ -244,40 +273,66 @@ export default function UserPage({ posts, user, profiles }) {
                 .filter((n) => n.username)
                 .slice(0, 5)
                 .map((profile) => (
-                  <div className=" flex text-left p-3">
-                    <ImageFallback
-                      data-tip
-                      data-for={profile.username}
-                      className="avatar-hp"
-                      fallbackImage="../avatar.png"
-                      src={profile.avatar ? profile.avatar : "../avatar.png"}
-                    />
-                    <div>
-                      <a
-                        className="handle"
-                        href={`/${profile.username ? profile.username : ""
-                          }`}
-                      >
+                  <a
+                    className="handle none"
+                    href={`/${profile.username}`}
+                  >
+                    <div className=" flex text-left suggest p-3">
+                      <ImageFallback
+                        data-tip
+                        data-for={profile.username}
+                        className="avatar-hp"
+                        fallbackImage="../avatar.png"
+                        src={profile.avatar ? profile.avatar : "../avatar.png"}
+                      />
+                      <div>
+
                         {profile.displayname ? profile.displayname : profile.username}
-                      </a>
-                      <p className="greyhandle">
-                        @{profile.username}
-                      </p>
+                        <p className="greyhandle">
+                          @{profile.username}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
             </div>
-          <a className="none" href="https://orangop.us.discord" target="_blank">
-          <div className="grid-card discord-card p-5">
-          <p className="gridsub discord-text">
 
-          <FontAwesomeIcon icon={["fab", "discord"]} size="6x" className="homeicon discord-text"/>
-          <br/>
-            Discord
-          </p>
-          <p className="discord-text">Become apart of our cult. Well it's not a cult exactly. Join our Discord for tips, tricks and assistance!</p>
-          </div>
-          </a>
+              <div className="grid-card black mt-5 pro-panel hover p-5">
+                <div className="flex">
+                <img className="pro-badge" src="probadge.png"/>
+                </div>
+                <p>While all of our features are completely free and open-source, you can support us on our Open Collective page.</p>
+
+                <p className="mt-4 mb-2"><span className="pro pr-4 pl-4 bold">EARLY SUPPORTERS</span></p>
+                      <br/>
+                <div className="grid grid-cols-5">
+                  
+            {profiles
+                .filter(p => p.pro === true)
+                .map((p) => (
+                  <>
+                  <ImageFallback
+                        data-tip
+                        data-for={p.username}
+                        fallbackImage="avatar.png"
+                        src={p.avatar}
+                        style={{width: 64, height: 64}} className="mb-3 pro-outline rounded-full"
+                      />
+                  </>
+            ))}
+                </div>
+              </div>
+
+              <a className="none" href="https://orangop.us.discord" target="_blank">
+              <div className="grid-card hover mt-5 mb-5 discord p-5">
+                <FontAwesomeIcon icon={["fab", "discord"]} size="6x" className="homeicon" />
+                <p className="gridsub">
+                  Discord
+                </p>
+                <p>Become apart of our cult. Well it's not a cult exactly. Join our Discord for tips, tricks and assistance!</p>
+              </div>
+            </a>
+
 
           </div>
         </div>

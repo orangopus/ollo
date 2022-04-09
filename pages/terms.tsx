@@ -7,6 +7,7 @@ export default function Index() {
       <Head>
         <title>ollo | Terms</title>
       </Head>
+      <Nav/>
       <div className="herocont">
         <div className="inner" style={{ textAlign: "left", width: "700px" }}>
           <h2 className="text-4xl mb-4 font-bold">ollo Terms of Service</h2>
