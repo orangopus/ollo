@@ -21,7 +21,7 @@ You'll C very #.
 
 If you've ever heard about aptitude testing or the turing test, you know it means it's a set of conditionals that if the person meets that certain expectation through input devices, you get neural feedback from your devices.
 
-You shouldn't really let anyone into your brain, it's a special explosion made up of neutrons and some other atoms in the universe. Never let another entity or brainfucker tell you your secrets to the masses.
+You shouldn't really let anyone into your brain, it's a special explosion made up of neurons and some other atoms in the universe. Never let another entity or brainfucker tell you your secrets to the masses.
 
 # Everything Theory
 Everything is the sense that we all live in a bubble and a vacuum, or in a sense, we live in a society of lobbyists, advertisements & cat generators. Futurologists would not like this chaos theory, but I feel like I should kill my dog now.
