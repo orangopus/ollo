@@ -3,8 +3,16 @@ body {
   margin: 0;
   background: #1A2235 !important;
   overflow-x: hidden;
-  zoom: 75%;
   font-weight: black;
+}
+
+input {
+  text-align: center;
+  margin: x(y);
+}
+
+* {
+  box-sizing: middle;
 }
 
 p {
@@ -17,8 +25,28 @@ p {
   transform: translate(-243px, 97px) !important;
 }
 
+.bold { 
+  font-weight: bolder !important;
+}
+
 .navicon {
   margin-right: 0.5em;
+}
+
+.endpoint {
+  border-radius: 20px; 
+  font-weight: bolder;
+  background:rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.json {
+  white-space: pre-wrap;
+  background:rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 25px 30px;
+  margin-top: 20px;
 }
 
 .back {
@@ -89,9 +117,37 @@ p {
   color: #fff;
 }
 
+.pro-badge {
+  max-height: 42px;
+  margin-bottom: 10px;
+}
+
+.pro-panel:hover {
+  rotate: 0deg !important;
+}
+
+.pro-outline {
+  border: 3px solid #04D87F;
+  border-collapse: separate;
+  border-spacing: 15px 20px;
+  padding: 5px;
+  transition: all 50ms cubic-bezier(0.435, 0.445, 0.750, 0.750);
+}
+
+.pro-outline:hover {
+  border: none;
+  padding: 0;
+}
+
 .buttonwhite:hover {
   background:rgba(0, 0, 0, 0.25);
   border-radius: 25px;
+}
+
+.suggest:hover {
+  background:rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  cursor:pointer;
 }
 
 .paddinghero {
@@ -209,6 +265,21 @@ footer {
   opacity: 0.5;
   pointer-events: stroke;
   cursor: not-allowed;
+}
+
+.heartwatch {
+  background: #2D2D2D;
+}
+
+.soon {
+  background:rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 50px; 
+  margin-left: -20px;
+}
+
+.unlock {
+  background: #212121;
 }
 
 .reply:hover::after {
@@ -592,20 +663,25 @@ a.sbui-typography,
   margin: 0 20px;
 }
 
+.v-middle {
+  vertical-align: middle !important;
+}
+
+
+
 .created {
   position: relative;
   z-index: -200;
-
   width: 100%;
 }
+
 .created2 {
-  width: 100%;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 
 .created2:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .createTitle {
@@ -806,9 +882,17 @@ h6 {
 	}
 }
 
+.logo-block { 
+  max-height: 50px;
+}
+
 
 .black {
   background:#000;
+}
+
+.sub-black {
+  color:rgba(0, 0, 0, 0.5) !important;
 }
 
 .homeicon {
@@ -1041,7 +1125,7 @@ img {
 }
 
 .discord {
-  background: #7289da;
+  background: #5865F2;
 }
 
 .guilded {
@@ -1364,21 +1448,26 @@ input {
 .discord-card, .discord-text { 
   background: #5865F2;
   color: #fff !important;
-  transition: all 0.2s ease-in-out;
 }
 
 .discord-card {
   margin-top: 30px;
 }
 
-.discord-card:hover {
+.hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.hover:hover {
   rotate: 1deg;
   transform: scale(1.01);
   box-shadow: 0px 4px 86px rgba(0, 0, 0, 0.25);
 }
 
 .grow:hover {
-  transform: scale(1.1);
+  transform: scale(1.01);
+  box-shadow: 0px 4px 86px rgba(0, 0, 0, 0.25);
+
 }
 
 .middle {
