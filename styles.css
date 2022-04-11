@@ -538,7 +538,7 @@ ul {
 
 .sbui-card {
   border-radius: 25px !important;
-  background: #121212 !important;
+  background: transparent !important;
   box-shadow: 0px 4px 82px rgba(0, 0, 0, 0.25) !important;
   border: none !important;
   font-weight: bold !important;
@@ -546,7 +546,7 @@ ul {
 }
 
 .sbui-card-content {
-  background: transparent !important;
+  background: rgba(0,0,0,0.5) !important;
 }
 
 .sbui-formlayout__label {
@@ -1363,6 +1363,10 @@ li {
   width: 40vw;
 }
 
+.dollo {
+  width: 100%;
+}
+
 input {
   background: none;
   border: 0 !important;
@@ -1372,7 +1376,8 @@ input {
   background: transparent;
   width: 600px;
   border-radius: 100px;
-  margin: 0 !important;
+  margin-top: 40px !important;
+  margin: 0 auto;
   box-shadow: 0px 4px 100px rgba(0,0,0, 0.5);
   transition: 0.3s;
 }

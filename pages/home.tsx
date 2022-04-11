@@ -297,11 +297,11 @@ export default function UserPage({ posts, user, profiles }) {
                 ))}
             </div>
 
-              <div className="grid-card black mt-5 pro-panel hover p-5">
+              <div className="grid-card black mt-5 pro-panel hover cards">
                 <div className="flex">
                 <img className="pro-badge" src="probadge.png"/>
                 </div>
-                <p>While all of our features are completely free and open-source, you can support us on our Open Collective page.</p>
+                <p className="mt-3 mb-4">While all of our features are completely free and open-source, you can support us on our Open Collective page.</p>
 
                 <p className="mt-4 mb-2"><span className="pro pr-4 pl-4 bold">EARLY SUPPORTERS</span></p>
                       <br/>
@@ -311,6 +311,10 @@ export default function UserPage({ posts, user, profiles }) {
                 .filter(p => p.pro === true)
                 .map((p) => (
                   <>
+                                    <a
+                    className="handle none"
+                    href={`/${p.username}`}
+                  >
                   <ImageFallback
                         data-tip
                         data-for={p.username}
@@ -318,14 +322,15 @@ export default function UserPage({ posts, user, profiles }) {
                         src={p.avatar}
                         style={{width: 64, height: 64}} className="mb-3 pro-outline rounded-full"
                       />
+                      </a>
                   </>
             ))}
                 </div>
               </div>
 
               <a className="none" href="https://orangop.us.discord" target="_blank">
-              <div className="grid-card hover mt-5 mb-5 discord p-5">
-                <FontAwesomeIcon icon={["fab", "discord"]} size="6x" className="homeicon" />
+              <div className="grid-card hover mt-5 mb-5 discord cards">
+                <FontAwesomeIcon icon={["fab", "discord"]} size="6x" className="homeicon mb-3" />
                 <p className="gridsub">
                   Discord
                 </p>

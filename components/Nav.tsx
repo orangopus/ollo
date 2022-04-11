@@ -80,7 +80,7 @@ export default function Nav(profiles) {
 
   if (session) {
     return (
-      <nav className="navbar">
+      <nav className="navbar flex justify-between">
         <a className="navbar-brand" href="/">
           <img className="logo" src="../logo.svg" />
         </a>
@@ -156,9 +156,10 @@ export default function Nav(profiles) {
   } else if (!session){
     return (
       <>
-      <nav className="navbar">
+      <nav className="navbar flex justify-between">
         <a className="navbar-brand" href="/">
-          
+        <img className="logo" src="../logo.svg" />
+
         </a>
         <form className="form-inline navlink">
           <Link href="/home">

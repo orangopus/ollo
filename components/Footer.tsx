@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <>
       <footer className="footer">
-        <div className="footercontainer navbar navpad">
+        <div className="footercontainer flex justify-between navbar navpad">
           <div>
             <p>
               <a
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
         <hr className="footersep" />
-        <div className="footercontainer navbar navpad">
+        <div className="footercontainer flex justify-between navbar navpad">
           <a className="navbar-brand" href="/">
             <img className="small" src="../logo.svg" />
           </a>

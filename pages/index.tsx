@@ -21,19 +21,13 @@ export default function Index({ profile }) {
       <div className="herocont">
         <div className="row heropadding pt-7 herobg">
           <div className="center">
-            <p className="herotext text-center pt-5">open libraries, let's <span className="organised">open-everything.</span></p>
+            <p className="herotext text-center pt-5">one little link, <span className="organised">organised.</span></p>
             <p className="blurb padding text-center mt-5 mb-5">
-              The free and open way to share your library to the web.
-              {MediaError}
-            
+              The free and open way to share your library to the web.           
             </p>
-            {JSON.stringify(config)}
-            <br />
-            <div className="center">
-              <div className="mx-auto center">
-                <div className="usernameinput mx-auto h-500px w-300px flex flex-col px-2">
+            <div className="usernameinput">
                   <div className="search-box">
-                    <form className="flex">
+                    <form className="flex center">
                       <span
                         className="flex items-center rounded rounded-r-none border-0 px-3 ml-3 font-bold text-white-100"><img src="logo.svg" className="small" /> </span>
                       <input
@@ -50,14 +44,16 @@ export default function Index({ profile }) {
                   
                 
                 </div>
-                
+            <br />
+            <div className="center">
+              <div className="center">                
                 <p className="mt-5 minutesago">Version: {config.version}</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-card container dark p-5 gap-6 grid-cols-3 padd">
+        <div className="grid grid-card container center dark p-5 gap-6 grid-cols-3 padd">
 
         <div className="grid-card hover dark p-5 center items-center">
 
@@ -69,8 +65,8 @@ export default function Index({ profile }) {
 
         <div className="grid-card p-5 my-auto col-span-2">
         <img src="logo.svg" className="logo"/>
-        <h1 className="bold mt-4 mb-2">Hi-5 creators</h1>
-        <p>It wouldn't be a social platform without giving your favourite content creators a hi-5 whenever they write good content.</p>
+        <h1 className="bold mt-4 mb-2 left">Hi-5 creators</h1>
+        <p className="left">It wouldn't be a social platform without giving your favourite content creators a hi-5 whenever they write good content.</p>
         </div>
 
         <div className="grid-card p-5 items-center">
@@ -106,8 +102,8 @@ export default function Index({ profile }) {
         <div className="grid-card p-5 items-center col-span-2">      
         <div className="my-auto items-center">
         <img src="unlock.png" className="logo-block mt-4 mb-3"/>     
-          <h1 className="bold mt-4 mb-2">No paywalls. 100% free.</h1>
-          <p>We don't charge a penny for you to use the platform. If you feel the need to support the cause, you can contribute and get perks.
+          <h1 className="bold mt-4 mb-2 left">No paywalls. 100% free.</h1>
+          <p className="left">We don't charge a penny for you to use the platform. If you feel the need to support the cause, you can contribute and get perks.
             We will never charge for features, only for the badge.
           </p>
         </div>  

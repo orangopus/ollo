@@ -58,8 +58,6 @@ You can think of a display as like a plot of land, each computer on the network 
 - Pen-testing
 - Using those skills to apply them in the material world
 
-
-
 ## To-do
 
 - [x] Dashboard editor

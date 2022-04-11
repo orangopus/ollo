@@ -93,7 +93,7 @@ export default function UserPage({ profile, user, posts, wildcard }) {
       <>
         <input
           onChange={onChange}
-          className="input"
+          className="input dollo"
           value={amount}
           placeholder="$2"
           autoFocus
@@ -517,9 +517,6 @@ export default function UserPage({ profile, user, posts, wildcard }) {
         <div className="herocont padd mb-10 mt-10 userdetails">
           <div className="flex grid grid-cols-4">
             <div className="block mr-5">
-            {profile.avatar && (
-              profile.avatar
-            )}
             <div
             className="justify-center profilecont"
             style={{ backgroundImage: `url(${profile.background_url})`, backdropFilter: "blur(4px)" }}
@@ -545,7 +542,8 @@ export default function UserPage({ profile, user, posts, wildcard }) {
                 </div>
               </h1>
               <p className="bio">{profile.bio}</p>
-              <div className="socials mt-10">
+              <div className="socials left mt-10">
+                {twitter}
               {instagram}
                 {github}
                 {makerlog}
@@ -564,7 +562,6 @@ export default function UserPage({ profile, user, posts, wildcard }) {
               <TabList className="react-tabs inline-flex">             
                 <Tab>Posts</Tab>
                 <Tab>About</Tab>
-                <Tab>{twitter}</Tab>
               </TabList>
               <TabPanel>
                 <div className="posts">
