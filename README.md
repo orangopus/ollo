@@ -13,14 +13,6 @@ Decentralization is everywhere, all it basically is > is RGB signals sending bin
 
 A truly open-metaverse would be open, no ruling class, node-based, instance based and completely decentralized. Meaning it would not have any governments trying to bio-hack you or anything.
 
-rgba(jsut(tells).display.toPrint.code)))))
-
-=-0-0-0-0-0-=0---00-
-
-010111010
-
-101010101
-
 ## Peek into the License 
 
 You'll C very #.
