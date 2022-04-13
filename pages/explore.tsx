@@ -23,7 +23,7 @@ export default function Index({ profile }) {
       <Head>
         <title>Explore | ollo</title>
       </Head>
-      <div className="profilescont">
+      <div className="profilescont" >
         <h1 className="text-3xl font-bold">
           Explore{" "}
           <span className="verified">
@@ -31,51 +31,34 @@ export default function Index({ profile }) {
           </span>
         </h1>
         <input
-          className="cards search"
+          className="cards search mt-10"
           placeholder="Search for an ollo..."
           value={searchTerm}
           onChange={handleChange}
         ></input>
       </div>
-      <div className="row profilescont paddinghero">
+      <div className="grid profilescont grid-cols-8 gap-5 paddinghero">
         {searchResults
           .filter((n) => n.username)
           .sort((a, b) => a.username.localeCompare(b.username))
           .map((profile) => (
             <>
-              <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
-                <div className="cards paddingnone w-full justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-sm mx-auto"></div>
+              <div className="grid col-span-2 auto-rows-max">
+                <div className="cards center paddingnone justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-sm mx-auto"></div>
                 <a href={`/${profile.username}`} className="none">
-                  <div className="cards paddingnone grow profilecont">
-                    <div className="relative h-50">
+                  <div className="grid-card dark p-5">
+                    <div className="center avatarcont">
                       <ImageFallback
                         data-tip
                         data-for={profile.username}
-                        className="absolute h-full w-full object-cover rounded-t-lg"
-                        fallbackImage="https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/sign/uploads/magic-pattern-geometric-1620664953241.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJ1cGxvYWRzL21hZ2ljLXBhdHRlcm4tZ2VvbWV0cmljLTE2MjA2NjQ5NTMyNDEucG5nIiwiaWF0IjoxNjIwNjY1MDI2LCJleHAiOjE5MzYwMjUwMjZ9.up1i4crV7CcfYtGKxBXfYVA3wpB3AI6JXVBXHvQWbVs"
-                        src={profile.background_url}
-                      />
-                    </div>
-                    <div className="relative shadow h-25 w-25 -my-14 ml-5">
-                      <ImageFallback
-                        data-tip
-                        data-for={profile.username}
-                        className="avatar avatarcreator"
+                        className="avatar center"
                         fallbackImage="avatar.png"
                         src={profile.avatar}
                       />
                     </div>
-                    <div className="mt-9 ml-5 mr-5">
-                      <h1 className="username text-left">
-                        {profile.displayname
-                          ? profile.displayname
-                          : profile.username}{" "}
-                        <br />
-                        <span className="handle">@{profile.username}</span>
-                      </h1>
-                      <p className="text-xl text-gray-600 text-left mt-4 font-black">
-                        {profile.bio}
-                      </p>
+                    <div className="info mt-4 center"><h1 className="username center">{profile.username}
+                      <div>
+                        <span className="handle">{profile.handle}</span></div></h1>
                     </div>
                   </div>
                 </a>
@@ -83,6 +66,7 @@ export default function Index({ profile }) {
             </>
           ))}
       </div>
+      <div className="mb-10"></div>
     </div>
   );
 }

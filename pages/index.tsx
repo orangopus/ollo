@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import config from "../package.json"
 import { read, readvSync } from "fs";
 import * as THREE from "three";
+import * as Tone from "tone";
 
 export default function Index({ profile }) {
 
@@ -111,8 +112,8 @@ export default function Index({ profile }) {
 
         <div className="grid grid-cols-5 col-span-3">
 
-        <div className="grid-card p-5 items-center col-span-2 unlock">    
-        <p><span className="soon">in testing</span></p>  
+        <div className="grid-card p-5 items-center col-span-2 py5 unlock">    
+          <p><span className="soon">in testing</span></p>  
           <h1 className="bold mt-4 mb-2">Developer API</h1>
           <p>View our creator API and see just how powerful our platform can be.</p>
         </div>

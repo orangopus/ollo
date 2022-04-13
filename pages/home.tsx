@@ -89,8 +89,7 @@ export default function UserPage({ posts, user, profiles }) {
         <title>Home | ollo</title>
       </Head>
       <div>
-        <div className="herocont feed2 grid gap-10 mx grid-cols-4 postsfeed">
-
+        <div className="herocont container mx-auto feed2 grid gap-10 mx grid-cols-4 postsfeed">
           <div className="grid col-span-3">
             {user && (
               <div className="cards flex">
@@ -240,7 +239,7 @@ export default function UserPage({ posts, user, profiles }) {
                 </p>
                 <div className="mt-2">
                 <span className="minutesago mr-2">
-                    {post.count} likes
+                    like
                   </span>
                 <span className="minutesago reply">
                     reply
