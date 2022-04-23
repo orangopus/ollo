@@ -3,7 +3,7 @@
 
 Everything. Humanly. Possible.
 
-# Everything Ollo
+# Everything
 
 Everything is an idea, is similar in a sense to a metaverse, but not Meta("Facebook")'s version of the metaverse. A true metaverse would be open source, have no singular or granular control by a monopoly or anonymous entity and would be decentralised entirely.
 
@@ -57,6 +57,7 @@ You can think of a display as like a plot of land, each computer on the network 
 - Open-sourcing machine learning and neural networks to the masses
 - Pen-testing
 - Using those skills to apply them in the material world
+- Ollo - Open-source
 
 ## To-do
 
