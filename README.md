@@ -3,6 +3,8 @@
 
 Everything. Humanly. Possible.
 
+[Join the Discord](https://discord.gg/QHaTDy3xdK)
+
 # Everything
 Thesis
 
