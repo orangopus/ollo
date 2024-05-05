@@ -22,9 +22,14 @@ p {
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 .dropdown-menu.show {
-  transform: translate(-243px, 97px) !important;
+  transform: translate(-110px,110px) !important;
 }
-
+.dropdown-menu button {
+  font-size: 18px !important;
+  padding: 5px 15px !important;
+  height: auto !important;
+  margin: 0 !important;
+}
 .bold { 
   font-weight: bolder !important;
 }
@@ -104,10 +109,11 @@ p {
 }
 
 .buttonwhite {
-  padding: 10px 25px;
-  margin-right: 20px;
+  margin: auto 20px auto auto;
+  display: inline-block;
+  padding: 0px 15px;
+  font-size: 22px !important;
   border-radius: 10px;
-  font-size: 25px;
   border: none;
   font-weight: bolder;
   font-family: inherit;
@@ -164,6 +170,9 @@ p {
 }
 
 .navlink {
+  display: flex;
+  height: 40px;
+  margin: auto 0 auto 0;
   padding: 10px;
 }
 
@@ -415,7 +424,10 @@ footer {
 .dropdown-toggle::after {
   display: none !important;
 }
-
+.dropdown {
+  margin: auto 0 auto 20px;
+  display: inline-block;
+}
 .probutton {
   color: #04d87f;
 }
@@ -432,14 +444,18 @@ footer {
 
 .dropdown-menu {
   background: #121212 !important;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.25);
-  border-radius: 25px;
   margin-top: 30px;
-  padding: 30px;
   color: #fff;
-  display: inline-block;
   box-sizing: border-box;
-  text-align: center;
+  transform: translate(-110px,110px);
+  display: flex;
+  flex-direction: column;
+  padding: 6px 6px 6px 6px;
+  text-align: right;
+  border-top-right-radius: 0px;
+  background-color: rgba(14, 15, 15, 0.7);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 40px;
+  backdrop-filter: blur(50px);
 }
 
 .glimeshTitle {
@@ -567,6 +583,8 @@ ul {
 }
 
 .container {
+  background-color: rgba(16, 21, 31, 0.7);
+  backdrop-filter: blur(80px);
   margin-bottom: 50px;
 }
 
@@ -1288,7 +1306,8 @@ input {
 }
 
 .avatar2 {
-  max-width: 80px !important;
+  width: 40px;
+  height: 40px;
   box-shadow: none !important;
 }
 
