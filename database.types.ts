@@ -11,68 +11,55 @@ export type Database = {
     Tables: {
       likes: {
         Row: {
-          count: number | null
+          created_at: string
           id: number
-          post: number | null
-          user: string | null
+          likes: number | null
+          post_id: number | null
+          user_id: string | null
         }
         Insert: {
-          count?: number | null
+          created_at?: string
           id?: number
-          post?: number | null
-          user?: string | null
+          likes?: number | null
+          post_id?: number | null
+          user_id?: string | null
         }
         Update: {
-          count?: number | null
+          created_at?: string
           id?: number
-          post?: number | null
-          user?: string | null
+          likes?: number | null
+          post_id?: number | null
+          user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "likes_post_fkey"
-            columns: ["post"]
-            isOneToOne: false
-            referencedRelation: "posts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "likes_post_fkey"
-            columns: ["post"]
-            isOneToOne: false
-            referencedRelation: "vw_posts_with_user"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "likes_user_fkey"
-            columns: ["user"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       posts: {
         Row: {
+          avatar: string | null
           content: string | null
           id: number
           likes: number | null
           published_at: string | null
           user_id: string
+          username: string | null
         }
         Insert: {
+          avatar?: string | null
           content?: string | null
           id?: number
           likes?: number | null
           published_at?: string | null
           user_id: string
+          username?: string | null
         }
         Update: {
+          avatar?: string | null
           content?: string | null
           id?: number
           likes?: number | null
           published_at?: string | null
           user_id?: string
+          username?: string | null
         }
         Relationships: [
           {
@@ -213,7 +200,7 @@ export type Database = {
     Functions: {
       increment: {
         Args: {
-          id: number
+          likes: number
         }
         Returns: undefined
       }

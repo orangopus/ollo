@@ -2,12 +2,10 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link, Outlet } from "@remix-run/react";
 import config from "../../package.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library, icon } from "@fortawesome/fontawesome-svg-core";
-import { faCamera } from "@fortawesome/free-solid-svg-icons";
-
-import { AppLogo } from "~/components/app-logo";
-import { createClient } from '@supabase/supabase-js'
-import { Database } from 'database.types'
+import { useContext } from "react";
+import { UserContext } from "context/UserContext";
+import createServerSupabase from "utils/supabase.server";
+import { json, LoaderFunctionArgs } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,37 +13,12 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to ollo!" },
   ];
 };
+export const loader = async({ request }: LoaderFunctionArgs) => {
+  const response = new Response();
+  const supabase = createServerSupabase({request, response});
+  const {data} = await supabase.from("profiles").select();
 
-import { type LoaderFunctionArgs } from '@remix-run/node'
-import { createServerClient, parse, serialize } from '@supabase/ssr'
-import { useLoaderData } from "@remix-run/react"
-import { useContext } from "react";
-import { UserContext } from "context/UserContext";
-
-export async function loader({ request }: LoaderFunctionArgs) {
-  const cookies = parse(request.headers.get('Cookie') ?? '')
-  const headers = new Headers()
-
-  const supabase = createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
-    cookies: {
-      get(key) {
-        return cookies[key]
-      },
-      set(key, value, options) {
-        headers.append('Set-Cookie', serialize(key, value, options))
-      },
-      remove(key, options) {
-        headers.append('Set-Cookie', serialize(key, '', options))
-      },
-    },
-  })
-
-  const data = await supabase.auth.getSession()
-  console.log({headers})
-
-  return {
-    headers
-  }
+  return json({messages: data ?? []}, {headers: response.headers})
 }
 
 export default function Index() {
@@ -55,7 +28,7 @@ export default function Index() {
       <div className="herocont">
         <div className="row heropadding pt-7 herobg">
           <div className="center">
-            <h1>Hey {user?.user_metadata.custom_claims.global_name} </h1>
+            <h1>Hey {JSON.stringify(user)} </h1>
             <p className="herotext text-center pt-5">one little link, <span className="organised">organised.</span></p>
             <p className="blurb padding text-center mt-5 mb-5">
               The free and open way to share your library to the web.   
@@ -64,7 +37,7 @@ export default function Index() {
                   <div className="search-box">
                     <form className="flex center justify-center">
                       <span
-                        className="flex items-center rounded rounded-r-none border-0 px-3 ml-3 font-bold text-white-100"><img src="logo.svg" className="small" /> </span>
+                        className="flex items-center rounded rounded-r-none border-0 px-3 ml-3 font-bold text-white-100"><img src="/logo.svg" className="small" /> </span>
                       <input
                         className="h-16 align-middle text-grey-darker  font-normal border-0 m-3 text-grey-darkest border border-gray-100 font-bold w-full py-1 px-2 outline-none text-lg text-gray-600"
                         type="text" placeholder="your username here" />

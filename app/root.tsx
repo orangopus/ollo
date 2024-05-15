@@ -13,54 +13,51 @@ import { createServerClient, parse, serialize, createBrowserClient } from '@supa
 import { SupabaseContext } from "context/supabaseContext";
 
 import { useEffect, useState } from "react";
-import { redirect } from "@remix-run/node";
 import { json } from '@remix-run/node' // change this import to whatever runtime you are using
-import { User } from "@supabase/supabase-js";
-import { UserContext } from "context/UserContext";
+import { SupabaseClient, User, createClient } from "@supabase/supabase-js";
 import Nav from "~/components/Nav";
+import { Database } from "database.types";
+import createServerSupabase from "utils/supabase.server";
 
+
+
+type TypedSupabaseClient = SupabaseClient<Database>
+
+export type SupabaseOutletContext = {
+  supabase: TypedSupabaseClient;
+}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const env = {
-    SUPABASE_URL: process.env.SUPABASE_URL!,
-    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
-  };
+ const env = {
+  SUPABASE_URL: process.env.SUPABASE_URL!,
+  SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!
+ }
 
-  const headers = new Headers()
-  const cookies = parse(request.headers.get('Cookie') ?? '')
+ const response = new Response();
+ const supabase = createServerSupabase({request, response})
 
-  const supabase = createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
-    cookies: {
-      get(key) {
-        return cookies[key]
-      },
-      set(key, value, options) {
-        headers.append('Set-Cookie', serialize(key, value, options))
-      },
-      remove(key, options) {
-        headers.append('Set-Cookie', serialize(key, '', options))
-      },
-    },
-  })
+ const {
+  data: { session }, 
+ } = await supabase.auth.getSession();
 
-  const { data } = await supabase.auth.getUser();
-
-  return json({ env, user: data?.user });
+ return json({env, session}, {headers: response.headers})
 }
 
 export default function App() {
-  const data = useLoaderData() as {
-    env: {
-      SUPABASE_URL: string;
-      SUPABASE_ANON_KEY: string;
-    },
-    user: User;
-  };
-  const supabase = createBrowserClient(data.env.SUPABASE_URL, data.env.SUPABASE_ANON_KEY);
+  const { env, session } = useLoaderData<typeof loader>();
+
+  const [supabase] = useState(() => 
+    createBrowserClient<Database>(
+    env.SUPABASE_URL,
+    env.SUPABASE_ANON_KEY)
+  )
+
+  useEffect(() => {
+    supabase.auth.getSession().then((session) => {client: { session  }})
+  }, [])
 
   return (
     <SupabaseContext.Provider value={supabase}>
-      <UserContext.Provider value={data.user}>
         <html lang="en">
           <head>
             <meta charSet="utf-8" />
@@ -70,12 +67,11 @@ export default function App() {
           </head>
           <body>
             <Nav/>
-            <Outlet />
+            <Outlet context={{ supabase }} />
             <ScrollRestoration />
             <Scripts />
           </body>
         </html>
-      </UserContext.Provider>
     </SupabaseContext.Provider>
   );
 }

@@ -1,23 +1,26 @@
 import { useOutletContext } from "@remix-run/react";
-import { SupabaseClient } from "@supabase/auth-helpers-remix";
-import { SupabaseContext } from "context/supabaseContext";
-import { Database } from "database.types";
-import { useContext } from "react";
-
-
+import type { SupabaseOutletContext } from "~/root";
 
 export default function Login() {
   
-  const supabase = useContext(SupabaseContext)
+  const {supabase} = useOutletContext<SupabaseOutletContext>();
   
     const handleDiscordLogin = async () => {
-      await supabase.auth.signInWithOAuth({
+      const {error} = await supabase.auth.signInWithOAuth({
         provider: 'discord'
       })
+
+      if (error) {
+        console.log(error);
+      }
     }
   
     const handleLogout = async () => {
-      await supabase.auth.signOut()
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        console.log(error);
+      }
     }
   
     return (
