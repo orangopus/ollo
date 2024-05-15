@@ -5,7 +5,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { supabase } from "utils/supabase";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import dayjs from "dayjs"
 import he from  'dayjs/locale/he';
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -122,7 +122,7 @@ export default function UserPage() {
               </div>
             )}
             {user === null && (
-              <Link href="/dashboard">
+              <Link to="/dashboard">
                 <div className="created2">
                   <div className="cards created">
                     <div className="create">
