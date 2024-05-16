@@ -547,7 +547,6 @@ body {
   }
   
   .profile {
-    max-width: 900px;
     zoom: 125%;
   }
   
@@ -1325,11 +1324,9 @@ body {
   .profilecont {
     padding: 28px;
     border-radius: 20px;
-    display: block;
     text-align: center;
     background: #141A27;
     background-size: cover;
-    max-width: inherit;
   }
   
   .posts {
@@ -1679,10 +1676,6 @@ body {
   
     .react-tabs__tab-list {
       margin: 0;
-    }
-  
-    .profile {
-      max-width: 100%;
     }
   
     .buttonwhite {
