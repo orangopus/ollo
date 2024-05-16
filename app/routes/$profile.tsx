@@ -1,22 +1,22 @@
 import { useLoaderData, useOutletContext } from "@remix-run/react";
-import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
+import {Rnd} from "react-rnd";
 import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Markdown from "react-markdown";
 import gfm from "remark-gfm";
 
+export const loader = async ({ request, params, response }: { request: any, params: any, response: any }) => {
+  const sup = supabase(request, response); // Pass the required arguments to the supabase function call
+  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single(); // Add .single() to get a single result
+  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data?.id) // Add null check
 
-export const loader = async ({ request, params, response }) => {
-  const sup = supabase(request, response);
-  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
-  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id);
-  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
-
-  if (profileRes.error || layoutsRes.error || postsRes.error) {
-    throw new Error(profileRes.error?.message || layoutsRes.error?.message || postsRes.error?.message);
+  if (!profileRes.data || !profileRes.data.id) {
+    throw new Error("Profile data or profile ID is undefined");
   }
+  
+  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id)
 
   return { profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
 };
@@ -25,12 +25,11 @@ export default function Profile() {
   const { profile, layoutData, posts } = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
 
-  const [positions, setPositions] = useState([]);
+  const [positions, setPositions] = useState({});
 
   useEffect(() => {
     const fetchLayoutData = async () => {
       try {
-        // Fetch layout data from Supabase
         const { data, error } = await supabase
           .from("layouts")
           .select("*")
@@ -41,7 +40,6 @@ export default function Profile() {
           throw error;
         }
 
-        // If layout data exists, update the position
         if (data) {
           setPositions(data);
         }
@@ -56,113 +54,100 @@ export default function Profile() {
   useEffect(() => {
     const saveLayoutData = async () => {
       try {
-        // If layout data for the profile ID exists, update it; otherwise, create new layout data
         if (layoutData) {
-          await supabase.from("layouts").update({ ...layoutData[0], ...positions }, { onConflict: ["id"], ignoreDuplicates: true }).eq("id", profile.id);
+          await supabase
+            .from("layouts")
+            .update({ ...positions }, { onConflict: ["id"], ignoreDuplicates: true })
+            .eq("id", profile.id);
           console.log("Layout data updated successfully!");
         } else {
-          await supabase.from("layouts").insert({ ...positions });
-          console.log("New layout data saved successfully!");
+          // Ensure profile.id is defined before attempting to insert data
+          if (profile.id) {
+            await supabase.from("layouts").insert({ ...positions });
+            console.log("New layout data saved successfully!");
+          }
         }
       } catch (error) {
         console.error("Error saving layout data:", error.message);
       }
     };
 
-    // Call saveLayoutData function when position changes
     if (positions) {
       saveLayoutData();
     }
-  }, [positions, layoutData, supabase]);
+  }, [positions, layoutData, profile.id, supabase]);
 
-  const handleDrag = (component, e, ui) => {
+  const handleDrag = (id, e, d) => {
     setPositions(prevPositions => ({
       ...prevPositions,
-      [component]: { x: ui.x, y: ui.y }
+      [id]: { x: d.x, y: d.y }
     }));
-  }
+  };
+
+  const handleResize = (id, direction, ref, delta, position) => {
+    setPositions(prevPositions => ({
+      ...prevPositions,
+      [id]: {
+        ...(prevPositions[id] as any),
+        width: ref.offsetWidth,
+        height: ref.offsetHeight
+      }
+    }));
+  };
+
+  const style = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "solid 1px #ddd",
+    background: "#f0f0f0",
+  } as const;
 
   return (
     <>
-      <Draggable position={positions.profile} onDrag={(e, ui) => handleDrag('profile', e, ui)}>
-        <div className="herocont padd mb-10 mt-10 userdetails">
-          <div className="flex grid grid-cols-4">
-            <div className="block mr-5">
+      <Rnd
+        style={style}
+        size={{ width: positions.profile?.width || 200, height: positions.profile?.height || 200 }}
+        position={{ x: positions.profile?.x || 0, y: positions.profile?.y || 0 }}
+        onDrag={(e, d) => handleDrag("profile", e, d)}
+        onResize={(e, direction, ref, delta, position) => handleResize('profile', direction, ref, delta, position)}
+        id="profile"
+        resizable
+      >
+        <div className="">
+          <div className="">
+            <div className="">
               <div
-                className="justify-center profilecont"
-                style={{ backgroundImage: `url(${profile.background_url})`, backdropFilter: "blur(4px)" }}
+                className=""
+                style={{ backgroundImage: `url(${profile?.background_url})`, backdropFilter: "blur(4px)" }}
               >
                 <div className="center avatarcont">
                   <img
                     className="avatar"
-                    src={profile.avatar}
+                    src={profile?.avatar}
                   />
                 </div>
                 <div className="info mt-4 center">
                   <h1 className="username">
-                    {profile.displayname ? profile.displayname : profile.username}{" "}
+                    {profile?.displayname ? profile.displayname : profile?.username}{" "}
                   </h1>
-                  <p className="bio">{profile.bio}</p>
+                  <p className="bio">{profile?.bio}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </Draggable>
+      </Rnd>
 
-      <Draggable position={positions.posts} onDrag={(e, ui) => handleDrag('posts', e, ui)}>
-        <Tabs className="col-span-3">
-              <TabList className="react-tabs inline-flex">             
-                <Tab>Posts</Tab>
-                <Tab>About</Tab>
-              </TabList>
-              <TabPanel>
-                <div className="posts">
-                  {posts.map((post, index) => (
-                    <div className="cards cardspost" key={post.id}>
-                      <div className="flex">
-                        <div className="avatarcont">
-                          <a href={`/${post.username}`}>
-                            <img className="avatar avatar2" src={post.avatar} alt={post.username} />
-                          </a>
-                        </div>
-                        <div className="info ml-4">
-                          <h1 className="username mb-2 left">
-                            {post.displayname ? post.displayname : post.username}{" "}
-                            <span className="handle">@{post.username}</span>
-                            <br />
-                            <a className="minutesago" href={`/posts/${post.id}`}>
-                              {post.published_at}
-                            </a>
-                          </h1>
-                        </div>
-                      </div>
-                      <br />
-                      <p className="postcontent">
-                        <Markdown remarkPlugins={[gfm]} children={post.content} />
-                      </p>
-                      <div></div>
-                    </div>
-                  ))}
-                </div>
-              </TabPanel>
-              <TabPanel>
-                <div className="cards col-span-3">
-                  <Markdown
-                    plugins={[gfm]}
-                    children={profile.html}
-                    allowDangerousHtml={true}
-                  />
-                  <div>
-                  </div>
-                </div>
-              </TabPanel>
-            </Tabs>
-      </Draggable>
-
-      <Draggable position={positions.socials} onDrag={(e, ui) => handleDrag('socials', e, ui)}>
-        <div className="socials">Socials</div>
-      </Draggable>
+      <Rnd
+        position={{ x: positions.posts?.x || 0, y: positions.posts?.y || 0 }}
+        onDrag={(e, d) => handleDrag('posts', e, d)} // Pass 'posts' as id
+        onResize={(e, direction, ref, delta, position) => handleResize('posts', direction, ref, delta, position)} // Pass 'posts' as id
+        id="posts"
+        resizable
+      >
+        {/* Posts content */}
+      </Rnd>
     </>
   );
 }
