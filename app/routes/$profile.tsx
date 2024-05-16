@@ -1,22 +1,19 @@
 import { useLoaderData, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import {Rnd} from "react-rnd";
+import { Rnd } from "react-rnd";
 import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import Markdown from "react-markdown";
-import gfm from "remark-gfm";
 
 export const loader = async ({ request, params, response }: { request: any, params: any, response: any }) => {
-  const sup = supabase(request, response); // Pass the required arguments to the supabase function call
-  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single(); // Add .single() to get a single result
-  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data?.id) // Add null check
+  const sup = supabase(request, response);
+  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
 
   if (!profileRes.data || !profileRes.data.id) {
     throw new Error("Profile data or profile ID is undefined");
   }
-  
-  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id)
+
+  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
+  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
 
   return { profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
 };
@@ -24,45 +21,28 @@ export const loader = async ({ request, params, response }: { request: any, para
 export default function Profile() {
   const { profile, layoutData, posts } = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
+  const user = supabase.auth.getUser();
 
-  const [positions, setPositions] = useState({});
+  const [positions, setPositions] = useState(layoutData || {}); // Initialize with layout data if available
 
   useEffect(() => {
-    const fetchLayoutData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("layouts")
-          .select("*")
-          .eq("id", profile.id)
-          .single();
-
-        if (error) {
-          throw error;
-        }
-
-        if (data) {
-          setPositions(data);
-        }
-      } catch (error) {
-        console.error("Error fetching layout data:", error.message);
-      }
-    };
-
-    fetchLayoutData();
-  }, [profile.id]);
+    if (layoutData) {
+      setPositions(layoutData);
+    }
+  }, [layoutData]);
 
   useEffect(() => {
     const saveLayoutData = async () => {
       try {
-        if (layoutData) {
-          await supabase
-            .from("layouts")
-            .update({ ...positions }, { onConflict: ["id"], ignoreDuplicates: true })
-            .eq("id", profile.id);
-          console.log("Layout data updated successfully!");
-        } else {
-          // Ensure profile.id is defined before attempting to insert data
-          if (profile.id) {
+        const currentUser = await user;
+        if (currentUser?.data.user.id === profile.id) {
+          if (Object.keys(positions).length > 0) {
+            await supabase
+              .from("layouts")
+              .update({ ...positions }, { onConflict: ["id"], ignoreDuplicates: true })
+              .eq("id", profile.id);
+            console.log("Layout data updated successfully!");
+          } else {
             await supabase.from("layouts").insert({ ...positions });
             console.log("New layout data saved successfully!");
           }
@@ -72,15 +52,15 @@ export default function Profile() {
       }
     };
 
-    if (positions) {
+    if (user && Object.keys(positions).length > 0) {
       saveLayoutData();
     }
-  }, [positions, layoutData, profile.id, supabase]);
+  }, [positions, profile.id, user, supabase]);
 
   const handleDrag = (id, e, d) => {
     setPositions(prevPositions => ({
       ...prevPositions,
-      [id]: { x: d.x, y: d.y }
+      [id]: { x: d.x, y: d.y, width: d.width, height: d.height }
     }));
   };
 
@@ -88,7 +68,7 @@ export default function Profile() {
     setPositions(prevPositions => ({
       ...prevPositions,
       [id]: {
-        ...(prevPositions[id] as any),
+        ...(prevPositions[id] || {}),
         width: ref.offsetWidth,
         height: ref.offsetHeight
       }
@@ -99,9 +79,13 @@ export default function Profile() {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    border: "solid 1px #ddd",
-    background: "#f0f0f0",
+    borderRadius: "20px",
+    background: "#121212",
   } as const;
+
+  if (!user) {
+    return <p>Please log in to view this page.</p>;
+  }
 
   return (
     <>
