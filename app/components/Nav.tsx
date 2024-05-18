@@ -1,10 +1,30 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { UserContext } from "context/UserContext";
 import { useContext } from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fab, fas);
+
+// load posts from database
+export const loader = async ({ request }: LoaderArgs) => {
+  const response = new Response();
+  const supabase = createServerSupabase({ request, response });
+
+  const posts = await supabase.from("posts_with_likes").select().order('id', { ascending: false });
+  const likes = await supabase.from("likes").select();
+
+  const user = await supabase.auth.getUser()
+
+  return {
+    user: user.data,
+  }
+    
+};
 
 export default function Nav() {
-  const user = useContext(UserContext);
+  const user = useLoaderData()
 
   console.log(user)
 
@@ -20,18 +40,22 @@ export default function Nav() {
         <Link to="/explore" className="buttonwhite">
           <FontAwesomeIcon className="navicon" icon={["fas", "shapes"]} /> explore
         </Link>
-        {user && (
-          <Link className="flex center" to="/dashboard">
-            {user?.user_metadata.avatar_url && (
+        {user.session ? (
+          <Link className="flex center" to="/login">
+            {user?.session.user.user_metadata.avatar_url && (
               <img
                 className="avatar avatar2 center"
                 style={{ marginTop: "-25px" }}
-                src={user.user_metadata.avatar_url}
+                src={user?.session.user.user_metadata.avatar_url}
                 alt="User Avatar"
               />
             )}
           </Link>
-        )}
+        ) : (!user.session && (
+          <Link to="/login">
+            <button className="button" style={{ marginTop: "-10px" }}>Login</button>
+          </Link>
+        ))}
       </form>
     </nav>
   );
