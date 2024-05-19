@@ -155,7 +155,7 @@ export default function UserPage() {
             </div>
           </div>
           <p className="postcontent">
-            {post.user_id === data.user.id ? (
+            {post.user_id === data.id ? (
               <EdiText
                 key={post.id}
                 value={post.content}
