@@ -17,104 +17,136 @@ import Like from "~/components/like";
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
-export const action = async ({ request }: ActionArgs) => {
-  const response = new Response();
-  const supabase = createServerSupabase({ request, response });
-  const data = await supabase.auth.getUser();
-  const formData = Object.fromEntries(await request.formData());
+const formatDate = (date) => dayjs().to(dayjs(date));
 
-  if (!data.user) {
-    throw new Error("User not authenticated");
+export const action: ActionFunction = async ({ request }) => {
+  try {
+    const supabase = createServerSupabase({ request });
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error("User not authenticated");
+    }
+
+    const formData = new URLSearchParams(await request.text());
+    const post = formData.get("post");
+
+    if (post) {
+      await supabase.from("posts").insert({ content: post, user_id: user.id });
+    }
+
+    return json(null, { status: 200 });
+  } catch (error) {
+    return json({ error: error.message }, { status: 500 });
   }
-
-  if (formData.reply && formData.post_id) {
-    const { reply, post_id } = formData;
-    await supabase
-      .from("replies")
-      .insert({ content: reply, post_id, user_id: data.user.id });
-  } else {
-    const { post } = formData;
-    await supabase
-      .from("posts")
-      .insert({ content: post, user_id: data.user.id });
-  }
-
-  return json(null, { headers: response.headers });
 };
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const response = new Response();
   const supabase = createServerSupabase({ request, response });
 
-  const posts = await supabase
-    .from("posts_with_likes")
-    .select()
-    .order("id", { ascending: false });
-
+  const posts = await supabase.from("posts_with_likes").select().order("id", { ascending: false });
   const likes = await supabase.from("likes").select();
-
-  const replies = await supabase
-    .from("replies")
-    .select("*")
-    .order("id", { ascending: true });
-
-  const dataType = await supabase.auth.getUser();
-
-  const profile = await supabase.from("profiles").select();
+  const replies = await supabase.from("replies").select("*").order("id", { ascending: true });
+  const { data: { user } } = await supabase.auth.getUser();
+  const profiles = await supabase.from("profiles").select();
 
   return {
     posts: posts.data,
-    data: dataType.data,
+    user,
     likes: likes.data,
     replies: replies.data || [],
-    profile: profile.data,
+    profiles: profiles.data,
   };
 };
 
 export default function UserPage() {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const { posts, data, likes, replies, profile } = useLoaderData();
+  const { user, posts, likes, replies, profiles } = useLoaderData();
+  const [newPost, setNewPost] = useState(""); // State to store new post content
 
-  const editPosts = async (edit, editID) => {
-    await supabase
-      .from("posts")
-      .update({ content: edit })
-      .eq("id", editID);
-  };
+  const handlePostSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .insert([{ content: newPost, user_id: user.id }]); // Adjust according to your table structure
 
-  const deletePost = async (postID) => {
-    await supabase
-      .from("posts")
-      .delete()
-      .match({ id: postID });
-  };
+      if (error) {
+        throw error;
+      }
 
-  const formatDate = (date) => dayjs().to(dayjs(date));
-
-  const postReply = async (replyContent, postId) => {
-    if (!data.user) {
-      throw new Error("User not authenticated");
+      setNewPost(''); // Clear the input field after submission
+      console.log('Post submitted successfully:', data);
+    } catch (error) {
+      console.error('Error submitting post:', error);
     }
-    await supabase
-      .from("replies")
-      .insert({ content: replyContent, post_id: postId, user_id: data.user.id });
+  };
 
-    // Refresh the page or data to show the new reply
-    window.location.reload();
+  const editPosts = async (content, postId) => {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .update({ content })
+        .eq('id', postId);
+
+      if (error) throw error;
+      console.log('Post updated successfully:', data);
+    } catch (error) {
+      console.error('Error updating post:', error);
+    }
+  };
+
+  const deletePost = async (postId) => {
+    try {
+      // Start a transaction
+      const { data, error } = await supabase
+        .from('replies')
+        .delete()
+        .eq('post_id', postId)
+        .then(() =>
+          supabase
+            .from('posts')
+            .delete()
+            .eq('id', postId)
+        );
+  
+      if (error) throw error;
+  
+      console.log('Post and its replies deleted successfully:', data);
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+  
+
+  const postReply = async (content, postId) => {
+    try {
+      const { data, error } = await supabase
+        .from('replies')
+        .insert([{ content, post_id: postId, user_id: user.id }]);
+
+      if (error) throw error;
+      console.log('Reply submitted successfully:', data);
+    } catch (error) {
+      console.error('Error submitting reply:', error);
+    }
   };
 
   return (
     <>
-      {data?.user && (
+      {user && (
         <div className="cards flex">
-          <img className="avatar" src={data.user.user_metadata.avatar_url} />
-          <Form className="postcontainer" method="post">
+          <img className="avatar" src={user.user_metadata.avatar_url} />
+          <Form className="postcontainer" method="post" onSubmit={handlePostSubmit}>
             <div className="postcontainer">
               <textarea
                 id="clearPost"
                 name="post"
                 placeholder="What have you done today?"
                 className="textarea postinput"
+                value={newPost} // Bind the value of the textarea to the state
+                onChange={(e) => setNewPost(e.target.value)} // Update the state on change
               />
               <button className="button postsubmit" type="submit">
                 Post
@@ -155,7 +187,7 @@ export default function UserPage() {
             </div>
           </div>
           <p className="postcontent">
-            {post.user_id === data.id ? (
+            {post.user_id === user.id ? (
               <EdiText
                 key={post.id}
                 value={post.content}
@@ -170,28 +202,27 @@ export default function UserPage() {
           </p>
           {/* Display replies */}
           <div className="replies">
-          {replies
-  .filter((reply) => reply.post_id === post.id)
-  .map((reply) => {
-    const userProfile = profile.find((profile) => profile.id === reply.user_id);
-    if (!userProfile) return null; // Handle case where profile is not found
-    return (
-      <div key={reply.id} className="postcontent">
-        <img
-          className="avatar avatar3"
-          src={userProfile.avatar}
-          alt={userProfile.username}
-        />
-        <p>{reply.content}</p>
-        <p>
-        <span className="reply-author ">
-          {userProfile.username} - {formatDate(reply.created_at)}
-        </span>
-        </p>
-      </div>
-    );
-  })}
-
+            {replies
+              .filter((reply) => reply.post_id === post.id)
+              .map((reply) => {
+                const userProfile = profiles.find((profile) => profile.id === reply.user_id);
+                if (!userProfile) return null; // Handle case where profile is not found
+                return (
+                  <div key={reply.id} className="postcontent">
+                    <img
+                      className="avatar avatar3"
+                      src={userProfile.avatar}
+                      alt={userProfile.username}
+                    />
+                    <p>{reply.content}</p>
+                    <p>
+                      <span className="reply-author ">
+                        {userProfile.username} - {formatDate(reply.created_at)}
+                      </span>
+                    </p>
+                  </div>
+                );
+              })}
           </div>
           <div className="mt-2">
             <span className="minutesago">
