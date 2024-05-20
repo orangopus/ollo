@@ -261,6 +261,7 @@ export default function UserPage() {
           {/* Reply form */}
           {replyInputs[post.id] && (
             <Form
+              className="reply-form"
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.target);
@@ -271,9 +272,9 @@ export default function UserPage() {
               <textarea
                 name="reply"
                 placeholder="Write a reply..."
-                className="textarea"
+                className="textarea reply-input"
               />
-              <button type="submit" className="button">
+              <button type="submit" className="button reply-submit">
                 Reply
               </button>
             </Form>
