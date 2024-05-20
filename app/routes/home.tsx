@@ -64,13 +64,14 @@ export default function UserPage() {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const { user, posts, likes, replies, profiles } = useLoaderData();
   const [newPost, setNewPost] = useState(""); // State to store new post content
+  const [error, setError] = useState(null); // State to store error messages
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
         .from('posts')
-        .insert([{ content: newPost, user_id: user.id }]); // Adjust according to your table structure
+        .insert([{ content: newPost, user_id: user.id }]);
 
       if (error) {
         throw error;
@@ -79,6 +80,7 @@ export default function UserPage() {
       setNewPost(''); // Clear the input field after submission
       console.log('Post submitted successfully:', data);
     } catch (error) {
+      setError('Error submitting post: ' + error.message);
       console.error('Error submitting post:', error);
     }
   };
@@ -93,13 +95,13 @@ export default function UserPage() {
       if (error) throw error;
       console.log('Post updated successfully:', data);
     } catch (error) {
+      setError('Error updating post: ' + error.message);
       console.error('Error updating post:', error);
     }
   };
 
   const deletePost = async (postId) => {
     try {
-      // Start a transaction
       const { data, error } = await supabase
         .from('replies')
         .delete()
@@ -110,15 +112,15 @@ export default function UserPage() {
             .delete()
             .eq('id', postId)
         );
-  
+
       if (error) throw error;
-  
+
       console.log('Post and its replies deleted successfully:', data);
     } catch (error) {
+      setError('Error deleting post: ' + error.message);
       console.error('Error deleting post:', error);
     }
   };
-  
 
   const postReply = async (content, postId) => {
     try {
@@ -129,15 +131,20 @@ export default function UserPage() {
       if (error) throw error;
       console.log('Reply submitted successfully:', data);
     } catch (error) {
+      setError('Error submitting reply: ' + error.message);
       console.error('Error submitting reply:', error);
     }
   };
+
+  if (!user) {
+    return <p className="text-white">You need to login to see this page.</p>; // or handle unauthenticated state
+  }
 
   return (
     <>
       {user && (
         <div className="cards flex">
-          <img className="avatar" src={user.user_metadata.avatar_url} />
+          <img className="avatar" src={user.user_metadata.avatar_url} alt="User Avatar" />
           <Form className="postcontainer" method="post" onSubmit={handlePostSubmit}>
             <div className="postcontainer">
               <textarea
@@ -156,6 +163,7 @@ export default function UserPage() {
               </p>
             </div>
           </Form>
+          {error && <div className="error">{error}</div>} {/* Display error message */}
         </div>
       )}
 
@@ -164,7 +172,7 @@ export default function UserPage() {
           <div className="flex">
             <div className="avatarcont ml-0 mr-0">
               <a href={`/${post.username}`}>
-                <img className="avatar avatar3" src={post.avatar} />
+                <img className="avatar avatar3" src={post.avatar} alt={`${post.username} avatar`} />
               </a>
             </div>
             <div className="info ml-4">
@@ -194,7 +202,7 @@ export default function UserPage() {
                 onSave={(value) => editPosts(value, post.id)}
                 submitOnEnter
                 type="textarea"
-                renderValue={(value) => <p>{post.content}</p>}
+                renderValue={(value) => <Markdown>{value}</Markdown>}
               />
             ) : (
               <Markdown>{post.content}</Markdown>
@@ -230,15 +238,16 @@ export default function UserPage() {
             </span>
             <span className="minutesago reply">reply</span>
           </div>
-          <div>
-            <button
-              onClick={() => deletePost(post.id)}
-              className="bg-red-500 text-gray-200 minutesago"
-            >
-              delete
-            </button>
-          </div>
-
+          {post.user_id === user.id && (
+            <div>
+              <button
+                onClick={() => deletePost(post.id)}
+                className="bg-red-500 text-gray-200 minutesago"
+              >
+                delete
+              </button>
+            </div>
+          )}
           {/* Reply form */}
           <Form
             className="reply-form"
