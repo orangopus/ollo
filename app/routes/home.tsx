@@ -65,6 +65,7 @@ export default function UserPage() {
   const { user, posts, likes, replies, profiles } = useLoaderData();
   const [newPost, setNewPost] = useState(""); // State to store new post content
   const [error, setError] = useState(null); // State to store error messages
+  const [replyInputs, setReplyInputs] = useState({}); // State to manage visibility of reply inputs
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -134,6 +135,13 @@ export default function UserPage() {
       setError('Error submitting reply: ' + error.message);
       console.error('Error submitting reply:', error);
     }
+  };
+
+  const toggleReplyInput = (postId) => {
+    setReplyInputs((prev) => ({
+      ...prev,
+      [postId]: !prev[postId]
+    }));
   };
 
   if (!user) {
@@ -236,7 +244,9 @@ export default function UserPage() {
             <span className="minutesago">
               <Like postId={post.id} initialLikes={post.likes} />
             </span>
-            <span className="minutesago reply">reply</span>
+            <button className="minutesago" onClick={() => toggleReplyInput(post.id)}>
+              reply
+            </button>
           </div>
           {post.user_id === user.id && (
             <div>
@@ -249,24 +259,25 @@ export default function UserPage() {
             </div>
           )}
           {/* Reply form */}
-          <Form
-            className="reply-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const replyContent = formData.get("reply");
-              postReply(replyContent, post.id);
-            }}
-          >
-            <textarea
-              name="reply"
-              placeholder="Write a reply..."
-              className="textarea reply-input"
-            />
-            <button type="submit" className="button reply-submit">
-              Reply
-            </button>
-          </Form>
+          {replyInputs[post.id] && (
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const replyContent = formData.get("reply");
+                postReply(replyContent, post.id);
+              }}
+            >
+              <textarea
+                name="reply"
+                placeholder="Write a reply..."
+                className="textarea"
+              />
+              <button type="submit" className="button">
+                Reply
+              </button>
+            </Form>
+          )}
         </div>
       ))}
     </>
