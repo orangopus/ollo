@@ -251,8 +251,8 @@ export default function UserPage() {
                 );
               })}
           </div>
-          <div className="mt-2">
-            <span className="minutesago">
+          <div>
+            <span className="minutesago mt-6 mr-3">
               <Like postId={post.id} initialLikes={post.likes} />
             </span>
             <button className="minutesago" onClick={() => toggleReplyInput(post.id)}>

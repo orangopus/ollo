@@ -18,6 +18,7 @@ import { SupabaseClient, User, createClient } from "@supabase/supabase-js";
 import Nav from "~/components/Nav";
 import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
+import Footer from "./components/Footer";
 
 type TypedSupabaseClient = SupabaseClient<Database>
 
@@ -117,6 +118,7 @@ export default function App() {
             <Outlet context={{ supabase }} />
             <ScrollRestoration />
             <Scripts />
+            <Footer />
           </body>
         </html>
     </SupabaseContext.Provider>

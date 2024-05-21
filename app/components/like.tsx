@@ -50,7 +50,7 @@ export default function Like({ postId, initialLikes = 0 }: LikeButtonProps) {
 
         if (error) throw error;
 
-        const likesCount = likesData.length > 0 ? likesData[0].count : 0;
+        const likesCount = Number(likesData.length > 0 ? likesData[0].count : 0);
         setLiked(likesCount > 0);
         setLikes(likesCount);
       } catch (error) {
@@ -93,9 +93,8 @@ export default function Like({ postId, initialLikes = 0 }: LikeButtonProps) {
   };
 
   return (
-    <button onClick={handleLike}>
-      {liked ? <AiFillHeart color="#22c55e" size={25} /> : <AiOutlineHeart color="white" size={25} />}
-      {likes}
+    <button onClick={handleLike} className="likes">
+      {liked ? <AiFillHeart color="#22c55e" size={25} /> : <AiOutlineHeart color="white" size={25} />}<span className="ml-3">{likes}</span>
     </button>
   );
 }
