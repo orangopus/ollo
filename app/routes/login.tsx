@@ -1,9 +1,26 @@
-import { useOutletContext } from "@remix-run/react";
+import { Link, redirect, useLoaderData, useOutletContext } from "@remix-run/react";
 import type { SupabaseOutletContext } from "~/root";
+import { Toast } from "flowbite-react";
+import { HiFire } from "react-icons/hi";
+import createServerSupabase from "utils/supabase.server";
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const response = new Response();
+  const supabase = createServerSupabase({ request, response });
+
+  const user = await supabase.auth.getUser()
+
+  return {
+    user: user.data
+  }
+    
+};
 
 export default function Login() {
   
   const {supabase} = useOutletContext<SupabaseOutletContext>();
+
+  const user = useLoaderData()
   
     const handleDiscordLogin = async () => {
       const {error} = await supabase.auth.signInWithOAuth({
@@ -21,13 +38,15 @@ export default function Login() {
       if (error) {
         console.log(error);
       }
+ 
+      redirect("/")
     }
   
     return (
       <>
-        <div className="flex items-center justify-center min-h-screen">
+        <div className="grid justify-items-center">
     <button onClick={handleDiscordLogin}
-        className="flex items-center bg-white border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+        className="flex items-center bg-white border border-gray-300 rounded-lg shadow-md mb-5 px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
        
         <svg className="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
           width="800px" height="800px" viewBox="0 -28.5 256 256" version="1.1" preserveAspectRatio="xMidYMid">
@@ -41,10 +60,28 @@ export default function Login() {
         </svg>
 
         <span>Continue with Discord</span>
-
     </button>
+    <Toast className="mb-5">
+              <div className="flex justify-center h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
+                <HiFire className="h-5 w-5" />
+              </div>
+
+              <div className="ml-3 text-sm font-normal">Pleaae login with Discord with the same email as your ollo email.</div>
+              <Toast.Toggle />
+            </Toast>
+
+            {user.session ? (
+          <Link className="flex center" to={`/${profile}`}>
+            {user?.session.user.user_metadata.avatar_url && (
+                  <button className="flex items-center bg-white border border-gray-300 rounded-lg shadow-md ml-1 px-6 py-2.5 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" onClick={handleLogout}>Logout</button>
+            )}
+          </Link>
+        ) : (!user.session && (
+          <Link to="/login">
+            <button className="button" style={{ marginTop: "-10px" }}>Login</button>
+          </Link>
+        ))}
 </div>
-        <button onClick={handleLogout}>Logout</button>
       </>
     )
   }

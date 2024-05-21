@@ -7,7 +7,7 @@
     "**/.server/**/*.tsx",
     "**/.client/**/*.ts",
     "**/.client/**/*.tsx"
-, "database.types.ts", "app/routes/api.heartwatch.js", "app/routes/heartwatch.ts", "server.cjs"  ],
+, "database.types.ts", "app/routes/api.heartwatch.js", "app/routes/heartwatch.ts", "server.cjs", "websocket.cjs"  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["@remix-run/node", "vite/client"],

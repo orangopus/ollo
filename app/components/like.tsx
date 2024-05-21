@@ -12,95 +12,68 @@ type LikeButtonProps = {
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { postId } = params;
   const { supabase } = createSupabase();
-  
+
   try {
     const { user } = await supabase.auth.getUser();
-    const { data: likes } = await supabase
+    const { data: likes, error } = await supabase
       .from("likes")
-      .select("count(*)", { count: "exact" }) // Count the number of rows
+      .select("count(*)", { count: "exact" })
       .eq("post_id", postId)
-      .eq("user_id", user.id); // Assuming user is already fetched
+      .eq("user_id", user?.id);
 
-    return json({ user, likes: likes[0].count }); // Return the count
+    if (error) throw error;
+
+    return json({ user, likes: likes.length > 0 ? likes[0].count : 0 });
   } catch (error) {
     console.error("Error fetching likes:", error.message);
-    return json({ user: null, likes: 0 }); // Return 0 in case of error
+    return json({ user: null, likes: 0 });
   }
 };
 
 export default function Like({ postId, initialLikes = 0 }: LikeButtonProps) {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const user = useLoaderData();
-
+  const { user, likes: initialLikesCount } = useLoaderData();
+  
   const [liked, setLiked] = useState<boolean>(false);
-  const [likes, setLikes] = useState<number>(initialLikes);
+  const [likes, setLikes] = useState<number>(initialLikes || initialLikesCount);
 
   useEffect(() => {
     const fetchLikes = async () => {
-      if (!user) {
-        return; // Exit early if user is null or user.id is null
-      }
+      if (!user) return;
 
       try {
-        const { data: likesData } = await supabase
+        const { data: likesData, error } = await supabase
           .from("likes")
-          .select("count(*)", { count: "exact" }) // Count the number of rows
+          .select("count(*)", { count: "exact" })
           .eq("post_id", postId)
-          .eq("user_id", user.data.user.id);
+          .eq("user_id", user.id);
+
+        if (error) throw error;
 
         const likesCount = likesData.length > 0 ? likesData[0].count : 0;
         setLiked(likesCount > 0);
-        setLikes(likesCount); // Set the likes count
+        setLikes(likesCount);
       } catch (error) {
         console.error("Error fetching likes:", error.message);
       }
     };
 
     fetchLikes();
-  }, [postId, user]);
-
-  useEffect(() => {
-    if (liked) {
-      return; // Exit early if already liked
-    }
-
-    const fetchLikes = async () => {
-      if (!user) {
-        return; // Exit early if user is null or user.id is null
-      }
-
-      try {
-        const { data: likesData } = await supabase
-          .from("likes")
-          .select("count(*)", { count: "exact" }) // Count the number of rows
-          .eq("post_id", postId)
-          .eq("user_id", user.data.user.id);
-
-        const likesCount = likesData.length > 0 ? likesData[0].count : 0;
-        setLiked(likesCount > 0);
-        setLikes(likesCount); // Set the likes count
-      } catch (error) {
-        console.error("Error fetching likes:", error.message);
-      }
-    };
-
-    fetchLikes();
-  }, [postId, user]);
+  }, [postId, user, supabase]);
 
   const updateLikesCount = async (increment: boolean) => {
     try {
       const updatedLikes = increment ? likes + 1 : Math.max(likes - 1, 0);
-      setLikes(updatedLikes); // Update local likes count optimistically
+      setLikes(updatedLikes);
 
       if (increment) {
-        await supabase.from("likes").insert({ post_id: postId, user_id: user.data.user.id });
+        await supabase.from("likes").insert({ post_id: postId, user_id: user.id });
       } else {
-        await supabase.from("likes").delete().eq("post_id", postId).eq("user_id", user.data.user.id);
+        await supabase.from("likes").delete().eq("post_id", postId).eq("user_id", user.id);
       }
     } catch (error) {
       console.error("Error updating like:", error.message);
-      // Revert local likes count if there is an error
-      setLikes(prevLikes => increment ? prevLikes - 1 : prevLikes + 1);
+      setLikes(prevLikes => (increment ? prevLikes - 1 : prevLikes + 1));
     }
   };
 
@@ -111,12 +84,12 @@ export default function Like({ postId, initialLikes = 0 }: LikeButtonProps) {
     }
 
     if (liked) {
-      await updateLikesCount(false); // Remove the like
+      await updateLikesCount(false);
     } else {
-      await updateLikesCount(true); // Add the like
+      await updateLikesCount(true);
     }
 
-    setLiked(prevLiked => !prevLiked); // Toggle liked state
+    setLiked(prevLiked => !prevLiked);
   };
 
   return (

@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/heartwatch': {
-        target: 'http://localhost:5173',
+        target: 'http://localhost:5172',
         changeOrigin: true,
       }
     }

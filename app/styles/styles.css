@@ -258,10 +258,9 @@ body {
     background: #141A27;
     border-radius: 20px;
     margin-bottom: 30px;
+    margin: 30px;
     padding: 30px;
     color: #fff;
-    display: inline-block;
-    box-sizing: border-box;
   }
   
   .postcontent {
@@ -1350,11 +1349,21 @@ body {
     background: rgba(0, 0, 0, 0.25) !important;
     display: inline-block;
   }
+
+  .reply-content {
+    margin-left: 20px;
+  }
+
+  .reply-author {
+    margin-left: 20px;
+  }
   
   .postcontent {
     font-size: 20px;
-    display: block;
-  }
+    display: flex;
+    flex: auto;
+    align-items: center;
+}
   
   li {
     list-style-type: disc;

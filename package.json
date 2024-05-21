@@ -33,6 +33,7 @@
     "dotenv": "^16.4.5",
     "draggable": "^4.2.0",
     "express": "^4.19.2",
+    "flowbite-react": "^0.9.0",
     "isbot": "^4.1.0",
     "lucide-react": "^0.378.0",
     "react": "^18.2.0",
@@ -45,6 +46,7 @@
     "react-markdown": "^9.0.1",
     "react-rnd": "^10.4.10",
     "react-tabs": "^6.0.2",
+    "react-tooltip": "^5.26.4",
     "remark-gfm": "^4.0.0",
     "ws": "^8.17.0"
   },

@@ -13,9 +13,17 @@ import { useOutletContext } from "@remix-run/react";
 import createServerSupabase from "utils/supabase.server";
 import { SupabaseOutletContext } from "~/root";
 import Like from "~/components/like";
+import { Tooltip } from 'react-tooltip';
 
 dayjs.extend(relativeTime);
 library.add(fab, fas);
+
+
+// instance options with default values
+const instanceOptions = {
+  id: 'tooltipContent',
+  override: true
+};
 
 const formatDate = (date) => dayjs().to(dayjs(date));
 
@@ -224,16 +232,19 @@ export default function UserPage() {
                 const userProfile = profiles.find((profile) => profile.id === reply.user_id);
                 if (!userProfile) return null; // Handle case where profile is not found
                 return (
-                  <div key={reply.id} className="postcontent">
+                  <div key={reply.id} className="postcontent mb-4">
                     <img
+                     data-tooltip-id="avatarTooltip" 
+                      data-tooltip-content={userProfile.username}
                       className="avatar avatar3"
                       src={userProfile.avatar}
                       alt={userProfile.username}
                     />
-                    <p>{reply.content}</p>
+                    <Tooltip id="avatarTooltip" />
+                    <p className="reply-content mt-3">{reply.content}</p>
                     <p>
-                      <span className="reply-author ">
-                        {userProfile.username} - {formatDate(reply.created_at)}
+                      <span className="reply-author minutesago mt-3">
+                        {formatDate(reply.created_at)}
                       </span>
                     </p>
                   </div>

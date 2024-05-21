@@ -4,7 +4,7 @@ import { Rnd } from "react-rnd";
 import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
 
-export const loader = async ({ request, params, response }: { request: any, params: any, response: any }) => {
+export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
   const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
 
@@ -21,9 +21,18 @@ export const loader = async ({ request, params, response }: { request: any, para
 export default function Profile() {
   const { profile, layoutData, posts } = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const user = supabase.auth.getUser();
+  const [user, setUser] = useState(null);
 
-  const [positions, setPositions] = useState(layoutData || {}); // Initialize with layout data if available
+  const [positions, setPositions] = useState(layoutData || {});
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    fetchUser();
+  }, [supabase]);
 
   useEffect(() => {
     if (layoutData) {
@@ -31,48 +40,49 @@ export default function Profile() {
     }
   }, [layoutData]);
 
-  useEffect(() => {
-    const saveLayoutData = async () => {
-      try {
-        const currentUser = await user;
-        if (currentUser?.data.user.id === profile.id) {
-          if (Object.keys(positions).length > 0) {
-            await supabase
-              .from("layouts")
-              .update({ ...positions }, { onConflict: ["id"], ignoreDuplicates: true })
-              .eq("id", profile.id);
-            console.log("Layout data updated successfully!");
-          } else {
-            await supabase.from("layouts").insert({ ...positions });
-            console.log("New layout data saved successfully!");
-          }
-        }
-      } catch (error) {
-        console.error("Error saving layout data:", error.message);
+  const saveLayoutData = async (updatedPositions) => {
+    try {
+      if (user?.id === profile.id) {
+        await supabase
+          .from("layouts")
+          .upsert({ id: profile.id, ...updatedPositions }, { onConflict: 'id' });
+        console.log("Layout data updated successfully!");
       }
-    };
-
-    if (user && Object.keys(positions).length > 0) {
-      saveLayoutData();
+    } catch (error) {
+      console.error("Error saving layout data:", error.message);
     }
-  }, [positions, profile.id, user, supabase]);
-
-  const handleDrag = (id, e, d) => {
-    setPositions(prevPositions => ({
-      ...prevPositions,
-      [id]: { x: d.x, y: d.y, width: d.width, height: d.height }
-    }));
   };
 
-  const handleResize = (id, direction, ref, delta, position) => {
-    setPositions(prevPositions => ({
-      ...prevPositions,
+  useEffect(() => {
+    if (Object.keys(positions).length > 0) {
+      saveLayoutData(positions);
+    }
+  }, [positions, profile.id, user]);
+
+  const handleDragStop = (id, e, d) => {
+    const updatedPositions = {
+      ...positions,
       [id]: {
-        ...(prevPositions[id] || {}),
-        width: ref.offsetWidth,
-        height: ref.offsetHeight
+        ...positions[id],
+        x: d.x,
+        y: d.y,
       }
-    }));
+    };
+    setPositions(updatedPositions);
+  };
+
+  const handleResizeStop = (id, e, direction, ref, delta, position) => {
+    const updatedPositions = {
+      ...positions,
+      [id]: {
+        ...positions[id],
+        width: ref.style.width,
+        height: ref.style.height,
+        x: position.x,
+        y: position.y,
+      }
+    };
+    setPositions(updatedPositions);
   };
 
   const style = {
@@ -81,7 +91,7 @@ export default function Profile() {
     justifyContent: "center",
     borderRadius: "20px",
     background: "#121212",
-  } as const;
+  };
 
   if (!user) {
     return <p>Please log in to view this page.</p>;
@@ -93,23 +103,19 @@ export default function Profile() {
         style={style}
         size={{ width: positions.profile?.width || 200, height: positions.profile?.height || 200 }}
         position={{ x: positions.profile?.x || 0, y: positions.profile?.y || 0 }}
-        onDrag={(e, d) => handleDrag("profile", e, d)}
-        onResize={(e, direction, ref, delta, position) => handleResize('profile', direction, ref, delta, position)}
+        onDragStop={(e, d) => handleDragStop("profile", e, d)}
+        onResizeStop={(e, direction, ref, delta, position) => handleResizeStop('profile', e, direction, ref, delta, position)}
         id="profile"
         resizable
       >
-        <div className="">
-          <div className="">
-            <div className="">
+        <div>
+          <div>
+            <div>
               <div
-                className=""
                 style={{ backgroundImage: `url(${profile?.background_url})`, backdropFilter: "blur(4px)" }}
               >
                 <div className="center avatarcont">
-                  <img
-                    className="avatar"
-                    src={profile?.avatar}
-                  />
+                  <img className="avatar" src={profile?.avatar} alt="Avatar" />
                 </div>
                 <div className="info mt-4 center">
                   <h1 className="username">
@@ -125,8 +131,8 @@ export default function Profile() {
 
       <Rnd
         position={{ x: positions.posts?.x || 0, y: positions.posts?.y || 0 }}
-        onDrag={(e, d) => handleDrag('posts', e, d)} // Pass 'posts' as id
-        onResize={(e, direction, ref, delta, position) => handleResize('posts', direction, ref, delta, position)} // Pass 'posts' as id
+        onDragStop={(e, d) => handleDragStop('posts', e, d)}
+        onResizeStop={(e, direction, ref, delta, position) => handleResizeStop('posts', e, direction, ref, delta, position)}
         id="posts"
         resizable
       >

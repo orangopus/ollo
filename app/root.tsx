@@ -19,8 +19,6 @@ import Nav from "~/components/Nav";
 import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
 
-
-
 type TypedSupabaseClient = SupabaseClient<Database>
 
 export type SupabaseOutletContext = {

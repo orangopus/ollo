@@ -1,76 +1,71 @@
-import { ActionFunctionArgs, json } from "@remix-run/node";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 
-interface HeartWatchAppProps {
-  heartRate: number;
-}
+const WEBSOCKET_URL = 'ws://192.168.0.170:3000';
 
-export const loader = async () => {
-  // Return the heart rate data as JSON
-  return json({ heartRate: 0 }); // Return default heart rate data for server-side rendering
-};
+const HeartWatch: React.FC = () => {
+    const [heartRate, setHeartRate] = useState<number | null>(null);
+    const ws = useRef<WebSocket | null>(null);
+    const isUnmounted = useRef(false);
+    const reconnectAttempts = useRef(0);
 
-const HeartWatchApp: React.FC<HeartWatchAppProps> = ({ heartRate }) => {
-  const webSocketRef = useRef<WebSocket | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [heartedRate, setHeartRate] = useState(0);
+    useEffect(() => {
+        isUnmounted.current = false;
+        connectWebSocket();
 
-  useEffect(() => {
-    // Establish WebSocket connection in the browser environment
-    if (typeof window !== 'undefined') {
-      const ws = new WebSocket('ws://localhost:3000');
+        return () => {
+            isUnmounted.current = true;
+            if (ws.current) {
+                ws.current.close();
+            }
+        };
+    }, []);
 
-      ws.onopen = () => {
-        console.log('WebSocket connection opened');
-      };
+    const connectWebSocket = () => {
+        console.log('Attempting to connect to WebSocket server...');
+        ws.current = new WebSocket(WEBSOCKET_URL);
 
-      ws.onmessage = (event) => {
-        console.log('Received message:', event.data);
-        // Update the heart rate prop when a new heart rate is received
-        setHeartRate(JSON.parse(event.data).heartRate);
-        setLoading(false); // Set loading to false once data is received
-        ws.close(); // Close the WebSocket connection
-      };
+        ws.current.onopen = () => {
+            console.log('WebSocket connection opened');
+            reconnectAttempts.current = 0; // Reset reconnect attempts on successful connection
+        };
 
-      ws.onclose = () => {
-        console.log('WebSocket connection closed');
-      };
+        ws.current.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
 
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-        setLoading(false); // Set loading to false if there's an error
-      };
+        ws.current.onclose = (event) => {
+            console.log('WebSocket connection closed');
+            console.log(`Close code: ${event.code}, reason: ${event.reason}`);
+            if (!isUnmounted.current) {
+                handleReconnection();
+            }
+        };
 
-      webSocketRef.current = ws;
+        ws.current.onmessage = (event) => {
+            console.log('WebSocket message received:', event.data);
+            const data = JSON.parse(event.data);
+                setHeartRate(data.heartRate);
 
-      return () => {
-        // Clean up WebSocket connection when component unmounts
-        if (webSocketRef.current) {
-          webSocketRef.current.close();
+        };
+    };
+
+    const handleReconnection = () => {
+        if (reconnectAttempts.current < 5) {
+            reconnectAttempts.current += 1;
+            const timeout = Math.min(5000, reconnectAttempts.current * 1000);
+            console.log(`Attempting to reconnect in ${timeout / 1000} seconds...`);
+            setTimeout(connectWebSocket, timeout);
+        } else {
+            console.log('Max reconnection attempts reached. Giving up.');
         }
-      };
-    }
-  }, []);
+    };
 
-  useEffect(() => {
-    // Send heart rate data to the server whenever the heart rate prop changes
-    if (webSocketRef.current && heartRate > 0) {
-      const message = JSON.stringify({ heartRate });
-      webSocketRef.current.send(message);
-      console.log('Sent message:', message);
-    }
-  }, [heartRate]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <div>
-      <h1>Heart Watch App</h1>
-      <p>Heart Rate: {heartedRate}</p>
-    </div>
-  );
+    return (
+        <div>
+            <h1>Heart Rate Monitor</h1>
+            <p>Heart Rate: {heartRate !== null ? heartRate : 'Loading...'}</p>
+        </div>
+    );
 };
 
-export default HeartWatchApp;
+export default HeartWatch;
