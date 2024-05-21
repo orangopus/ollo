@@ -17,7 +17,7 @@ export const loader = async({ request }: LoaderFunctionArgs) => {
   const response = new Response();
   const supabase = createServerSupabase({request, response});
   const {data} = await supabase.from("profiles").select();
-
+  
   return json({messages: data ?? []}, {headers: response.headers})
 }
 

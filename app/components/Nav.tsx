@@ -26,8 +26,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 export default function Nav() {
   const user = useLoaderData()
 
-  console.log(user)
-
   return (
     <nav className="navbar flex justify-between justify-center">
       <a className="navbar-brand" href="/">

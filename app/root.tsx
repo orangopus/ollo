@@ -52,9 +52,58 @@ export default function App() {
     env.SUPABASE_ANON_KEY)
   )
 
+  console.log(session?.user.user_metadata.provider_id)
+
   useEffect(() => {
-    supabase.auth.getSession().then((session) => {client: { session  }})
-  }, [])
+    const updateProfile = async () => {
+      // Check if user is logged in
+      if (session?.user) {
+        // Retrieve the Discord ID from the session
+        const discordId = session?.user.user_metadata.provider_id;
+        
+        // Get the current user's profile from Supabase
+        const { data: profiles, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session?.user.id)
+          .single();
+
+        if (error) { 
+          console.error('Error fetching profile:', error.message);
+          return;
+        }
+
+        // If the user's profile doesn't exist, create a new profile
+        if (!profiles) {
+          const { data: newProfile, error: profileError } = await supabase
+            .from('profiles')
+            .insert([{ id: session?.user.id, discord_id: discordId }]);
+          
+          if (profileError) {
+            console.error('Error creating profile:', profileError.message);
+            return;
+          }
+          
+          console.log('New profile created:', newProfile);
+        } else {
+          // If the user's profile already exists, update the Discord ID
+          const { data: updatedProfile, error: updateError } = await supabase
+            .from('profiles')
+            .update({ discord_id: discordId })
+            .eq('id', session?.user.id);
+          
+          if (updateError) {
+            console.error('Error updating profile:', updateError.message);
+            return;
+          }
+          
+          console.log('Profile updated:', updatedProfile);
+        }
+      }
+    };
+
+    updateProfile();
+  }, [session, supabase]);
 
   return (
     <SupabaseContext.Provider value={supabase}>
