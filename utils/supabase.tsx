@@ -1,13 +1,14 @@
-import { createBrowserClient } from "@supabase/ssr";
+import { createBrowserClient } from '@supabase/ssr';
+import { Database } from 'database.types';
 
 export default ({
-  request,
-  response,
+	request,
+	response,
 }: {
-  request: Request;
-  response: Response;
+	request: Request;
+	response: Response;
 }) =>
-  createBrowserClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!
-  );
+	createBrowserClient<Database>(
+		process.env.SUPABASE_URL!,
+		process.env.SUPABASE_ANON_KEY!,
+	);

@@ -1,16 +1,16 @@
-import { createServerClient } from "@supabase/auth-helpers-remix";
+import { createServerClient } from '@supabase/auth-helpers-remix';
 
-import type { Database } from "database.types";
+import type { Database } from 'database.types';
 
 export default ({
-  request,
-  response,
+	request,
+	response,
 }: {
-  request: Request;
-  response: Response;
+	request: Request;
+	response: Response;
 }) =>
-  createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
+	createServerClient<Database>(
+		process.env.SUPABASE_URL!,
+		process.env.SUPABASE_ANON_KEY!,
+		{ request, response },
+	);
