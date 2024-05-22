@@ -1,10 +1,12 @@
-import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { Form, useLoaderData } from "@remix-run/react";
 import { ActionFunction, LoaderFunction, json } from "@remix-run/node";
+import { User } from "@supabase/supabase-js";
+import { Tables } from "database.types";
+import { FormEventHandler, useState } from "react";
 import EdiText from "react-editext";
 import Markdown from "react-markdown";
 import { useOutletContext } from "@remix-run/react";
@@ -16,9 +18,9 @@ import { Tooltip } from 'react-tooltip';
 
 library.add(fab, fas);
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, response }) => {
   try {
-    const supabase = createServerSupabase({ request });
+    const supabase = createServerSupabase({ request, response: response as Response });
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
@@ -34,7 +36,11 @@ export const action: ActionFunction = async ({ request }) => {
 
     return json(null, { status: 200 });
   } catch (error) {
-    return json({ error: error.message }, { status: 500 });
+    if (error instanceof Error) {
+      return json({ error: error.message }, { status: 500 });
+    }
+
+    return json({ error }, { status: 500 });
   }
 };
 
@@ -59,12 +65,18 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function UserPage() {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const { user, posts, likes, replies, profiles } = useLoaderData();
+  const { user, posts, likes, replies, profiles } = useLoaderData<{
+    user: User,
+    posts: Array<Tables<"posts_with_likes">>,
+    likes: Array<Tables<"likes">>,
+    replies: Array<Tables<"replies">>,
+    profiles: Array<Tables<"profiles">>,
+  }>();
   const [newPost, setNewPost] = useState("");
-  const [error, setError] = useState(null);
-  const [replyInputs, setReplyInputs] = useState({});
+  const [error, setError] = useState<string | null>(null);
+  const [replyInputs, setReplyInputs] = useState<Record<Tables<"posts">["id"], boolean>>({});
 
-  const handlePostSubmit = async (e) => {
+  const handlePostSubmit = async (e: Event) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
@@ -78,12 +90,17 @@ export default function UserPage() {
       setNewPost('');
       console.log('Post submitted successfully:', data);
     } catch (error) {
-      setError('Error submitting post: ' + error.message);
+      if (error instanceof Error) {
+        setError('Error submitting post: ' + error.message);        
+      } else {
+        setError('Error submitting post: ' + error);
+      }
+
       console.error('Error submitting post:', error);
     }
   };
 
-  const editPosts = async (content, postId) => {
+  const editPosts = async (content: string, postId: Tables<"posts">["id"]) => {
     try {
       const { data, error } = await supabase
         .from('posts')
@@ -93,12 +110,17 @@ export default function UserPage() {
       if (error) throw error;
       console.log('Post updated successfully:', data);
     } catch (error) {
-      setError('Error updating post: ' + error.message);
+      if (error instanceof Error) {
+        setError('Error updating post: ' + error.message);        
+      } else {
+        setError('Error updating post: ' + error);
+      }
+
       console.error('Error updating post:', error);
     }
   };
 
-  const deletePost = async (postId) => {
+  const deletePost = async (postId: Tables<"posts">["id"]) => {
     try {
       const { data, error } = await supabase
         .from('replies')
@@ -115,12 +137,17 @@ export default function UserPage() {
 
       console.log('Post and its replies deleted successfully:', data);
     } catch (error) {
-      setError('Error deleting post: ' + error.message);
+      if (error instanceof Error) {
+        setError('Error deleting post: ' + error.message);        
+      } else {
+        setError('Error deleting post: ' + error);
+      }
+
       console.error('Error deleting post:', error);
     }
   };
 
-  const postReply = async (content, postId) => {
+  const postReply = async (content: string, postId: Tables<"posts">["id"]) => {
     try {
       const { data, error } = await supabase
         .from('replies')
@@ -129,12 +156,17 @@ export default function UserPage() {
       if (error) throw error;
       console.log('Reply submitted successfully:', data);
     } catch (error) {
-      setError('Error submitting reply: ' + error.message);
+      if (error instanceof Error) {
+        setError('Error submitting reply: ' + error.message);        
+      } else {
+        setError('Error submitting reply: ' + error);
+      }
+
       console.error('Error submitting reply:', error);
     }
   };
 
-  const toggleReplyInput = (postId) => {
+  const toggleReplyInput = (postId: Tables<"posts">["id"]) => {
     setReplyInputs((prev) => ({
       ...prev,
       [postId]: !prev[postId]
@@ -150,7 +182,7 @@ export default function UserPage() {
       {user && (
         <div className="cards flex">
           <img className="avatar" src={user.user_metadata.avatar_url} alt="User Avatar" />
-          <Form className="postcontainer" method="post" onSubmit={handlePostSubmit}>
+          <Form className="postcontainer" method="post" onSubmit={handlePostSubmit as unkn as FormEventHandler<HTMLFormElement>}>
             <div className="postcontainer">
               <textarea
                 id="clearPost"
@@ -177,7 +209,7 @@ export default function UserPage() {
           <div className="flex">
             <div className="avatarcont ml-0 mr-0">
               <a href={`/${post.username}`}>
-                <img className="avatar avatar3" src={post.avatar} alt={`${post.username} avatar`} />
+                <img className="avatar avatar3" src={post.avatar || ""} alt={`${post.username} avatar`} />
               </a>
             </div>
             <div className="info ml-4">
@@ -193,18 +225,18 @@ export default function UserPage() {
                 <span className="handle">@{post.username}</span>
                 <br />
                 <a className="minutesago" href={`posts/${post.id}`}>
-                  {toRelativeUserDateTimeString(post.published_at)}
+                  {toRelativeUserDateTimeString(post.published_at!)}
                 </a>
               </h1>
               <br />
             </div>
           </div>
           <p className="postcontent">
-            {post.user_id === user.id ? (
+            {post.author_id === user.id ? (
               <EdiText
                 key={post.id}
-                value={post.content}
-                onSave={(value) => editPosts(value, post.id)}
+                value={post.content || ""}
+                onSave={(value) => editPosts(value, post.id!)}
                 submitOnEnter
                 type="textarea"
                 renderValue={(value) => <Markdown>{value}</Markdown>}
@@ -225,14 +257,14 @@ export default function UserPage() {
                       data-tooltip-id="avatarTooltip" 
                       data-tooltip-content={userProfile.username}
                       className="avatar avatar3"
-                      src={userProfile.avatar}
-                      alt={userProfile.username}
+                      src={userProfile.avatar || ""}
+                      alt={userProfile.username || ""}
                     />
                     <Tooltip id="avatarTooltip" />
                     <p className="reply-content mt-3">{reply.content}</p>
                     <p>
                       <span className="reply-author minutesago mt-3">
-                        {toRelativeTimeString(reply.created_at)}
+                        {toRelativeTimeString(reply.created_at!)}
                       </span>
                     </p>
                   </div>
@@ -241,30 +273,36 @@ export default function UserPage() {
           </div>
           <div>
             <span className="minutesago mt-6 mr-3">
-              <Like postId={post.id} initialLikes={post.likes} />
+              <Like postId={post.id!} initialLikes={post.likes || 0} />
             </span>
-            <button className="minutesago" onClick={() => toggleReplyInput(post.id)}>
+            <button className="minutesago" onClick={() => toggleReplyInput(post.id!)}>
               reply
             </button>
           </div>
           {post.author_id === user.id && (
             <div>
               <button
-                onClick={() => deletePost(post.id)}
+                onClick={() => deletePost(post.id!)}
                 className="bg-red-500 text-gray-200 minutesago"
               >
                 delete
               </button>
             </div>
           )}
-          {replyInputs[post.id] && (
+          {replyInputs[post.id!] && (
             <Form
               className="reply-form"
               onSubmit={(e) => {
                 e.preventDefault();
-                const formData = new FormData(e.target);
+                const formData = new FormData(e.target as HTMLFormElement);
                 const replyContent = formData.get("reply");
-                postReply(replyContent, post.id);
+                const trimmedReplyContent = (replyContent ?? "").toString().trim();
+
+                if (trimmedReplyContent === "") {
+                  return;
+                }
+
+                postReply(trimmedReplyContent!, post.id!);
               }}
             >
               <textarea
