@@ -182,7 +182,7 @@ export default function UserPage() {
       {user && (
         <div className="cards flex">
           <img className="avatar" src={user.user_metadata.avatar_url} alt="User Avatar" />
-          <Form className="postcontainer" method="post" onSubmit={handlePostSubmit as unkn as FormEventHandler<HTMLFormElement>}>
+          <Form className="postcontainer" method="post" onSubmit={handlePostSubmit as unknown as FormEventHandler<HTMLFormElement>}>
             <div className="postcontainer">
               <textarea
                 id="clearPost"
