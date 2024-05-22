@@ -19,6 +19,7 @@ import Nav from "~/components/Nav";
 import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
 import Footer from "./components/Footer";
+import { HypeRateProvider } from "context/HypeRateContext";
 
 type TypedSupabaseClient = SupabaseClient<Database>
 
@@ -114,11 +115,13 @@ export default function App() {
             <Links />
           </head>
           <body>
-            <Nav/>
-            <Outlet context={{ supabase }} />
-            <ScrollRestoration />
-            <Scripts />
-            <Footer />
+            <HypeRateProvider>
+              <Nav/>
+              <Outlet context={{ supabase }} />
+              <ScrollRestoration />
+              <Scripts />
+              <Footer />
+            </HypeRateProvider>
           </body>
         </html>
     </SupabaseContext.Provider>

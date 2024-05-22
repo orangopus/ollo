@@ -12,6 +12,8 @@ body {
     text-align: center;
     margin: x(y);
   }
+
+  .cls-1{fill:#df1340;}.cls-2{fill:none;stroke:#fff;stroke-miterlimit:10;stroke-width:4.68px;}
   
   * {
     box-sizing: middle;
@@ -24,7 +26,7 @@ body {
   .dropdown-menu.show {
     transform: translate(-110px,110px) !important;
   }
-  
+
   .dropdown-menu button {
     font-size: 18px !important;
     padding: 5px 15px !important;

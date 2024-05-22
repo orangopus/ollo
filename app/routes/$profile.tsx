@@ -4,14 +4,11 @@ import { Rnd } from "react-rnd";
 import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
 import Spotify from "../components/spotify";
+import {HypeRate} from "../components/hyperate";
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
   const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
-
-  if (!profileRes.data || !profileRes.data.id) {
-    throw new Error("Profile data or profile ID is undefined");
-  }
 
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
   const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
@@ -138,7 +135,9 @@ export default function Profile() {
         resizable
       >
         {/* Posts content */}
-        <Spotify />
+        {/* <HypeRate hypeRateID={profile.heartbeat}/> */}
+          
+          {profile.heartbeat && <HypeRate hypeRateID={profile.heartbeat}/>}
       </Rnd>
     </>
   );

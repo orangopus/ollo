@@ -102,9 +102,8 @@ export default function Index() {
         </div>
 
         <div className="grid-card p-5 my-auto col-span-1 hover text-center heartwatch">            
-          <img src="heartwatch.png" className="logo-block mt-4 mb-3 center"/>
+        <img src="hyperate.svg" className="logo-block mt-4 mb-3 center"/>
         <p className="center">Streamer or scaredy cat? Integrate your watch's heartbeat into ollo.</p>
-
         </div>
 
         <div className="grid-card p-5 items-center col-span-2">      

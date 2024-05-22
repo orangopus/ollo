@@ -129,7 +129,6 @@ export type Database = {
           paypal: string | null
           pro: boolean | null
           social: Json
-          spotify: Json | null
           staff: boolean | null
           username: string | null
           verified: boolean | null
@@ -148,7 +147,6 @@ export type Database = {
           paypal?: string | null
           pro?: boolean | null
           social?: Json
-          spotify?: Json | null
           staff?: boolean | null
           username?: string | null
           verified?: boolean | null
@@ -167,7 +165,6 @@ export type Database = {
           paypal?: string | null
           pro?: boolean | null
           social?: Json
-          spotify?: Json | null
           staff?: boolean | null
           username?: string | null
           verified?: boolean | null

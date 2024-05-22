@@ -35,12 +35,24 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
   const user = useLoaderData();
   const [username, setUsername] = useState(profile.username);
 
+  const [hyperate, setHyperate] = useState(profile.heartbeat);
+
   const updateUsername = async (username) => {
     setUsername(username);
     await supabase // Use the Supabase client instead of the Supabase outlet context
       .from("profiles")
       .update({
         username,
+      })
+      .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
+  };
+
+  const updateHyperate = async (heartbeat) => {
+    setHyperate(hyperate);
+    await supabase // Use the Supabase client instead of the Supabase outlet context
+      .from("profiles")
+      .update({
+        heartbeat,
       })
       .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
   };
@@ -67,12 +79,27 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 type="text"
-                placeholder={profile.profile[0].username}
+                placeholder='Set username'
+                defaultValue={profile.profile[0].username}
                 className="input"
               /> 
               <button onClick={() => updateUsername(username)} className="button">Update</button>
-              <br />
+              <h2>HypeRate</h2>
+              <input
+                id="hyperate"
+                name="hyperate"
+                value={hyperate}
+                onChange={(event) => setHyperate(event.target.value)}
+                type="text"
+                placeholder='HypeRate ID'
+                defaultValue={profile.profile[0].heartbeat}
+                className="input"
+              /> 
+
+              <button onClick={() => updateHyperate(hyperate)} className="button">Update</button>
+              <br/>
               <button onClick={handleSpotify} className="button bg-green-500 text-white"><FontAwesomeIcon icon={["fab", "spotify"]} /> Connect Spotify</button>
+
     </div>
   );
 }
