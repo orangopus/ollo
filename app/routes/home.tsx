@@ -18,14 +18,17 @@ import { Tooltip } from 'react-tooltip';
 dayjs.extend(relativeTime);
 library.add(fab, fas);
 
-
-// instance options with default values
-const instanceOptions = {
-  id: 'tooltipContent',
-  override: true
+const formatDate = (date: Date) => {
+  return dayjs(date).fromNow();
 };
 
-const formatDate = (date) => dayjs().to(dayjs(date));
+const formatPostDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const real_time = date.getTime();
+  const minutesOffset = new Date().getTimezoneOffset();
+
+  return dayjs(new Date (real_time + (minutesOffset * -1 * 60 * 1000))).fromNow();
+}  
 
 export const action: ActionFunction = async ({ request }) => {
   try {
@@ -71,9 +74,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function UserPage() {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const { user, posts, likes, replies, profiles } = useLoaderData();
-  const [newPost, setNewPost] = useState(""); // State to store new post content
-  const [error, setError] = useState(null); // State to store error messages
-  const [replyInputs, setReplyInputs] = useState({}); // State to manage visibility of reply inputs
+  const [newPost, setNewPost] = useState("");
+  const [error, setError] = useState(null);
+  const [replyInputs, setReplyInputs] = useState({});
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +89,7 @@ export default function UserPage() {
         throw error;
       }
 
-      setNewPost(''); // Clear the input field after submission
+      setNewPost('');
       console.log('Post submitted successfully:', data);
     } catch (error) {
       setError('Error submitting post: ' + error.message);
@@ -153,7 +156,7 @@ export default function UserPage() {
   };
 
   if (!user) {
-    return <p className="text-white">You need to login to see this page.</p>; // or handle unauthenticated state
+    return <p className="text-white">You need to login to see this page.</p>;
   }
 
   return (
@@ -168,8 +171,8 @@ export default function UserPage() {
                 name="post"
                 placeholder="What have you done today?"
                 className="textarea postinput"
-                value={newPost} // Bind the value of the textarea to the state
-                onChange={(e) => setNewPost(e.target.value)} // Update the state on change
+                value={newPost}
+                onChange={(e) => setNewPost(e.target.value)}
               />
               <button className="button postsubmit" type="submit">
                 Post
@@ -179,7 +182,7 @@ export default function UserPage() {
               </p>
             </div>
           </Form>
-          {error && <div className="error">{error}</div>} {/* Display error message */}
+          {error && <div className="error">{error}</div>}
         </div>
       )}
 
@@ -204,7 +207,7 @@ export default function UserPage() {
                 <span className="handle">@{post.username}</span>
                 <br />
                 <a className="minutesago" href={`posts/${post.id}`}>
-                  {formatDate(post.published_at)}
+                  {formatPostDate(post.published_at)}
                 </a>
               </h1>
               <br />
@@ -224,17 +227,16 @@ export default function UserPage() {
               <Markdown>{post.content}</Markdown>
             )}
           </p>
-          {/* Display replies */}
           <div className="replies">
             {replies
               .filter((reply) => reply.post_id === post.id)
               .map((reply) => {
                 const userProfile = profiles.find((profile) => profile.id === reply.user_id);
-                if (!userProfile) return null; // Handle case where profile is not found
+                if (!userProfile) return null;
                 return (
                   <div key={reply.id} className="postcontent mb-4">
                     <img
-                     data-tooltip-id="avatarTooltip" 
+                      data-tooltip-id="avatarTooltip" 
                       data-tooltip-content={userProfile.username}
                       className="avatar avatar3"
                       src={userProfile.avatar}
@@ -259,7 +261,7 @@ export default function UserPage() {
               reply
             </button>
           </div>
-          {post.user_id === user.id && (
+          {post.author_id === user.id && (
             <div>
               <button
                 onClick={() => deletePost(post.id)}
@@ -269,7 +271,6 @@ export default function UserPage() {
               </button>
             </div>
           )}
-          {/* Reply form */}
           {replyInputs[post.id] && (
             <Form
               className="reply-form"
