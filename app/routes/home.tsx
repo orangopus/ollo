@@ -4,31 +4,17 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { Form, useLoaderData } from "@remix-run/react";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import EdiText from "react-editext";
 import Markdown from "react-markdown";
 import { json } from "@remix-run/node";
 import { useOutletContext } from "@remix-run/react";
+import { toRelativeTimeString, toRelativeUserDateTimeString } from "utils/datetime";
 import createServerSupabase from "utils/supabase.server";
 import { SupabaseOutletContext } from "~/root";
 import Like from "~/components/like";
 import { Tooltip } from 'react-tooltip';
 
-dayjs.extend(relativeTime);
 library.add(fab, fas);
-
-const formatDate = (date: Date) => {
-  return dayjs(date).fromNow();
-};
-
-const formatPostDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const real_time = date.getTime();
-  const minutesOffset = new Date().getTimezoneOffset();
-
-  return dayjs(new Date (real_time + (minutesOffset * -1 * 60 * 1000))).fromNow();
-}  
 
 export const action: ActionFunction = async ({ request }) => {
   try {
@@ -207,7 +193,7 @@ export default function UserPage() {
                 <span className="handle">@{post.username}</span>
                 <br />
                 <a className="minutesago" href={`posts/${post.id}`}>
-                  {formatPostDate(post.published_at)}
+                  {toRelativeUserDateTimeString(post.published_at)}
                 </a>
               </h1>
               <br />
@@ -246,7 +232,7 @@ export default function UserPage() {
                     <p className="reply-content mt-3">{reply.content}</p>
                     <p>
                       <span className="reply-author minutesago mt-3">
-                        {formatDate(reply.created_at)}
+                        {toRelativeTimeString(reply.created_at)}
                       </span>
                     </p>
                   </div>
