@@ -24,6 +24,7 @@ body {
   .dropdown-menu.show {
     transform: translate(-110px,110px) !important;
   }
+  
   .dropdown-menu button {
     font-size: 18px !important;
     padding: 5px 15px !important;

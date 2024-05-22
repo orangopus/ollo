@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
 import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
+import Spotify from "../components/spotify";
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
@@ -137,6 +138,7 @@ export default function Profile() {
         resizable
       >
         {/* Posts content */}
+        <Spotify />
       </Rnd>
     </>
   );

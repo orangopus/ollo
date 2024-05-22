@@ -41,7 +41,7 @@ export default function Nav() {
           <FontAwesomeIcon className="navicon" icon={["fas", "shapes"]} /> explore
         </Link>
         {user.session ? (
-          <Link className="flex center" to={`/${profile}`}>
+          <Link className="flex center" to="/dashboard">
             {user?.session.user.user_metadata.avatar_url && (
               <img
                 className="avatar avatar2 center"
@@ -50,7 +50,6 @@ export default function Nav() {
                 alt="User Avatar"
               />
             )}
-            {JSON.stringify(profile.id)}
           </Link>
         ) : (!user.session && (
           <Link to="/login">
