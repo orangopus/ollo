@@ -14,7 +14,7 @@ const Footer = () => {
             <p>
               <a
                 className="orangopus"
-                href="https://orangopus.org"
+                href="https://orangop.us"
                 target="_blank"
               >
                 <img className="orangopus" src="../orangopus.png" /> Orangopus
@@ -34,14 +34,14 @@ const Footer = () => {
           <div>
             <a
               className="footersocial"
-              href={`https://twitter.com/ollofyi`}
+              href={`https://twitter.com/ollobio`}
               target="_blank"
             >
               <FontAwesomeIcon icon={["fab", "twitter"]} />
             </a>
             <a
               className="footersocial"
-              href={`https://orangop.us/discord`}
+              href={`https://go.orangop.us/discord`}
               target="_blank"
             >
               <FontAwesomeIcon icon={["fab", "discord"]} />
@@ -64,14 +64,14 @@ const Footer = () => {
             <a
               target="_blank"
               className="footerlinks"
-              href="https://status.orangopus.org"
+              href="https://status.orangop.us"
             >
               Status
             </a>
             <a
               target="_blank"
               className="footerlinks"
-              href="https://feedback.orangopus.org/ollo"
+              href="https://feedback.orangop.us/ollo"
             >
               Feedback
             </a>
