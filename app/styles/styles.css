@@ -185,7 +185,6 @@ body {
     padding: 40px;
     position: relative;
     bottom: 100;
-    display: none;
   }
   
   .footer {
@@ -853,17 +852,52 @@ body {
     width: 150px;
   }
 
-  .uploadcard {
-    width: 300px;
-    text-align: center;
+  .scroll {
+    width: 100vw;
+    overflow: hidden;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .m-scroll {
+    overflow: hidden;
+    height: 100%;
+    white-space: nowrap;
+    animation: scrollText 45s infinite linear;
+    margin: 0;
+    font-size: 0;
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    align-items: center;
+    animation-play-state: paused;
+
   }
 
-  .uploadimage {
-    display: unset !important;
+  .m-scroll:hover {
+    animation-play-state: paused;
+  }
+  
+  span {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    color: white;
   }
 
-  .bio-h {
-    height: 200px !important;
+  .break {
+    width: 100px !important;
+    
+  }
+  
+  @keyframes scrollText {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
   
   .bio {
@@ -872,6 +906,7 @@ body {
     font-weight: bold;
     font-size: 20px;
     text-align: left;
+    margin-top: 20px;
   }
   
   .green {
@@ -1489,6 +1524,11 @@ body {
   
   .object-cover {
     object-fit: cover;
+  }
+
+  .carousel {
+    width: 20vw;
+    height: 20vw;
   }
   
   .h-full {

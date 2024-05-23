@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { UserContext } from "context/UserContext";
 import createServerSupabase from "utils/supabase.server";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
+import Carousel from "../components/Carousel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -225,18 +226,11 @@ export default function Index() {
         </div>
 
         <header className="center">
-          <p className="minutesago">&#129668; -pro-tip: hover over the profiles to see them on the left.</p>
           <p className="gridtitle text-center">
             Customise and add <span className="personality">personality</span> <span>to your ollo</span>
           </p>
         </header>
-
-        <div className="grid grid-cols-4 gap-10 my-10 padd">
-
-          <div className="grid-card postcontent col-span-3">
-
-          </div>
-        </div>
+        <Carousel />
         <div className="grid grid-cols-4 gap-10 padd my-10">
         <div className="grid-card dark p-5 red">
           <p className="gridsub">

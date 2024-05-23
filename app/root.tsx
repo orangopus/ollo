@@ -7,6 +7,8 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import "~/styles/styles.css";
+import 'swiper/css';
+import '@ionic/react/css/ionic-swiper.css';
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import stylesheet from "~/tailwind.css?url";
 import { createServerClient, parse, serialize, createBrowserClient } from '@supabase/ssr'
