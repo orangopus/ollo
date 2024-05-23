@@ -157,7 +157,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
         {avatarUrl ? (
           <>
-          <img src={avatarUrl} alt="Profile" className="avatar object-cover" />
+          <img src={avatarUrl} onChange={updateAvatar} alt="Profile" className="avatar object-cover" />
           </>
         ) : (
           <svg
@@ -241,7 +241,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
               <button className="button mb-5">View Profile</button>
               </Link>
               <br/>
-              <button onClick={handleSpotify} className="button bg-green-500 text-white"><FontAwesomeIcon icon={["fab", "spotify"]} /> {profile.profile[0].spotify ? <span>Disconnect Spotify</span> : <span>Connect Spotify</span>}</button>
+              <button onClick={handleSpotify} className="button bg-green-500 text-white mb-10"><FontAwesomeIcon icon={["fab", "spotify"]} /> {profile.profile[0].spotify ? <span>Disconnect Spotify</span> : <span>Connect Spotify</span>}</button>
 
     </div>
   );

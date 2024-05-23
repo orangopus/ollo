@@ -7,7 +7,7 @@ library.add(fab, fas);
 
 const Footer = () => {
   return (
-    <div className="min-h-screen">
+    <div>
       <footer className="footer">
         <div className="footercontainer flex justify-between navbar navpad">
           <div>
