@@ -897,6 +897,14 @@ body {
       transform: translateX(-50%);
     }
   }
+
+  .socialcontainer {
+    width: 50vw;
+  }
+
+  .socialicon {
+    padding: 10px;
+  }
   
   .bio {
     color: #fff;

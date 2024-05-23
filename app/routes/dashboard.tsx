@@ -11,6 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EditSocialItem from '~/components/editsocialitem';
 library.add(fab, fas);
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -261,6 +262,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
                 defaultValue={profile.profile[0].pally}
                 className="input"
               /> 
+              <EditSocialItem />
               <br/>
               <Link to={`/${profile.profile[0].username}`}>
               <button className="button mb-5">View Profile</button>

@@ -5,6 +5,11 @@ import supabase from "utils/supabase";
 import { SupabaseOutletContext } from "~/root";
 import Spotify from "../components/spotify";
 import {HypeRate} from "../components/hyperate";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+library.add(fab, fas);
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
@@ -190,6 +195,24 @@ export default function Profile() {
                 <div className="info mt-4 center">
                   {pally}
                 </div>
+              </div>
+      </Rnd>
+      <Rnd
+        size={{ width: positions.socials?.width || 200, height: positions.socials?.height || 200 }}
+        position={{ x: positions.socials?.x || 0, y: positions.socials?.y || 0 }}
+        onDragStop={(e, d) => handleDragStop('socials', e, d)}
+        onResizeStop={(e, direction, ref, delta, position) => handleResizeStop('socials', e, direction, ref, delta, position)}
+        id="socials"
+        resizable
+      >         
+              <div className="info mt-4 center">
+                 {profile.social.map((social) => 
+                  <Link to={social.url}>
+                  <span className="mb-4 p-4 bg-gray-800 rounded-lg">
+                    <FontAwesomeIcon icon={['fab', social.icon]} className="text-5xl socialicon rounded-full" style={{color: social.color, backgroundColor: social.background_color}}/>
+                  </span> 
+                  </Link>
+                 )}
               </div>
       </Rnd>
       {showModal ? (

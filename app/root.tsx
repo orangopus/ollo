@@ -123,7 +123,6 @@ export default function App() {
               <Outlet context={{ supabase }} />
               <ScrollRestoration />
               <Scripts />
-              <Footer />
             </HypeRateProvider>
           </body>
         </html>
