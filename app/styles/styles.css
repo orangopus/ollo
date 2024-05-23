@@ -852,6 +852,15 @@ body {
     width: 150px;
   }
 
+  .uploadcard {
+    width: 300px;
+    text-align: center;
+  }
+
+  .uploadimage {
+    display: unset !important;
+  }
+
   .bio-h {
     height: 200px !important;
   }

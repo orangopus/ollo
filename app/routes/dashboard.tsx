@@ -2,9 +2,10 @@
 import { Form, Link, Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 import supabase from 'utils/supabase';
 import { SupabaseOutletContext } from '~/root';
-
+import {Dashboard} from '@uppy/react';
+import Uppy from '@uppy/core';
 import createServerSupabase from 'utils/supabase.server';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoaderFunction, LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -27,7 +28,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 };
 
-export default function OnboardingLayout({params}: {params: YourParamsType}) {
+export default function OnboardingLayout({params, userId }: {params: YourParamsType}) {
 
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   
@@ -37,6 +38,38 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
   const [displayname, setDisplayName] = useState(profile.displayname);
   const [bio, setBio] = useState(profile.bio);
   const [hyperate, setHyperate] = useState(profile.heartbeat);
+  const [avatarUrl, setAvatarUrl] = useState('');
+
+  const updateAvatar = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileName = user.user.user.id;
+    const filePath = `public/avatars/${fileName}`;
+
+    try {
+      let { error: uploadError } = await supabase.storage
+        .from('uploads')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: { publicUrl }, error } = supabase.storage
+        .from('uploads')
+        .getPublicUrl(filePath);
+
+      if (error) {
+        throw error;
+      }
+
+      setAvatarUrl(publicUrl);
+      console.log('Avatar uploaded successfully:', publicUrl);
+    } catch (error) {
+      console.error('Error uploading avatar:', error.message);
+    }
+  };
 
   const updateUsername = async (username) => {
     setUsername(username);
@@ -88,10 +121,62 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
     }
   }
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const { data, error } = await supabase
+          .storage.from('uploads').getPublicUrl(`public/avatars/${user?.user.user.id}`);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          setAvatarUrl(data.publicUrl);
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error.message);
+      }
+    };
+
+    fetchUserProfile();
+  }, [userId]);
+
+
   return (
     <div className="min-h-screen center">
       <Outlet />
-      <h2 className="edit center">Display name</h2>
+      <div className="flex items-center center uploadcard mb-5">
+      <label
+        htmlFor="dropzone-file"
+        className="flex flex-col items-center justify-center w-full h-64 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+      >
+        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+        {avatarUrl ? (
+          <img src={avatarUrl} alt="Profile" className="avatar object-cover" />
+        ) : (
+          <svg
+            className="w-full h-full text-gray-500"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        )}
+          <p className="my-5 text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-blue-500 dark:text-blue-400">Upload</span> your profile picture
+          </p>
+        </div>
+        <input
+          id="dropzone-file"
+          type="file"
+          onChange={updateAvatar}
+          className="hidden"
+        />
+      </label>
+    </div>
+              <h2 className="edit center">Display name</h2>
               <input
                 id="displayname"
                 name="displayname"
