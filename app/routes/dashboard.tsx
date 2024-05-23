@@ -39,6 +39,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
   const [bio, setBio] = useState(profile.bio);
   const [hyperate, setHyperate] = useState(profile.heartbeat);
   const [avatarUrl, setAvatarUrl] = useState('');
+  const [pally, setPally] = useState(profile.pally);
 
   const updateAvatar = async (event) => {
     const file = event.target.files[0];
@@ -100,6 +101,16 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
       .from("profiles")
       .update({
         bio,
+      })
+      .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
+  };
+
+  const updatePally = async (pally) => {
+    setPally(pally);
+    await supabase // Use the Supabase client instead of the Supabase outlet context
+      .from("profiles")
+      .update({
+        pally,
       })
       .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
   };
@@ -234,6 +245,20 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
                 type="text"
                 placeholder='HypeRate ID'
                 defaultValue={profile.profile[0].heartbeat}
+                className="input"
+              /> 
+              <h2 className="edit center">Pally.gg</h2>
+              <input
+                id="pally"
+                name="pally"
+                value={pally}
+                onChange={(event) => {
+                  setPally(event.target.value);
+                  updatePally(event.target.value);
+                }}
+                type="text"
+                placeholder='Pally Username'
+                defaultValue={profile.profile[0].pally}
                 className="input"
               /> 
               <br/>

@@ -185,6 +185,7 @@ body {
     padding: 40px;
     position: relative;
     bottom: 100;
+    display: none;
   }
   
   .footer {

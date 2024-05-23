@@ -85,9 +85,9 @@ export default function Index() {
         </div>
 
         <div className="grid-card hover p-5 center bg-white items-center">
-        <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" className="logo-block center"/>
-        <h1 className="bold mt-4 mb-2 sub-black">0% Platform-fees</h1>
-        <p className="sub-black">We integrate directly with PayPal's API and we do not take a cut.</p>
+        <img src="pally.svg" className="logo-block center"/>
+        <h1 className="bold mt-4 mb-2 sub-black">Fully integrated</h1>
+        <p className="sub-black">We integrate directly with Pally's API and we do not take a cut.</p>
         </div>
 
         <div className="grid-card hover p-5 center black items-center">
