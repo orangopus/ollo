@@ -871,8 +871,6 @@ body {
     justify-content: space-between;
     width: fit-content;
     align-items: center;
-    animation-play-state: paused;
-
   }
 
   .m-scroll:hover {
