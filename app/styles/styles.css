@@ -851,6 +851,10 @@ body {
   .small {
     width: 150px;
   }
+
+  .bio-h {
+    height: 200px !important;
+  }
   
   .bio {
     color: #fff;
@@ -858,7 +862,6 @@ body {
     font-weight: bold;
     font-size: 20px;
     text-align: left;
-    height: 200px !important;
   }
   
   .green {

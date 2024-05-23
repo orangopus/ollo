@@ -130,7 +130,7 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
                 }}
                 placeholder='Set bio'
                 defaultValue={profile.profile[0].bio}
-                className="input bio"/>
+                className="input bio bio-h"/>
               <h2 className="edit center">HypeRate</h2>
               <input
                 id="hyperate"

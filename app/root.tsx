@@ -52,8 +52,6 @@ export default function App() {
     env.SUPABASE_ANON_KEY)
   )
 
-  console.log(session?.user.user_metadata.provider_id)
-
   useEffect(() => {
     const updateProfile = async () => {
       // Check if user is logged in
@@ -114,7 +112,7 @@ export default function App() {
             <Meta />
             <Links />
           </head>
-          <body>
+          <body className="">
             <HypeRateProvider>
               <Nav/>
               <Outlet context={{ supabase }} />
