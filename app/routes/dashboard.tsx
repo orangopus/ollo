@@ -45,12 +45,15 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
     if (!file) return;
 
     const fileName = user.user.user.id;
-    const filePath = `public/avatars/${fileName}`;
+    const filePath = `public/avatars/${fileName}?updated`;
 
     try {
       let { error: uploadError } = await supabase.storage
         .from('uploads')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '1000',
+          upsert: true,
+        });
 
       if (uploadError) {
         throw uploadError;
@@ -125,7 +128,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
     const fetchUserProfile = async () => {
       try {
         const { data, error } = await supabase
-          .storage.from('uploads').getPublicUrl(`public/avatars/${user?.user.user.id}`);
+          .storage.from('uploads').getPublicUrl(`public/avatars/${user?.user.user.id}?updated`);
 
         if (error) {
           throw error;
@@ -153,7 +156,9 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
       >
         <div className="flex flex-col items-center justify-center pt-5 pb-6">
         {avatarUrl ? (
+          <>
           <img src={avatarUrl} alt="Profile" className="avatar object-cover" />
+          </>
         ) : (
           <svg
             className="w-full h-full text-gray-500"
@@ -166,6 +171,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
         )}
           <p className="my-5 text-sm text-gray-500 dark:text-gray-400">
             <span className="text-blue-500 dark:text-blue-400">Upload</span> your profile picture
+            <p className="my-5 text-sm text-gray-500 dark:text-gray-400">Please note images are cached.</p>
           </p>
         </div>
         <input

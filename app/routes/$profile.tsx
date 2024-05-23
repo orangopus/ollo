@@ -113,7 +113,7 @@ export default function Profile() {
                 style={{ backgroundImage: `url(${profile?.background_url})`, backdropFilter: "blur(4px)" }}
               >
                 <div className="center avatarcont">
-                  <img className="avatar" src={`https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/public/uploads/public/avatars/${user.id}`} alt="Avatar" />
+                  <img className="avatar" src={`https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/public/uploads/public/avatars/${user.id}?updated`} alt="Avatar" />
                 </div>
                 <div className="info mt-4 center">
                   <h1 className="username">
