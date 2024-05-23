@@ -28,7 +28,7 @@ export default function Index() {
       <div className="herocont">
         <div className="row heropadding pt-7 herobg">
           <div className="center">
-            <h1>Hey {JSON.stringify(user)} </h1>
+            <h1>Hey {JSON.stringify(user?.user_metadata)} </h1>
             <p className="herotext text-center pt-5">one little link, <span className="organised">organised.</span></p>
             <p className="blurb padding text-center mt-5 mb-5">
               The free and open way to share your library to the web.   

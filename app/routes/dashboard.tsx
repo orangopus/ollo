@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const response = new Response();
   const supabase = createServerSupabase({ request, response });
 
-  const user = await supabase.auth.getUser();
+  const {user} = await supabase.auth.getUser();
   
   const profile = await supabase.from("profiles").select("*").eq("id", user.data.user.id)
 

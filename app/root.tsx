@@ -20,6 +20,7 @@ import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
 import Footer from "./components/Footer";
 import { HypeRateProvider } from "context/HypeRateContext";
+import { userInfo } from "os";
 
 type TypedSupabaseClient = SupabaseClient<Database>
 
@@ -51,6 +52,8 @@ export default function App() {
     env.SUPABASE_URL,
     env.SUPABASE_ANON_KEY)
   )
+
+  console.log(session?.user.user_metadata.provider_id)
 
   useEffect(() => {
     const updateProfile = async () => {
@@ -112,7 +115,7 @@ export default function App() {
             <Meta />
             <Links />
           </head>
-          <body className="">
+          <body>
             <HypeRateProvider>
               <Nav/>
               <Outlet context={{ supabase }} />
