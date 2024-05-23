@@ -43,8 +43,9 @@ export default function Carousel() {
                 {data.username && data.avatar &&
                         <Link to={data.username}>
                     <div key={data.id} className="flex cards carousel" style={{backgroundImage: `url(${data.background_url})`}}>
-                    <div className="rounded-2xl h-96 justify-center items-center">
-                        {<img src={data.avatar} alt="avatar" className="rounded-full mt-7 h-24 w-24 avatar"/> ? <img src={data.avatar} alt="avatar" className="rounded-full mt-10 ml-10 h-24 w-24 avatar" /> : <FontAwesomeIcon icon={['fas', 'user-circle']} className="text-5xl text-white"/>}
+                    <div className="rounded-2xl h-96 justify-center items-center padding">
+                        {<img src={data.avatar} alt="avatar" className="rounded-full h-24 w-24 avatar"/> ? <img src={data.avatar} alt="avatar" className="rounded-full h-24 w-24 avatar" /> : <FontAwesomeIcon icon={['fas', 'user-circle']} className="text-5xl text-white"/>}
+                        <p className="text-3xl ml-15 mt-5 pl-5 bold text-white">{data.username}</p>
                     </div>
                     </div>
                     </Link>
