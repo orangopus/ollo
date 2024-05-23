@@ -904,7 +904,10 @@ body {
     font-weight: bold;
     font-size: 20px;
     text-align: left;
-    margin-top: 20px;
+  }
+
+  .bio-h {
+    height: 250px !important;
   }
   
   .green {
