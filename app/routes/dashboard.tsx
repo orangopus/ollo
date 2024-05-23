@@ -1,11 +1,11 @@
 // app/routes/onboarding.jsx
-import { Form, Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
+import { Form, Link, Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 import supabase from 'utils/supabase';
 import { SupabaseOutletContext } from '~/root';
 
 import createServerSupabase from 'utils/supabase.server';
 import { useState } from 'react';
-import { LoaderFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { LoaderFunction, LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -34,7 +34,8 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
   const profile = useLoaderData();
   const user = useLoaderData();
   const [username, setUsername] = useState(profile.username);
-
+  const [displayname, setDisplayName] = useState(profile.displayname);
+  const [bio, setBio] = useState(profile.bio);
   const [hyperate, setHyperate] = useState(profile.heartbeat);
 
   const updateUsername = async (username) => {
@@ -43,6 +44,26 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
       .from("profiles")
       .update({
         username,
+      })
+      .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
+  };
+
+  const updateDisplayName = async (displayname) => {
+    setDisplayName(displayname);
+    await supabase // Use the Supabase client instead of the Supabase outlet context
+      .from("profiles")
+      .update({
+        displayname,
+      })
+      .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
+  };
+
+  const updateBio = async (bio) => {
+    setBio(bio);
+    await supabase // Use the Supabase client instead of the Supabase outlet context
+      .from("profiles")
+      .update({
+        bio,
       })
       .eq("id", user?.user.user.id); // Access the id property after awaiting the user promise
   };
@@ -59,46 +80,77 @@ export default function OnboardingLayout({params}: {params: YourParamsType}) {
 
   const handleSpotify = async () => {
     const {error} = await supabase.auth.signInWithOAuth({
-      provider: 'spotify'
-    })
-
+      provider: 'spotify',
+    });
     if (error) {
-      console.log(error);
+      console.error('Error logging in with Spotify:', error.message);
+      return;
     }
   }
 
   return (
     <div className="min-h-screen center">
-      <h1>Dashboard</h1>
       <Outlet />
+      <h2 className="edit center">Display name</h2>
+              <input
+                id="displayname"
+                name="displayname"
+                value={displayname}
+                onChange={(event) => {
+                  setDisplayName(event.target.value);
+                  updateDisplayName(event.target.value);
+                }}
+                type="text"
+                placeholder='Set display name'
+                defaultValue={profile.profile[0].displayname}
+                className="input"
+              /> 
               <h2 className="edit center">Username</h2>
               <input
-                autoFocus
-                id="bio"
-                name="bio"
+                id="username"
+                name="username"
                 value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                  updateUsername(event.target.value);
+                }}
                 type="text"
                 placeholder='Set username'
                 defaultValue={profile.profile[0].username}
                 className="input"
-              /> 
-              <button onClick={() => updateUsername(username)} className="button">Update</button>
-              <h2>HypeRate</h2>
+              />
+              <h2 className="edit center">Bio</h2>
+              <textarea
+                id="bio"
+                name="bio"
+                value={bio}
+                onChange={(event) => {
+                  setBio(event.target.value);
+                  updateBio(event.target.value);
+                }}
+                placeholder='Set bio'
+                defaultValue={profile.profile[0].bio}
+                className="input bio"/>
+              <h2 className="edit center">HypeRate</h2>
               <input
                 id="hyperate"
                 name="hyperate"
                 value={hyperate}
-                onChange={(event) => setHyperate(event.target.value)}
+                onChange={(event) => {
+                  setHyperate(event.target.value);
+                  updateHyperate(event.target.value);
+                }}
                 type="text"
                 placeholder='HypeRate ID'
                 defaultValue={profile.profile[0].heartbeat}
                 className="input"
               /> 
-
-              <button onClick={() => updateHyperate(hyperate)} className="button">Update</button>
               <br/>
-              <button onClick={handleSpotify} className="button bg-green-500 text-white"><FontAwesomeIcon icon={["fab", "spotify"]} /> Connect Spotify</button>
+              <Link to={`/${profile.profile[0].username}`}>
+              <button className="button mb-5">View Profile</button>
+              </Link>
+              <br/>
+              <button onClick={handleSpotify} className="button bg-green-500 text-white"><FontAwesomeIcon icon={["fab", "spotify"]} /> {profile.profile[0].spotify ? <span>Disconnect Spotify</span> : <span>Connect Spotify</span>}</button>
 
     </div>
   );

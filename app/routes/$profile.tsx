@@ -96,7 +96,7 @@ export default function Profile() {
   }
 
   return (
-    <>
+    <div className="min-h-screen">
       <Rnd
         style={style}
         size={{ width: positions.profile?.width || 200, height: positions.profile?.height || 200 }}
@@ -139,6 +139,6 @@ export default function Profile() {
           
           {profile.heartbeat && <HypeRate hypeRateID={profile.heartbeat}/>}
       </Rnd>
-    </>
+    </div>
   );
 }
