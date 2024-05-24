@@ -202,17 +202,17 @@ export default function Profile() {
         resizable
       >         
               <div className="info mt-4 center">
-              {profile.social ? (
-        <div></div>  
-      ) : 
-        profile.social.map((social: any) => {
-          <Link to={social.url}>
-          <span className="mb-4 p-4 bg-gray-800 rounded-lg">
-            <FontAwesomeIcon icon={['fab', social.icon]} className="text-5xl socialicon rounded-full" style={{color: social.color, backgroundColor: social.background_color}}/>
-          </span> 
-          </Link>
-        }
-      )}
+              {profile.social && Array.isArray(profile.social) && profile.social.map((social, index) => (
+                <Link to={social.url} key={index}>
+                  <span className="mb-4 p-4 bg-gray-800 rounded-lg">
+                    <FontAwesomeIcon 
+                      icon={['fab', social.icon]} 
+                      className="text-5xl socialicon rounded-full" 
+                      style={{ color: social.color, backgroundColor: social.background_color }} 
+                    />
+                  </span> 
+                </Link>
+              ))}
               </div>
       </Rnd>
       {showModal ? (
