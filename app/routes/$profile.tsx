@@ -13,6 +13,8 @@ library.add(fab, fas);
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
+  const host = request.headers.get("host");
+  const subdomain = params.profile.split(".")[0];
   const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
 
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();

@@ -289,6 +289,7 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
                 defaultValue={profile.profile[0].heartbeat}
                 className="input"
               /> 
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">HypeRate feature is currently scheduled under maintainence due to websocket flooding.</p>
               <form onSubmit={handleSubmit}>
                   <h2 className="edit center">Custom Domain</h2>
                   <input

@@ -1198,10 +1198,6 @@ body {
     align-items: center;
   }
   
-  img {
-    max-width: 100%;
-  }
-  
   .twitter {
     background: #1da1f2;
     margin-left: 0;
@@ -1513,6 +1509,10 @@ body {
   img::after{
     visibility: hidden;
  }
+
+ img { 
+  height: max-content !important;
+ }
   
   .avatar {
     border-radius: 100%;
@@ -1522,8 +1522,6 @@ body {
     object-fit: cover;
     max-height: 130px;
     max-width: 130px;
-    width: 130px;
-    height: 130px;
     overflow:hidden;
   }
   

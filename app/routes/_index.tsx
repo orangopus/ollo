@@ -145,6 +145,7 @@ export default function Index() {
         </path>
     </svg>
 </code>
+<br/>
 <code
     className="text-sm mb-5 sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-4 pl-6">
     <span className="flex gap-4">
@@ -167,6 +168,7 @@ export default function Index() {
         </path>
     </svg>
 </code>
+<br/>
 <code
     className="text-sm sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-4 pl-6">
     <span className="flex gap-4">
@@ -189,6 +191,7 @@ export default function Index() {
         </path>
     </svg>
 </code>
+<br/>
     <Link to="https://api.ollo.bio">
     <button className="minutesago text-white mt-4">View API Docs</button>
     </Link>
