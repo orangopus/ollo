@@ -135,10 +135,6 @@ export default function Profile() {
     background: "#121212",
   };
 
-  if (!user) {
-    return <p>Please log in to view this page.</p>;
-  }
-
   return (
     <>
       <Rnd
@@ -206,13 +202,17 @@ export default function Profile() {
         resizable
       >         
               <div className="info mt-4 center">
-                 {profile.social.map((social) => 
-                  <Link to={social.url}>
-                  <span className="mb-4 p-4 bg-gray-800 rounded-lg">
-                    <FontAwesomeIcon icon={['fab', social.icon]} className="text-5xl socialicon rounded-full" style={{color: social.color, backgroundColor: social.background_color}}/>
-                  </span> 
-                  </Link>
-                 )}
+              {profile.social ? (
+        <div></div>  
+      ) : 
+        profile.social.map((social: any) => {
+          <Link to={social.url}>
+          <span className="mb-4 p-4 bg-gray-800 rounded-lg">
+            <FontAwesomeIcon icon={['fab', social.icon]} className="text-5xl socialicon rounded-full" style={{color: social.color, backgroundColor: social.background_color}}/>
+          </span> 
+          </Link>
+        }
+      )}
               </div>
       </Rnd>
       {showModal ? (

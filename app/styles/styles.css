@@ -905,6 +905,17 @@ body {
   .socialicon {
     padding: 10px;
   }
+
+  .input-social {
+    position: unset;
+    width: 260px !important;
+    height: 44px !important;
+    left: 106px;
+    top: 129px;
+    background: #0C0C0C;
+    opacity: 0.5;
+    border-radius: 33px !important;
+  }
   
   .bio {
     color: #fff;
