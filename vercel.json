@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/$profile?domain=:host&path=$1"
+      }
+    ]
+  }

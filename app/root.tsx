@@ -118,12 +118,10 @@ export default function App() {
             <Links />
           </head>
           <body>
-            <HypeRateProvider>
               <Nav/>
               <Outlet context={{ supabase }} />
               <ScrollRestoration />
               <Scripts />
-            </HypeRateProvider>
           </body>
         </html>
     </SupabaseContext.Provider>

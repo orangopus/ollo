@@ -12,6 +12,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditSocialItem from '~/components/editsocialitem';
+import axios from "axios";
 library.add(fab, fas);
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -20,12 +21,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const user = await supabase.auth.getUser();
   
-  const profile = await supabase.from("profiles").select("*").eq("id", user.data.user.id)
-
+  const profile = await supabase.from("profiles").select("*").eq("id", user?.data.user.id)
 
   return {
     profile: profile.data,
-    user: user.data
+    user: user.data,
+    env: {
+      VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
+      VERCEL_API_TOKEN: process.env.VERCEL_API_TOKEN
+    }
   }
 };
 
@@ -35,12 +39,49 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
   
   const profile = useLoaderData();
   const user = useLoaderData();
+  const {env} = useLoaderData();
   const [username, setUsername] = useState(profile.username);
   const [displayname, setDisplayName] = useState(profile.displayname);
   const [bio, setBio] = useState(profile.bio);
   const [hyperate, setHyperate] = useState(profile.heartbeat);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [pally, setPally] = useState(profile.pally);
+
+  const [customDomain, setCustomDomain] = useState(""); // State to manage custom domain input value
+  const [error, setError] = useState(''); // State to manage error message
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();  
+      // Update user's profile with custom domain
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ custom_domain: customDomain })
+        .eq('id', user.user.user.id);
+
+      if (updateError) {
+        throw updateError;
+      }
+
+      console.log('Custom Domain: ', customDomain);
+
+      const domain = {
+        name: customDomain
+      }
+
+      // Register custom domain with Vercel
+
+    const response = await axios(`https://api.vercel.com/v10/projects/${env.VERCEL_PROJECT_ID}/domains?teamId=team_A8VB8liqd3xy1xyKgQCizpMW`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.VERCEL_API_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(domain) // Convert domain object to JSON string
+    });
+
+    console.log('Domain registered successfully!');
+  };  
+
 
   const updateAvatar = async (event) => {
     const file = event.target.files[0];
@@ -248,6 +289,34 @@ export default function OnboardingLayout({params, userId }: {params: YourParamsT
                 defaultValue={profile.profile[0].heartbeat}
                 className="input"
               /> 
+              <form onSubmit={handleSubmit}>
+                  <h2 className="edit center">Custom Domain</h2>
+                  <input
+                    type="text"
+                    className="input"
+                    value={customDomain}
+                    defaultValue={profile.profile[0].custom_domain}
+                    onChange={(e) => e.target && setCustomDomain(e.target.value)}
+                  />
+                  <br/>
+                  <code
+    className="text-sm my-5 sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-4 pl-6">
+    <span className="flex gap-4">
+        <span className="shrink-0 text-gray-500">
+            A
+        </span>
+
+        <span className="flex-1">
+            <span>
+            76.76.21.21
+            </span>
+        </span>
+    </span>
+    </code>
+    <br/>
+                <button type="submit" className="button">Update</button>
+                {error && <p className="text-red-500">{error}</p>} {/* Display error message if domain registration fails */}
+              </form>
               <h2 className="edit center">Pally.gg</h2>
               <input
                 id="pally"

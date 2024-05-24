@@ -1,22 +1,32 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { HypeRateWebsocket } from "utils/HypeRate";
-import { useRef } from "react";
 
 const apiToken = '32DM2gak0Ks8oohCbdK2783MkAVxbV6pGsanFtdwgVmQEBxIdOVjCbTUDmrdTl1Y';
-export const HypeRateContext = createContext<HypeRateWebsocket | null>(null)
+export const HypeRateContext = createContext<HypeRateWebsocket | null>(null);
 
+export const HypeRateProvider = ({ children }: { children: ReactNode }) => {
+    const [socket, setSocket] = useState<HypeRateWebsocket | null>(null);
 
-const socket = new HypeRateWebsocket({
-	apiKey: apiToken
-})
-socket.startHeartbeatTimer();
-socket.startJoinTimer();
+    useEffect(() => {
+        const newSocket = new HypeRateWebsocket({
+            apiKey: apiToken
+        });
+        
+        newSocket.startHeartbeatTimer();
+        newSocket.startJoinTimer();
+        
+        setSocket(newSocket);
 
-export const HypeRateProvider = ({ children }: {children:Array<ReactNode>}) => {
-	return (
-		<HypeRateContext.Provider value={socket}>
-			{children}
-		</HypeRateContext.Provider>
-	);
+        return () => {
+            newSocket.startHeartbeatTimer();
+            newSocket.startJoinTimer();
+            newSocket.leaveAllChannels();
+        };
+    }, []);
+
+    return (
+        <HypeRateContext.Provider value={socket}>
+            {children}
+        </HypeRateContext.Provider>
+    );
 }
-
