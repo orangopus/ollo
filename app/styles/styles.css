@@ -1510,6 +1510,10 @@ body {
     visibility: hidden;
  }
 
+ .reply-content {
+  max-width: 700px;
+ }
+
  img { 
   height: max-content !important;
  }
