@@ -37,7 +37,7 @@ export default function Carousel() {
     <div className="m-scroll">
         <>
         
-        {profile?.messages.filter(profile => profile.avatar).map(function(data) {
+        {profile.filter(profile => profile.avatar).map(function(data) {
             return (
                 <>
                 {data.username && data.avatar &&

@@ -1,12 +1,11 @@
 import type { MetaFunction } from "@remix-run/node";
-import { Link, Outlet } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useParams } from "@remix-run/react";
 import config from "../../package.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "context/UserContext";
 import createServerSupabase from "utils/supabase.server";
 import { json, LoaderFunctionArgs } from "@remix-run/node";
-import Carousel from "../components/Carousel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,16 +13,49 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to ollo!" },
   ];
 };
-export const loader = async({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const response = new Response();
-  const supabase = createServerSupabase({request, response});
-  const {data} = await supabase.from("profiles").select();
-  
-  return json({messages: data ?? []}, {headers: response.headers})
-}
+  const supabase = createServerSupabase({ request, response });
+  const host = request.headers.get("host");
+  const subdomain = host?.split(".")[0];  
+  let profileData = null;
+  console.log(subdomain)
+  if (subdomain) {
+    const {data: profile} = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("username", subdomain)
+      .single()
+      console.log(profile)
+    profileData = profile;
+  }
+
+  return json({ profile: profileData }, { headers: response.headers });
+};
 
 export default function Index() {
   const user = useContext(UserContext);
+  const {profile} = useLoaderData(); // Destructure profile from useLoaderData
+
+  if (profile) {
+    return (
+      <section className="w-full min-h-screen flex flex-col">
+        <div className="herocont">
+          <div className="row heropadding pt-7 herobg">
+            <div className="center">
+              {/* Access profile.username and profile.bio */}
+              <h1>Profile of {profile.username}</h1>
+              <p className="text-center pt-5">
+                {profile.bio}
+              </p>
+              {/* Render other profile-specific data here */}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="w-full min-h-screen flex flex-col">
       <div className="herocont">
@@ -233,7 +265,6 @@ export default function Index() {
             Customise and add <span className="personality">personality</span> <span>to your ollo</span>
           </p>
         </header>
-        <Carousel />
         <div className="grid grid-cols-4 gap-10 padd my-10">
         <div className="grid-card dark p-5 red">
           <p className="gridsub">
