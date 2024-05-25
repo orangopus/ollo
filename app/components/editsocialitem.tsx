@@ -81,7 +81,7 @@ const EditSocialItem: React.FC = () => {
 
   return (
     <div className="bg-gray-900 text-white center socialcontainer p-6 rounded-lg shadow-lg">
-      {socials.map((social, index) => (
+      {socials?.map((social, index) => (
         <div key={index} className="mb-4 p-4 bg-gray-800 rounded-lg">
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor={`icon-${index}`}>
