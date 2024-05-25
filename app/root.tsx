@@ -20,9 +20,7 @@ import { SupabaseClient, User, createClient } from "@supabase/supabase-js";
 import Nav from "~/components/Nav";
 import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
-import Footer from "./components/Footer";
 import { HypeRateProvider } from "context/HypeRateContext";
-import { userInfo } from "os";
 
 type TypedSupabaseClient = SupabaseClient<Database>
 
