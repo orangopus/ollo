@@ -1,3 +1,4 @@
+import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import {
   Links,
   Meta,
@@ -5,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import "~/styles/styles.css";
 import 'swiper/css';
@@ -43,6 +45,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
  return json({env, session}, {headers: response.headers})
 }
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+  captureRemixErrorBoundaryError(error);
+  return <div>Something went wrong</div>;
+};
 
 export default function App() {
   const { env, session } = useLoaderData<typeof loader>();
