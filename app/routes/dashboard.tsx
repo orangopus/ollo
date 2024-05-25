@@ -277,9 +277,6 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
         <button className="button mb-5">View Profile</button>
       </Link>
       <br />
-      <button onClick={handleSpotify} className="button bg-green-500 text-white mb-10">
-        <FontAwesomeIcon icon={["fab", "spotify"]} /> {profile.spotify ? <span>Disconnect Spotify</span> : <span>Connect Spotify</span>}
-      </button>
     </div>
   );
 }
