@@ -21,26 +21,30 @@ const EditSocialItem: React.FC = () => {
         console.error("Error fetching user:", userError);
         return;
       }
-
+  
       setUser(userData.user);
       console.log(userData.user?.id);
-
+  
       if (userData.user) {
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('social')
           .eq('id', userData.user.id)
           .single();
-
+  
         if (profileError) {
           console.error("Error fetching profile:", profileError);
         } else {
-          setSocials(profileData?.social || []);
+          if (profileData && Array.isArray(profileData.social)) {
+            setSocials(profileData.social);
+          } else {
+            setSocials([]);
+          }
           console.log("Fetched socials:", profileData?.social);
         }
       }
     };
-
+  
     fetchUserAndSocials();
   }, [supabase]);
 
