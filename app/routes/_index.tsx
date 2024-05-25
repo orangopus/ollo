@@ -22,28 +22,36 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const host = request.headers.get("host");
   const subdomain = host?.split(".")[0];  
   let profileData = null;
-  console.log(subdomain)
   if (subdomain) {
     const {data: profile} = await supabase
       .from("profiles")
       .select("*")
       .eq("username", subdomain)
       .single()
-      console.log(profile)
+    profileData = profile;
+  }
+
+  else if (host) {
+    const {data: profile} = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("custom_domain", host)
+      .single()
     profileData = profile;
   }
 
   const layoutsRes = await supabase.from("layouts").select("*").eq("id", profileData.id).single();
   const postsRes = await supabase.from("vw_posts_with_user").select("*").eq("user_id", profileData.id);
 
-  return json({ profile: profileData, layoutData: layoutsRes.data, posts: postsRes.data }, { headers: response.headers });
+  return json({ profile: profileData, layoutData: layoutsRes.data, posts: postsRes.data, host: host }, { headers: response.headers });
 };
 
-export default function Index() {
+export default function Index({request}) {
   const user = useContext(UserContext);
   const {profile} = useLoaderData(); // Destructure profile from useLoaderData
-
-  if (profile) {
+  const {host} = useLoaderData()
+  console.log(host)
+  if (profile || host) {
     const { profile, layoutData, posts } = useLoaderData();
     const { supabase } = useOutletContext<SupabaseOutletContext>();
     const [user, setUser] = useState(null);
