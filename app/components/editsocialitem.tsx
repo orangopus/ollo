@@ -11,7 +11,7 @@ interface SocialItem {
 
 const EditSocialItem: React.FC = () => {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const [socials, setSocials] = useState<SocialItem[]>([]);
+  const [socials, setSocials] = useState<SocialItem[]>();
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
