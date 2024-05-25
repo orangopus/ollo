@@ -20,10 +20,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   const supabase = createServerSupabase({ request, response });
 
   const user = await supabase.auth.getUser();
-  const profile = await supabase.from("profiles").select("*").eq("id", user?.data?.user?.id);
+  const profileResponse = await supabase.from("profiles").select("*").eq("id", user?.data?.user?.id).single(); // Fetch a single profile
 
   return {
-    profile: profile.data ? profile.data[0] : null,
+    profile: profileResponse.data,
     user: user.data,
     env: {
       VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
@@ -247,9 +247,7 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
               A
             </span>
             <span className="flex-1">
-              <span>
-                76.76.21.21
-              </span>
+              76.76.21.21
             </span>
           </span>
         </code>
