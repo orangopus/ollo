@@ -51,7 +51,7 @@ export default function Index({request}) {
   const {profile} = useLoaderData(); // Destructure profile from useLoaderData
   const {host} = useLoaderData()
   console.log(host)
-  if (profile || host && host !== "ollo.bio") {
+  if (profile) {
     const { profile, layoutData, posts } = useLoaderData();
     const { supabase } = useOutletContext<SupabaseOutletContext>();
     const [user, setUser] = useState(null);
