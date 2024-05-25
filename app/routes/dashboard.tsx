@@ -1,4 +1,3 @@
-// app/routes/onboarding.jsx
 import { Form, Link, Outlet, useLoaderData, useOutletContext } from '@remix-run/react';
 import supabase from 'utils/supabase';
 import { SupabaseOutletContext } from '~/root';
@@ -21,6 +20,10 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const user = await supabase.auth.getUser();
   const profileResponse = await supabase.from("profiles").select("*").eq("id", user?.data?.user?.id).single(); // Fetch a single profile
+
+  if (!user) {
+    throw redirect('/login'); // Redirect if the user is not authenticated
+  }
 
   return {
     profile: profileResponse.data,
