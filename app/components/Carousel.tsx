@@ -9,9 +9,6 @@ import { SupabaseOutletContext } from "~/root";
 import createSupabase from "utils/supabase";
 library.add(fab, fas);
 
-// load posts from database
-import createServerSupabase from "utils/supabase.server"; // Replace "path/to/createServerSupabase" with the actual path to the module
-
 export const loader = async () => {
   const response = new Response();
   const { supabase } = createSupabase();
