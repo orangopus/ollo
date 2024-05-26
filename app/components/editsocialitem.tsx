@@ -3,15 +3,18 @@ import React, { useEffect, useState } from "react";
 import { SupabaseOutletContext } from "~/root";
 
 interface SocialItem {
+  id: string;
   icon: string;
   url: string;
   color: string;
+  name: string;
+  user_id: string;
   background_color: string;
 }
 
 const EditSocialItem: React.FC = () => {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
-  const [socials, setSocials] = useState<SocialItem[]>();
+  const [socials, setSocials] = useState<SocialItem[]>([]);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -26,21 +29,16 @@ const EditSocialItem: React.FC = () => {
       console.log(userData.user?.id);
   
       if (userData.user) {
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('social')
-          .eq('id', userData.user.id)
-          .single();
+        const { data: socialsData, error: socialsError } = await supabase
+          .from('socials')
+          .select('*')
+          .eq('user_id', userData.user.id);
   
-        if (profileError) {
-          console.error("Error fetching profile:", profileError);
+        if (socialsError) {
+          console.error("Error fetching socials:", socialsError);
         } else {
-          if (profileData && Array.isArray(profileData.social)) {
-            setSocials(profileData.social);
-          } else {
-            setSocials([]);
-          }
-          console.log("Fetched socials:", profileData?.social);
+          setSocials(socialsData || []);
+          console.log("Fetched socials:", socialsData);
         }
       }
     };
@@ -55,10 +53,23 @@ const EditSocialItem: React.FC = () => {
   };
 
   const addSocial = () => {
-    setSocials([...socials, { icon: "", url: "", color: "#ffffff", background_color: "#000000" }]);
+    if (!user) return;
+    setSocials([...socials, { icon: "", url: "", color: "#ffffff", name: "", user_id: user.id, background_color: "#000000" }]);
   };
 
-  const removeSocial = (index: number) => {
+  const removeSocial = async (index: number) => {
+    const socialToRemove = socials[index];
+    if (socialToRemove.id) {
+      const { error } = await supabase
+        .from('socials')
+        .delete()
+        .eq('id', socialToRemove.id);
+
+      if (error) {
+        console.error("Error removing social item:", error);
+        return;
+      }
+    }
     setSocials(socials.filter((_, i) => i !== index));
   };
 
@@ -71,22 +82,48 @@ const EditSocialItem: React.FC = () => {
     console.log("Updating profile for user ID:", user.id);
     console.log("Social items to update:", socials);
 
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({ social: socials })
-      .eq('id', user.id);
+    for (const social of socials) {
+      if (social.id) {
+        // Update existing social item
+        const { error } = await supabase
+          .from('socials')
+          .update(social)
+          .eq('id', social.id);
 
-    if (error) {
-      console.error("Error updating profile:", error);
-    } else {
-      console.log("Profile updated:", data);
+        if (error) {
+          console.error("Error updating social item:", error);
+        }
+      } else {
+        // Insert new social item
+        const { error } = await supabase
+          .from('socials')
+          .insert(social);
+
+        if (error) {
+          console.error("Error inserting social item:", error);
+        }
+      }
     }
+
+    console.log("Profile updated");
   };
 
   return (
     <div className="bg-gray-900 text-white center socialcontainer p-6 rounded-lg shadow-lg">
       {socials?.map((social, index) => (
         <div key={index} className="mb-4 p-4 bg-gray-800 rounded-lg">
+          <div className="mb-4">
+            <label className="block text-sm font-bold mb-2" htmlFor={`name-${index}`}>
+              Social Name
+            </label>
+            <input
+              className="w-full p-2 rounded bg-gray-800 text-white"
+              id={`name-${index}`}
+              type="text"
+              value={social.name}
+              onChange={(e) => handleSocialChange(index, "name", e.target.value)}
+            />
+          </div>
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor={`icon-${index}`}>
               FontAwesome Social Icon
