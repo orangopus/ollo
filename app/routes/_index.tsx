@@ -9,6 +9,7 @@ import { json, LoaderFunctionArgs } from "@remix-run/node";
 import { Rnd } from "react-rnd";
 import { HypeRate } from "~/components/hyperate";
 import { SupabaseOutletContext } from "~/root";
+import Contributors from "~/components/contributors";
 
 export const meta: MetaFunction = () => {
   return [
@@ -469,10 +470,10 @@ export default function Index() {
           <path
               d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z">
           </path>
-      </svg>
+      </svg> 
   </code>
   <br/>
-      <Link to="https://api.ollo.bio">
+      <Link to="https://api.ollo.bio/docs">
       <button className="minutesago text-white mt-4">View API Docs</button>
       </Link>
           </div>
@@ -544,6 +545,7 @@ export default function Index() {
             <FontAwesomeIcon icon={["fas", "terminal"]} size="6x" className="homeicon"/>
             <br/>
               Coded with ❤️
+              <Contributors />
             </p>
             <p>Some code stuff here. Some command line there. It's hard work but crafted with love and joy.</p>
             </div>
