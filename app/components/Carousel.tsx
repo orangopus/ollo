@@ -1,25 +1,29 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useOutletContext } from "@remix-run/react";
 import { UserContext } from "context/UserContext";
 import { useContext } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { SupabaseOutletContext } from "~/root";
+import createSupabase from "utils/supabase";
 library.add(fab, fas);
 
 // load posts from database
-export const loader = async ({ request }: LoaderArgs) => {
+import createServerSupabase from "utils/supabase.server"; // Replace "path/to/createServerSupabase" with the actual path to the module
+
+export const loader = async () => {
   const response = new Response();
-  const supabase = createServerSupabase({ request, response });
+  const { supabase } = createSupabase();
 
   const posts = await supabase.from("posts_with_likes").select().order('id', { ascending: false });
   const likes = await supabase.from("likes").select();
   const user = await supabase.auth.getUser()
-  const profile = await supabase.from("profiles").select("*")
+  const profiles = await supabase.from("profiles").select("*")
 
   return {
     user: user.data,
-    profile: profile.data
+    profiles: profiles.data
   }
     
 };
@@ -29,30 +33,14 @@ export default function Carousel() {
 
 
 
-    console.log(profile[0])
+    console.log(profile)
 
     return (
 <div className="w-full">
       <div className="scroll">
     <div className="m-scroll">
         <>
-        
-        {profile.filter(profile => profile.avatar).map(function(data) {
-            return (
-                <>
-                {data.username && data.avatar &&
-                        <Link to={data.username}>
-                    <div key={data.id} className="flex cards carousel" style={{backgroundImage: `url(${data.background_url})`}}>
-                    <div className="rounded-2xl h-96 justify-center items-center padding">
-                        {<img src={data.avatar} alt="avatar" className="rounded-full h-24 w-24 avatar"/> ? <img src={data.avatar} alt="avatar" className="rounded-full h-24 w-24 avatar" /> : <FontAwesomeIcon icon={['fas', 'user-circle']} className="text-5xl text-white"/>}
-                        <p className="text-3xl ml-15 mt-5 pl-5 bold text-white">{data.username}</p>
-                    </div>
-                    </div>
-                    </Link>
-                }
-                </>
-            );
-        })}
+        {JSON.stringify(profile)}
         </>
     </div>
       <div className="swiper-pagination "></div>

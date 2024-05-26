@@ -10,6 +10,7 @@ import { Rnd } from "react-rnd";
 import { HypeRate } from "~/components/hyperate";
 import { SupabaseOutletContext } from "~/root";
 import Contributors from "~/components/contributors";
+import Carousel from "~/components/Carousel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -32,15 +33,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
     profileData = profile;
   }
 
-  else if (host) {
-    const {data: profile} = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("custom_domain", host)
-      .single()
-    profileData = profile;
-  }
-
   const layoutsRes = profileData ? await supabase.from("layouts").select("*").eq("id", profileData.id).single() : null;
   const postsRes = profileData ? await supabase.from("vw_posts_with_user").select("*").eq("user_id", profileData.id) : null;
 
@@ -51,7 +43,6 @@ export default function Index() {
   const user = useContext(UserContext);
   const {profile} = useLoaderData(); // Destructure profile from useLoaderData
   const {host} = useLoaderData()
-  console.log(host)
   if (profile) {
     const { profile, layoutData, posts } = useLoaderData() as { profile: any, layoutData: any, posts: any };
     const { supabase } = useOutletContext<SupabaseOutletContext>();
@@ -166,6 +157,11 @@ export default function Index() {
   
     return ( 
       <>
+        <style>
+          {`.navbar {
+            display: none !important;
+          }`}
+        </style>
         <Rnd
           style={style}
           size={{ width: positions.profile?.width || 200, height: positions.profile?.height || 200 }}
@@ -514,6 +510,8 @@ export default function Index() {
               Customise and add <span className="personality">personality</span> <span>to your ollo</span>
             </p>
           </header>
+          <div className="grid grid-cols-4 gap-10 padd my-10">
+          </div>
           <div className="grid grid-cols-4 gap-10 padd my-10">
           <div className="grid-card dark p-5 red">
             <p className="gridsub">

@@ -37,7 +37,6 @@ const Contributors: React.FC = () => {
       try {
         const response = await axios.get('https://api.github.com/repos/orangopus/ollo/contributors');
         setContributors(response.data);
-        console.log('Fetched contributors:', response.data); // Log GitHub contributors
       } catch (error) {
         console.error('Error fetching GitHub contributors:', error);
       }
@@ -66,9 +65,6 @@ const Contributors: React.FC = () => {
           return;
         }
 
-        console.log('All social data:', socialsData); // Log all social data
-        console.log('All profiles data:', profilesData); // Log all profiles data
-
         const contributorsWithSocials: SocialItem[] = [];
 
         for (const contributor of contributors) {
@@ -94,7 +90,6 @@ const Contributors: React.FC = () => {
         }
 
         setFilteredContributors(contributorsWithSocials);
-        console.log('Filtered contributors with socials:', contributorsWithSocials); // Log filtered contributors
       } catch (error) {
         console.error('Error in fetchSocialsAndProfiles:', error);
       }
