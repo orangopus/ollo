@@ -213,7 +213,7 @@ export default function UserPage() {
               <br />
             </div>
           </div>
-          <p className="postcontent">
+          <p className="postcontent grid">
             {post.user_id === user.id ? (
               <EdiText
                 key={post.id}
