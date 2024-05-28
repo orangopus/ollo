@@ -503,6 +503,7 @@ body {
     margin-right: 30px;
     margin-left: 30px;
     margin-bottom: 20px;
+    z-index: 100;
   }
 
   .sticky {
