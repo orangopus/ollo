@@ -1514,6 +1514,68 @@ body {
   max-width: 700px;
  }
 
+.m-scroll {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Adds space between profile items */
+}
+
+.profile-item {
+  text-align: center;
+  margin: 10px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  width: 200px; /* Set a fixed width */
+  height: 400px;
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  white-space: pre-wrap;
+  text-align: left;
+  overflow-y: hidden;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 1.2em;
+  margin: 10px 0;
+  display: unset;
+}
+
+.bio {
+  font-size: 0.9em;
+  color: #666;
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis (...) to overflow text */
+  white-space: normal; /* Allow text to wrap */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.username {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
  img { 
   height: max-content !important;
  }

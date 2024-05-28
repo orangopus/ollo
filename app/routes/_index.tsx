@@ -13,6 +13,7 @@ import Contributors from "~/components/contributors";
 import Carousel from "~/components/Carousel";
 
 export const meta: MetaFunction = () => {
+
   return [
     { title: "ollo - one little link, organised." },
     { name: "description", content: "Welcome to ollo!" },
@@ -23,6 +24,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   const supabase = createServerSupabase({ request, response });
   const host = request.headers.get("host");
   const subdomain = host?.split(".")[0];  
+  const user = await supabase.auth.getUser();
+  console.log(user)
   let profileData = null;
   if (subdomain) {
     const {data: profile} = await supabase
@@ -31,17 +34,23 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
       .eq("username", subdomain)
       .single()
     profileData = profile;
+  } else if (!subdomain) {
+    const {data: profile} = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.data.user?.id) // Add null check for user.data.user
+      .single()
+    profileData = profile;
   }
 
   const layoutsRes = profileData ? await supabase.from("layouts").select("*").eq("id", profileData.id).single() : null;
   const postsRes = profileData ? await supabase.from("vw_posts_with_user").select("*").eq("user_id", profileData.id) : null;
 
-  return json({ profile: profileData, layoutData: layoutsRes?.data, posts: postsRes?.data, host: host }, { headers: response.headers });
+  return json({ user: user.data, profile: profileData, layoutData: layoutsRes?.data, posts: postsRes?.data, host: host }, { headers: response.headers });
 };
 
 export default function Index() {
-  const user = useContext(UserContext);
-  const {profile} = useLoaderData(); // Destructure profile from useLoaderData
+  const {profile, user} = useLoaderData(); // Destructure profile from useLoaderData
   const {host} = useLoaderData()
   if (profile) {
     const { profile, layoutData, posts } = useLoaderData() as { profile: any, layoutData: any, posts: any };
@@ -301,12 +310,13 @@ export default function Index() {
       </>
     );
   } else {
+    console.log(profile)
     return (
       <section className="w-full min-h-screen flex flex-col">
         <div className="herocont">
           <div className="row heropadding pt-7 herobg">
             <div className="center">
-              <h1>Hey {JSON.stringify(user?.user_metadata)} </h1>
+              <h1>Hey {user.user.user_metadata.custom_claims.global_name} </h1>
               <p className="herotext text-center pt-5">one little link, <span className="organised">organised.</span></p>
               <p className="blurb padding text-center mt-5 mb-5">
                 The free and open way to share your library to the web.   
@@ -504,14 +514,12 @@ export default function Index() {
           </div>
   
           </div>
-  
           <header className="center">
             <p className="gridtitle text-center">
               Customise and add <span className="personality">personality</span> <span>to your ollo</span>
             </p>
           </header>
-          <div className="grid grid-cols-4 gap-10 padd my-10">
-          </div>
+          <Carousel />
           <div className="grid grid-cols-4 gap-10 padd my-10">
           <div className="grid-card dark p-5 red">
             <p className="gridsub">

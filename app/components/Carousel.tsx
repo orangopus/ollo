@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLoaderData, useOutletContext } from "@remix-run/react";
 import { UserContext } from "context/UserContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -9,39 +9,54 @@ import { SupabaseOutletContext } from "~/root";
 import createSupabase from "utils/supabase";
 library.add(fab, fas);
 
-export const loader = async () => {
-  const response = new Response();
-  const { supabase } = createSupabase();
+interface Profile {
+  id: number;
+  username: string;
+  avatar: string;
+  color: string;
+  background_color: string;
+  bio: string;
+}
 
-  const posts = await supabase.from("posts_with_likes").select().order('id', { ascending: false });
-  const likes = await supabase.from("likes").select();
-  const user = await supabase.auth.getUser()
-  const profiles = await supabase.from("profiles").select("*")
-
-  return {
-    user: user.data,
-    profiles: profiles.data
-  }
-    
-};
 export default function Carousel() {
-    const user = useLoaderData()
-    const profile = useLoaderData()
+  const { supabase } = useOutletContext<SupabaseOutletContext>();
+  const [profiles, setProfiles] = useState<Profile[]>([]);
 
+  useEffect(() => {
+    const fetchSocialsAndProfiles = async () => {
+      const { data: profilesData, error: socialsError } = await supabase
+        .from('profiles')
+        .select('*');
 
+      if (socialsError) {
+        console.error(socialsError);
+      } else {
+        setProfiles(profilesData || []);
+        console.log(profilesData);
+      }
+    };
 
-    console.log(profile)
+    fetchSocialsAndProfiles();
+  }, [supabase]);
 
-    return (
-<div className="w-full">
+  return (
+    <div className="w-full">
       <div className="scroll">
-    <div className="m-scroll">
-        <>
-        {JSON.stringify(profile)}
-        </>
+        <div className="m-scroll">
+          {profiles.map((profile) =>  ( profile.bio &&
+            <Link to={`/${profile.username}`}>
+            <div key={profile.id}style={{ backgroundImage: `url(${profile?.background_url})`, backdropFilter: "blur(4px)" }} className="profile-item grid-card dark p-5">
+              <img className="avatar" src={profile.avatar ? profile.avatar : "avatar.png"} alt={profile.username} />
+              <h2 className="username">{profile.username}</h2>
+              <div className="mt-3">
+              <p>{profile.bio}</p>
+              </div>
+            </div>
+            </Link>
+          ))}
+        </div>
+        <div className="swiper-pagination"></div>
+      </div>
     </div>
-      <div className="swiper-pagination "></div>
-      </div>
-      </div>
-)
+  );
 }
