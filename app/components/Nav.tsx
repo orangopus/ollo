@@ -29,7 +29,7 @@ export default function Nav() {
   const profile = useLoaderData()
 
   return (
-    <nav className="navbar flex justify-between justify-center">
+    <nav className="navbar sticky flex justify-between justify-center">
       <a className="navbar-brand" href="/">
         <img className="logo" src="../logo.svg" alt="Logo" />
       </a>
@@ -45,7 +45,7 @@ export default function Nav() {
             {user?.session.user.user_metadata.avatar_url && (
               <img
                 className="avatar avatar2 center"
-                style={{ marginTop: "-25px" }}
+                style={{ marginTop: "-20px" }}
                 src={user?.session.user.user_metadata.avatar_url}
                 alt="User Avatar"
               />

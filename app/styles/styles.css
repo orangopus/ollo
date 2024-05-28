@@ -176,7 +176,6 @@ body {
     display: flex;
     height: 40px;
     margin: auto 0 auto 0;
-    padding: 10px;
   }
   
   footer {
@@ -498,7 +497,16 @@ body {
   }
   
   .navbar {
-    padding: 25px 100px !important;
+    background: rgba(0, 0, 0, 0.4);
+    margin-top: 20px;
+    border-radius: 100px;
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+  }
+
+  .sticky {
+    width: unset;
   }
   
   .cards > p {
@@ -665,6 +673,7 @@ body {
   
   .logo {
     max-width: 150px;
+    margin-left: 50px;
   }
   
   .feed {
@@ -1535,12 +1544,6 @@ body {
   overflow-y: hidden;
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
 .username {
   font-size: 1.2em;
   margin: 10px 0;
@@ -1559,10 +1562,9 @@ body {
   overflow: hidden;
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.avatarcont {
+  margin: auto;
+      vertical-align: middle;
 }
 
 .username {
@@ -1570,25 +1572,19 @@ body {
   margin: 10px 0;
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-}
-
  img { 
   height: max-content !important;
+  display: revert !important;
  }
   
   .avatar {
     border-radius: 100%;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    width: 100px;
+    height: 100px;
     vertical-align: middle;
     text-align: center;
     object-fit: cover;
-    max-height: 130px;
-    max-width: 130px;
-    overflow:hidden;
   }
   
   .avatar-hp {

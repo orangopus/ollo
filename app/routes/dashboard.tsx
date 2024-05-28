@@ -219,7 +219,7 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
           updateField('bio', event.target.value);
         }}
         placeholder='Set bio'
-        className="input bio bio-h"
+        className="input bio-h"
       />
       <h2 className="edit center">HypeRate</h2>
       <input

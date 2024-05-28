@@ -19,12 +19,13 @@ export const loader = async ({ request, params, response }) => {
 
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
   const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
+  const socialRes = await sup.from("socials").select("*").eq("user_id", profileRes.data.id);
 
-  return { profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
+  return { social: socialRes.data, profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
 };
 
 export default function Profile() {
-  const { profile, layoutData, posts } = useLoaderData();
+  const { profile, layoutData, posts, social} = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const [user, setUser] = useState(null);
 
@@ -159,8 +160,9 @@ export default function Profile() {
                 </div>
                 <div className="info mt-4 center">
                   <h1 className="username">
-                    {profile?.displayname ? profile.displayname : profile?.username}{" "}
+                    {profile?.displayname ? profile.displayname : profile?.username}{" "}<span className="handle">@{profile.username}</span>
                   </h1>
+                  
                   <p className="bio">{profile?.bio}</p>
                 </div>
               </div>
@@ -204,9 +206,9 @@ export default function Profile() {
         resizable
       >         
               <div className="info mt-4 center">
-              {profile.social && Array.isArray(profile.social) && profile.social.map((social, index) => (
+              {social && Array.isArray(social) && social.map((social, index) => (
                 <Link to={social.url} key={index}>
-                  <span className="mb-4 p-4 bg-gray-800 rounded-lg">
+                  <span className="mb-4 p-4 rounded-lg">
                     <FontAwesomeIcon 
                       icon={['fab', social.icon]} 
                       className="text-5xl socialicon rounded-full" 
