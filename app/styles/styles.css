@@ -512,6 +512,7 @@ body {
   .cards > p {
     color: #ffffff !important;
     margin-bottom: 1rem !important;
+    margin-top: 1rem;
   }
   
   .postcontent > p,
