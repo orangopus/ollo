@@ -13,7 +13,6 @@ import Toast from '~/components/Toast';
 import { useNotification } from 'context/NotificationContext';
 import { getClient } from '../../utils/getstream.server';
 import { json } from '@remix-run/node';
-import supabase from 'utils/supabase.server';
 library.add(fab, fas);
 
 
