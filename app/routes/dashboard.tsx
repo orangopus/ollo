@@ -11,51 +11,25 @@ import axios from "axios";
 import createServerSupabase from 'utils/supabase.server';
 import Toast from '~/components/Toast';
 import { useNotification } from 'context/NotificationContext';
-import { getClient } from '../../utils/getstream.server';
 import { json } from '@remix-run/node';
+import supabase from 'utils/supabase.server';
 library.add(fab, fas);
 
 
 export const loader: LoaderFunction = async ({ request }) => {
   const response = new Response();
   const supabase = createServerSupabase({ request, response });
-  const client = getClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
+  const user = await supabase.auth.getUser();
+  
   if (!user) {
     throw redirect('/login');
   }
 
-  const profileResponse = await supabase.from("profiles").select("*").eq("id", user.id).single();
-  if (!profileResponse.data) {
-    throw new Error('Profile not found');
-  }
-
-  let { data: streamKeyData, error: streamKeyError } = await supabase.from("stream_keys").select("*").eq("user_id", user.id).single();
-
-  if (streamKeyError) {
-    console.error('Error fetching stream key:', streamKeyError);
-    streamKeyData = null;
-  }
-
-  if (!streamKeyData) {
-    const key = client.createUserToken(user.id); // Generate a new GetStream key
-    const { error: insertError } = await supabase.from("stream_keys").insert({ user_id: user.id, key });
-    if (insertError) {
-      throw new Error('Error inserting stream key');
-    }
-    const newStreamKeyResponse = await supabase.from("stream_keys").select("*").eq("user_id", user.id).single();
-    streamKeyData = newStreamKeyResponse.data;
-  }
-
-  if (!streamKeyData || !streamKeyData.key) {
-    throw new Error('Stream key not found or could not be created');
-  }
+  const profileResponse = await supabase.from("profiles").select("*").eq("id", user.data.user.id).single();
 
   return json({
     profile: profileResponse.data,
-    user,
-    streamKey: streamKeyData.key,
+    user: user.data,
     env: {
       VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
       VERCEL_API_TOKEN: process.env.VERCEL_API_TOKEN
@@ -63,8 +37,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-export default function Dashboard() {
-  const { profile, user, env, streamKey } = useLoaderData();
+export default function OnboardingLayout({ params, userId }: { params: any }) {
+  const { supabase } = useOutletContext<SupabaseOutletContext>();
+  const { profile, user, env} = useLoaderData();
   const { addNotification, removeNotification } = useNotification();
 
   const [username, setUsername] = useState(profile?.username || '');
@@ -74,16 +49,22 @@ export default function Dashboard() {
   const [avatarUrl, setAvatarUrl] = useState('');
   const [pally, setPally] = useState(profile?.pally || '');
   const [customDomain, setCustomDomain] = useState(profile?.custom_domain || '');
-  const [streamingKey, setStreamingKey] = useState(streamKey || '');
   const [error, setError] = useState('');
   const [lastNotificationTime, setLastNotificationTime] = useState(0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      await supabase
+        .from('profiles')
+        .update({ custom_domain: customDomain })
+        .eq('id', user.user.id);
+
+      const domain = { name: customDomain };
+
       await axios.post(
-        `/update-domain`,
-        { customDomain },
+        `https://api.vercel.com/v10/projects/${env.VERCEL_PROJECT_ID}/domains?teamId=team_A8VB8liqd3xy1xyKgQCizpMW`,
+        domain,
         {
           headers: {
             Authorization: `Bearer ${env.VERCEL_API_TOKEN}`,
@@ -91,7 +72,7 @@ export default function Dashboard() {
           }
         }
       );
-      addNotification('Domain registered successfully!');
+      addNotification('Domain registered successfully!')
       console.log('Domain registered successfully!');
     } catch (updateError) {
       setError(updateError.message);
@@ -102,7 +83,7 @@ export default function Dashboard() {
     const file = event.target.files[0];
     if (!file) return;
 
-    const fileName = user.id;
+    const fileName = user.user.id;
     const filePath = `public/avatars/${fileName}?updated`;
 
     try {
@@ -126,7 +107,7 @@ export default function Dashboard() {
       }
 
       setAvatarUrl(publicUrl);
-      addNotification('Avatar uploaded successfully!');
+      addNotification('Avatar uploaded successfully!')
       console.log('Avatar uploaded successfully:', publicUrl);
     } catch (error) {
       console.error('Error uploading avatar:', error.message);
@@ -139,7 +120,7 @@ export default function Dashboard() {
       await supabase
         .from('profiles')
         .update({ [field]: value })
-        .eq('id', user.id);
+        .eq('id', user.user.id);
       if (Date.now() - lastNotificationTime > 5000) {
         addNotification(`${field} updated successfully!`);
         setLastNotificationTime(Date.now());
@@ -156,7 +137,7 @@ export default function Dashboard() {
     try {
       await supabase
         .from('stream_keys')
-        .upsert({ user_id: user.id, key: value }, { onConflict: 'user_id' });
+        .upsert({ user_id: user.user.id, key: value }, { onConflict: 'user_id' });
 
       if (Date.now() - lastNotificationTime > 5000) {
         addNotification('Stream key updated successfully!');
@@ -179,7 +160,7 @@ export default function Dashboard() {
       try {
         const { data, error } = await supabase
           .storage.from('uploads')
-          .getPublicUrl(`public/avatars/${user.id}?updated`);
+          .getPublicUrl(`public/avatars/${user.user.id}?updated`);
 
         if (error) {
           throw error;
@@ -194,7 +175,7 @@ export default function Dashboard() {
     };
 
     fetchUserProfile();
-  }, [user.id]);
+  }, [userId]);
 
   return (
     <div className="min-h-screen center">
@@ -306,16 +287,6 @@ export default function Dashboard() {
         <button type="submit" className="button">Update</button>
         {error && <p className="text-red-500">{error}</p>}
       </form>
-      <h2 className="edit center">Stream Key</h2>
-      <input
-        id="streamKey"
-        name="streamKey"
-        value={streamingKey}
-        onChange={updateStreamKey}
-        type="text"
-        placeholder='Enter your streaming key'
-        className="input"
-      />
       <h2 className="edit center">Pally.gg</h2>
       <input
         id="pally"
