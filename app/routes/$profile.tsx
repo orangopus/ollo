@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useOutletContext } from "@remix-run/react";
+import { Link, Outlet, useLoaderData, useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Rnd } from "react-rnd";
 import supabase from "utils/supabase";
@@ -9,23 +9,64 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactPlayer from 'react-player';
 library.add(fab, fas);
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
   const host = request.headers.get("host");
   const subdomain = params.profile.split(".")[0];
-  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
+  const { username } = params.profile;
 
+  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
   const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
   const socialRes = await sup.from("socials").select("*").eq("user_id", profileRes.data.id);
 
-  return { social: socialRes.data, profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
+  // Fetch the stream key associated with the user
+  const { data: streamKeyData, error: streamKeyError } = await sup.from("stream_keys").select("*").eq("user_id", profileRes.data.id).single();
+
+  if (streamKeyError) {
+    console.error('Error fetching stream key:', streamKeyError);
+    throw streamKeyError;
+  }
+
+  if (!streamKeyData || !streamKeyData.key) {
+    throw new Error('Stream key not found or could not be retrieved');
+  }
+
+  // Fetch the stream URL from GetStream.io using the retrieved stream key
+  const streamKey = streamKeyData.key;
+  const streamUrlResponse = await fetch("https://cdn.getstream.io/bison/endpoint", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "YOUR_API_KEY", // Replace with your GetStream API key
+    },
+    body: JSON.stringify({
+      user_id: profileRes.data.id,
+      session_id: "session_id", // Replace with your GetStream session ID
+      stream_id: streamKey, // Use the stream key as the stream ID
+    }),
+  });
+
+  if (!streamUrlResponse.ok) {
+    throw new Error("Failed to fetch stream URL");
+  }
+
+  const { streamUrl } = await streamUrlResponse.json();
+
+  return {
+    social: socialRes.data,
+    profile: profileRes.data,
+    layoutData: layoutsRes.data,
+    posts: postsRes.data,
+    streamUrl: streamUrl, // Pass the stream URL to the profile component
+  };
 };
 
 export default function Profile() {
-  const { profile, layoutData, posts, social} = useLoaderData();
+  const { profile, layoutData, posts, social, streamKey} = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const [user, setUser] = useState(null);
 
@@ -33,8 +74,6 @@ export default function Profile() {
   const [message, setMessage] = useState([]);
 
   let pally = profile.pally;
-
-
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -196,6 +235,26 @@ export default function Profile() {
                   {pally}
                 </div>
               </div>
+      </Rnd>
+      <Rnd
+        size={{ width: positions.stream?.width || 200, height: positions.stream?.height || 200 }}
+        position={{ x: positions.stream?.x || 0, y: positions.stream?.y || 0 }}
+        onDragStop={(e, d) => handleDragStop('stream', e, d)}
+        onResizeStop={(e, direction, ref, delta, position) => handleResizeStop('stream', e, direction, ref, delta, position)}
+        id="stream"
+        resizable
+      >         
+              {streamKey && (
+                <div>
+                  <h2>Live Stream</h2>
+                  <ReactPlayer
+                    url={streamKey}
+                    controls={true}
+                    width="100%"
+                    height="auto"
+                  />
+                </div>
+              )}
       </Rnd>
       <Rnd
         size={{ width: positions.socials?.width || 200, height: positions.socials?.height || 200 }}
