@@ -23,6 +23,8 @@ import Nav from "~/components/Nav";
 import { Database } from "database.types";
 import createServerSupabase from "utils/supabase.server";
 import { HypeRateProvider } from "context/HypeRateContext";
+import { NotificationProvider } from "context/NotificationContext";
+import body from "remix"
 
 type TypedSupabaseClient = SupabaseClient<Database>
 
@@ -116,6 +118,7 @@ export default function App() {
 
   return (
     <SupabaseContext.Provider value={supabase}>
+      <NotificationProvider>
         <html lang="en">
           <head>
             <meta charSet="utf-8" />
@@ -130,6 +133,8 @@ export default function App() {
               <Scripts />
           </body>
         </html>
+      </NotificationProvider>
+        
     </SupabaseContext.Provider>
   );
 }
