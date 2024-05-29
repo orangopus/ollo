@@ -1,6 +1,8 @@
 import { useOutletContext } from "@remix-run/react";
 import React, { useEffect, useState } from "react";
 import { SupabaseOutletContext } from "~/root";
+import { useNotification } from 'context/NotificationContext';
+import Toast from '~/components/Toast';
 
 interface SocialItem {
   id: string;
@@ -16,6 +18,7 @@ const EditSocialItem: React.FC = () => {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const [socials, setSocials] = useState<SocialItem[]>([]);
   const [user, setUser] = useState<any>(null);
+  const { addNotification, removeNotification } = useNotification(); // Add this line to get the addNotification function
 
   useEffect(() => {
     const fetchUserAndSocials = async () => {
@@ -54,6 +57,7 @@ const EditSocialItem: React.FC = () => {
 
   const addSocial = () => {
     if (!user) return;
+    addNotification("Social item added");
     setSocials([...socials, { icon: "", url: "", color: "#ffffff", name: "", user_id: user.id, background_color: "#000000" }]);
   };
 
@@ -70,6 +74,7 @@ const EditSocialItem: React.FC = () => {
         return;
       }
     }
+    addNotification("Social item removed");
     setSocials(socials.filter((_, i) => i !== index));
   };
 
@@ -104,7 +109,7 @@ const EditSocialItem: React.FC = () => {
         }
       }
     }
-
+    addNotification("Profile updated");
     console.log("Profile updated");
   };
 
