@@ -10,6 +10,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactPlayer from 'react-player';
+import axios from 'axios';
 library.add(fab, fas);
 
 export const loader = async ({ request, params, response }) => {
@@ -35,34 +36,53 @@ export const loader = async ({ request, params, response }) => {
     throw new Error('Stream key not found or could not be retrieved');
   }
 
+  function generateSessionID() {
+    // Generate a random alphanumeric string of 32 characters
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = 32;
+    let sessionID = '';
+    for (let i = 0; i < length; i++) {
+      sessionID += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return sessionID;
+  }
+  
+  const sessionId = generateSessionID(); // Generate the session ID
+
   // Fetch the stream URL from GetStream.io using the retrieved stream key
   const streamKey = streamKeyData.key;
-  const streamUrlResponse = await fetch("https://cdn.getstream.io/bison/endpoint", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "YOUR_API_KEY", // Replace with your GetStream API key
-    },
-    body: JSON.stringify({
-      user_id: profileRes.data.id,
-      session_id: "session_id", // Replace with your GetStream session ID
-      stream_id: streamKey, // Use the stream key as the stream ID
-    }),
-  });
 
-  if (!streamUrlResponse.ok) {
+  
+  try {
+    // Make the request to GetStream.io using Axios
+    const response = await axios.post("https://cdn.getstream.io/bison/endpoint", {
+      user_id: profileRes.data.id,
+      session_id: sessionId,
+      stream_id: streamKey,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer yvnq9q2rzc6q34vy69d8cwyhengbz9pwnwkttesngy7jd2vxrk7zbrjuvbh7e3uc", // Replace with your GetStream API key
+        "Origin": "https://ollo.bio" 
+      }
+    });
+    console.log('Response from GetStream.io:', response.data);
+
+    // Access the stream URL from the response data
+    const streamUrl = response.data;
+  
+    // Pass the stream URL to the profile component
+    return {
+      social: socialRes.data,
+      profile: profileRes.data,
+      layoutData: layoutsRes.data,
+      posts: postsRes.data,
+      streamUrl: streamUrl,
+    };
+  } catch (error) {
+    console.error('Error fetching stream URL:', error);
     throw new Error("Failed to fetch stream URL");
   }
-
-  const { streamUrl } = await streamUrlResponse.json();
-
-  return {
-    social: socialRes.data,
-    profile: profileRes.data,
-    layoutData: layoutsRes.data,
-    posts: postsRes.data,
-    streamUrl: streamUrl, // Pass the stream URL to the profile component
-  };
 };
 
 export default function Profile() {
