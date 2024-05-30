@@ -16,6 +16,7 @@ export const loader = async ({ request, params, response }) => {
   const host = request.headers.get("host");
   const subdomain = params.profile.split(".")[0];
   const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
+  console.log(profileRes);
 
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
   const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
@@ -219,6 +220,7 @@ export default function Profile() {
               ))}
               </div>
       </Rnd>
+
       {showModal ? (
           <>
             <div

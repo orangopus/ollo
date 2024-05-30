@@ -1,7 +1,7 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -16,7 +16,9 @@ export default defineConfig({
       }
     }
   },
-
+  define: {
+    'process.env': loadEnv(process.env.NODE_ENV, process.cwd(), '')
+  },
   plugins: [remix(), tsconfigPaths(), sentryVitePlugin({
     org: "orangopus",
     project: "javascript-remix"
