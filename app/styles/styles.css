@@ -25,7 +25,12 @@ body {
     height: 70vh;
     text-align: center;
     margin: 0 auto !important;
+    background:rgba(0, 0, 0, 0.1) !important;
   }
+
+  .vjs-control-bar {
+    background: transparent !important;
+}
 
   .video-js {
     display: block !important;

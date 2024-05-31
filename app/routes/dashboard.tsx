@@ -13,13 +13,7 @@ import Toast from '~/components/Toast';
 import { useNotification } from 'context/NotificationContext';
 import { json } from '@remix-run/node';
 import supabase from 'utils/supabase.server';
-import { IngressInput } from 'livekit-server-sdk';
 library.add(fab, fas);
-
-const RTMP = String(IngressInput.RTMP_INPUT);
-const WHIP = String(IngressInput.WHIP_INPUT);
-
-type IngressType = typeof RTMP | typeof WHIP;
 
 export const loader: LoaderFunction = async ({ request }) => {
   const response = new Response();
@@ -46,7 +40,7 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const { profile, user, env} = useLoaderData();
   const { addNotification, removeNotification } = useNotification();
-
+  const [streamingKey, setStreamingKey] = useState('');
   const [isPending, setIsPending] = useTransition();
   const [ingressType, setIngressType] = useState<IngressType>(RTMP);
 
@@ -59,29 +53,6 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
   const [customDomain, setCustomDomain] = useState(profile?.custom_domain || '');
   const [error, setError] = useState('');
   const [lastNotificationTime, setLastNotificationTime] = useState(0);
-
-
-  const onSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    console.log('Creating ingress...')
-    try {
-        // Call createIngress function asynchronously
-        createIngress(parseInt(ingressType));
-        
-        // If createIngress succeeds, show success notification
-        addNotification('Ingress created successfully!');
-        
-        // Log success message to console
-        console.log('Ingress created successfully!');
-    } catch (error) {
-        // If createIngress fails, show error notification
-        addNotification('Error creating ingress: ' + error.message);
-        
-        // Log error to console
-        console.error('Error creating ingress:', error);
-    }
-};
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -269,7 +240,16 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
         placeholder='Set username'
         className="input"
       />
-      <button onClick={onSubmit} className="button">Create Ingress</button>
+      <h2 className="edit center">Stream Key</h2>
+      <input
+        id="streamkey"
+        name="streamkey"
+        value={streamingKey}
+        onChange={updateStreamKey}
+        type="text"
+        placeholder='Set stream key'
+        className="input"
+        />
       <h2 className="edit center">Bio</h2>
       <textarea
         id="bio"

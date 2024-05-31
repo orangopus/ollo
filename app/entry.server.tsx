@@ -13,6 +13,8 @@ import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
 import { renderToPipeableStream } from "react-dom/server";
 
+global.self = global;
+
 export function handleError(error, { request }) {
   Sentry.captureRemixServerException(error, 'remix.server', request);
 }

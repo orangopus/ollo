@@ -9,6 +9,13 @@ import { RemixBrowser, useLocation, useMatches } from "@remix-run/react";
 import { startTransition, StrictMode, useEffect } from "react";
 import { hydrateRoot } from "react-dom/client";
 
+const isServerRendering = typeof window === 'undefined';
+
+// If it's server-side rendering, include the polyfill for `self`
+if (isServerRendering) {
+  global.self = global;
+}
+
 Sentry.init({
     dsn: "https://76bf71e8403477337f4a3ed2804ed708@o4507318694182912.ingest.de.sentry.io/4507318697394256",
     tracesSampleRate: 1,
