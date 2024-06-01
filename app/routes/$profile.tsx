@@ -21,6 +21,7 @@ export const loader = async ({ request, params, response }) => {
   const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
   const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
   const socialRes = await sup.from("socials").select("*").eq("user_id", profileRes.data.id);
+  const streamsRes = await sup.from("streams").select("*").eq("user_id", profileRes.data.id);
 
   return { social: socialRes.data, profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
 };
@@ -32,6 +33,7 @@ export default function Profile() {
 
   const [positions, setPositions] = useState(layoutData || {});
   const [message, setMessage] = useState([]);
+
 
   let pally = profile.pally;
 

@@ -40,9 +40,6 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const { profile, user, env} = useLoaderData();
   const { addNotification, removeNotification } = useNotification();
-  const [streamingKey, setStreamingKey] = useState('');
-  const [isPending, setIsPending] = useTransition();
-  const [ingressType, setIngressType] = useState<IngressType>(RTMP);
 
   const [username, setUsername] = useState(profile?.username || '');
   const [displayname, setDisplayName] = useState(profile?.displayname || '');
@@ -240,16 +237,6 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
         placeholder='Set username'
         className="input"
       />
-      <h2 className="edit center">Stream Key</h2>
-      <input
-        id="streamkey"
-        name="streamkey"
-        value={streamingKey}
-        onChange={updateStreamKey}
-        type="text"
-        placeholder='Set stream key'
-        className="input"
-        />
       <h2 className="edit center">Bio</h2>
       <textarea
         id="bio"
