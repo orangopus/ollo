@@ -31,7 +31,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     user: user.data,
     env: {
       VERCEL_PROJECT_ID: process.env.VERCEL_PROJECT_ID,
-      VERCEL_API_TOKEN: process.env.VERCEL_API_TOKEN
+      VERCEL_API_TOKEN: process.env.VERCEL_API_TOKEN,
+      SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+      SPOTIFY_REDIRECT_URI: process.env.SPOTIFY_REDIRECT_URI
     }
   });
 };
@@ -50,7 +52,16 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
   const [customDomain, setCustomDomain] = useState(profile?.custom_domain || '');
   const [error, setError] = useState('');
   const [lastNotificationTime, setLastNotificationTime] = useState(0);
+  const [spotifyToken, setSpotifyToken] = useState('');
 
+  const handleSpotify = () => {
+    const clientId = env.SPOTIFY_CLIENT_ID;
+    const redirectUri = env.SPOTIFY_REDIRECT_URI;
+    const scopes = 'user-read-private user-read-email';
+    const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    window.location.href = authUrl;
+  };
+5                                                                                                                                                                      
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -127,32 +138,7 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
     } catch (error) {
       console.error(`Error updating ${field}:`, error.message);
     }
-  };
-
-  const updateStreamKey = async (event) => {
-    const value = event.target.value;
-    setStreamingKey(value);
-
-    try {
-      await supabase
-        .from('stream_keys')
-        .upsert({ user_id: user.user.id, key: value }, { onConflict: 'user_id' });
-
-      if (Date.now() - lastNotificationTime > 5000) {
-        addNotification('Stream key updated successfully!');
-        setLastNotificationTime(Date.now());
-      }
-    } catch (error) {
-      console.error('Error updating stream key:', error.message);
-    }
-  };
-
-  const handleSpotify = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'spotify' });
-    if (error) {
-      console.error('Error logging in with Spotify:', error.message);
-    }
-  };
+  }
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -173,7 +159,26 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
       }
     };
 
+    const fetchSpotifyData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('spotify')
+          .select('access_token')
+          .eq('user_id', user.user.id)
+          .single();
+
+        if (data) {
+          setSpotifyToken(data.access_token);
+        } else {
+          console.error('Error fetching Spotify token:', error.message);
+        }
+      } catch (error) {
+        console.error('Error fetching Spotify token:', error.message);
+      }
+    };
+
     fetchUserProfile();
+    fetchSpotifyData();
   }, [userId]);
 
   return (
@@ -305,6 +310,7 @@ export default function OnboardingLayout({ params, userId }: { params: any }) {
         <button className="button mb-5">View Profile</button>
       </Link>
       <br />
+      <button onClick={handleSpotify} className="button">Connect Spotify</button>
     </div>
   );
 }

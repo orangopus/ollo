@@ -10,34 +10,71 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(fab, fas);
+import api from "./api.twitch";
 
 export const loader = async ({ request, params, response }) => {
   const sup = supabase(request, response);
-  const host = request.headers.get("host");
-  const subdomain = params.profile.split(".")[0];
-  const profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
-  console.log(profileRes);
 
-  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileRes.data.id).single();
-  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileRes.data.id);
-  const socialRes = await sup.from("socials").select("*").eq("user_id", profileRes.data.id);
-  const streamsRes = await sup.from("streams").select("*").eq("user_id", profileRes.data.id);
+  // First, try to find the profile by username
+  let profileRes = await sup.from("profiles").select("*").eq("username", params.profile).single();
 
-  return { social: socialRes.data, profile: profileRes.data, layoutData: layoutsRes.data, posts: postsRes.data };
+  // If no profile found, try to find it by Twitch username
+  if (!profileRes.data) {
+    const twitchRes = await api.get(`https://api.twitch.tv/helix/users?login=${params.profile}`);
+    if (twitchRes.data.data) {
+      const twitchProfile = twitchRes.data.data[0];
+      profileRes = await api.get(`https://api.twitch.tv/helix/users?login=${params.profile}`);
+    }
+  }
+
+  // If still no profile found, return a 404 response
+  if (!profileRes.data) {
+    throw new Response("Profile not found", { status: 404 });
+  }
+
+  const profileData = profileRes.data;
+  const layoutsRes = await sup.from("layouts").select("*").eq("id", profileData.id).single();
+  const postsRes = await sup.from("vw_posts_with_user").select("*").eq("user_id", profileData.id);
+  const socialRes = await sup.from("socials").select("*").eq("user_id", profileData.id);
+
+  let twitchData = null;
+  if (params.profile !== profileData.username) {
+    const twitchRes = await api.get(`https://api.twitch.tv/helix/users?login=${params.profile}`);
+    if (twitchRes.data.data) {
+      twitchData = twitchRes.data.data[0];
+    }
+  }
+
+  return { 
+    social: socialRes.data, 
+    profile: profileData, 
+    layoutData: layoutsRes.data, 
+    posts: postsRes.data,
+    twitch: twitchData,
+  };
 };
 
+
+
 export default function Profile() {
-  const { profile, layoutData, posts, social} = useLoaderData();
+  const { profile, layoutData, posts, social, twitch} = useLoaderData();
   const { supabase } = useOutletContext<SupabaseOutletContext>();
   const [user, setUser] = useState(null);
 
   const [positions, setPositions] = useState(layoutData || {});
   const [message, setMessage] = useState([]);
+  const [data, setData] = useState<any[]>([]); // Add type annotation for data
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await api.get("https://api.twitch.tv/helix/users?login=cheesevscode");
+      setData(response.data.data);
+    };
+    fetchData();
+  }, []);
 
 
   let pally = profile.pally;
-
-
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -145,7 +182,7 @@ export default function Profile() {
     <>
       <Rnd
         style={style}
-        size={{ width: positions.profile?.width || 200, height: positions.profile?.height || 200 }}
+        size={{ width: positions.profile?.width || 900, height: positions.profile?.height || 400 }}
         position={{ x: positions.profile?.x || 200, y: positions.profile?.y || 200 }}
         onDragStop={(e, d) => handleDragStop("profile", e, d)}
         onResizeStop={(e, direction, ref, delta, position) => handleResizeStop('profile', e, direction, ref, delta, position)}
@@ -159,15 +196,20 @@ export default function Profile() {
                 style={{ backgroundImage: `url(${profile?.background_url})`, backdropFilter: "blur(4px)" }}
               >
                 <div className="center avatarcont">
-                  <img className="avatar" src={`https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/public/uploads/public/avatars/${profile.id}?updated`} alt="Avatar" />
-                </div>
+                <img className="avatar" 
+                       src={twitch?.profile_image_url 
+                             ? twitch.profile_image_url 
+                             : `https://pwchtpxjolxhjfamtxrb.supabase.co/storage/v1/object/public/uploads/public/avatars/${profile.id}?updated`} 
+                       alt="Avatar" />                </div>
                 <div className="info mt-4 center">
                   <h1 className="username">
-                    {profile?.displayname ? profile.displayname : profile?.username}{" "}<span className="handle">@{profile.username}</span>
+                    {twitch?.display_name ? twitch.display_name : profile?.displayname}{" "}<span className="handle">@{twitch?.login ? twitch.login : profile?.username}</span>
                   </h1>
                   
-                  <p className="bio">{profile?.bio}</p>
+                  <p className="bio">{twitch?.description ? twitch.description : profile?.bio}</p>
                 </div>
+                <br/>
+                {twitch && <Link to="/login"><button className="button center">Claim Profile</button></Link>}
               </div>
             </div>
           </div>
