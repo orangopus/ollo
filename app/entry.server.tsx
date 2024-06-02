@@ -17,10 +17,6 @@ export function handleError(error, { request }) {
   Sentry.captureRemixServerException(error, 'remix.server', request);
 }
 
-if (typeof self === 'undefined') {
-  global.self = global as Window & typeof globalThis;
-}
-
 Sentry.init({
     dsn: "https://76bf71e8403477337f4a3ed2804ed708@o4507318694182912.ingest.de.sentry.io/4507318697394256",
     tracesSampleRate: 1
