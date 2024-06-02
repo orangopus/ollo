@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 
   return [
     { title: "ollo - one little link, organised." },
-    { name: "description", content: "Welcome to ollo!" },
+    { name: "description", content: "Welcome to ollo!" }
   ];
 };
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
