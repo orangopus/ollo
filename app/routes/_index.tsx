@@ -62,7 +62,7 @@ export default function Index() {
     };
 
     fetchData();
-  }, [discord]);
+  }, []);
 
   if (profile) {
     const { profile, layoutData, posts } = useLoaderData() as { profile: any, layoutData: any, posts: any };
