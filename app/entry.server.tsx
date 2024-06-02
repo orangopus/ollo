@@ -18,7 +18,7 @@ export function handleError(error, { request }) {
 }
 
 if (typeof self === 'undefined') {
-  global.self = global;
+  global.self = global as Window & typeof globalThis;
 }
 
 Sentry.init({
