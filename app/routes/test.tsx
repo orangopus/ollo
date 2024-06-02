@@ -8,6 +8,10 @@ import {
 import ReactPlayer from "react-player";
 import Hls from "hls.js";
 
+if (typeof self === 'undefined') {
+    global.self = global;
+  }
+
 function ParticipantView() {
     // States to store downstream url and current HLS state
     const playerRef = useRef(null);
