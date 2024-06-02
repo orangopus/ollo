@@ -11,6 +11,7 @@ import { HypeRate } from "~/components/hyperate";
 import { SupabaseOutletContext } from "~/root";
 import Contributors from "~/components/contributors";
 import Carousel from "~/components/Carousel";
+import axios from "axios";
 
 export const meta: MetaFunction = () => {
 
@@ -52,6 +53,17 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export default function Index() {
   const {profile, user} = useLoaderData(); // Destructure profile from useLoaderData
   const {host} = useLoaderData()
+  const [discord, setDiscord] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const discord = await axios.get("https://discord.com/api/guilds/909627161156132914/widget.json");
+      setDiscord(discord.data);
+    };
+
+    fetchData();
+  }, [discord]);
+
   if (profile) {
     const { profile, layoutData, posts } = useLoaderData() as { profile: any, layoutData: any, posts: any };
     const { supabase } = useOutletContext<SupabaseOutletContext>();
@@ -310,7 +322,6 @@ export default function Index() {
       </>
     );
   } else {
-    console.log(profile)
     return (
       <section className="w-full min-h-screen flex flex-col">
         <div className="herocont">
@@ -329,7 +340,7 @@ export default function Index() {
                           className="h-16 align-middle text-grey-darker  font-normal border-0 m-3 text-grey-darkest border border-gray-100 font-bold w-full py-1 px-2 outline-none text-lg text-gray-600"
                           type="text" placeholder="your username here" />
                         <Link to="/dashboard" className="flex center">
-                          <button className=" bg-white align-middle items-center text-lg rounded-full text-black font-bold rounded-full"><FontAwesomeIcon icon={["fas", "circle-plus"]} className="plusicon" /></button>
+                          <button className="button mr-5">Claim</button>
                         </Link>
                         
                       </form>
@@ -342,7 +353,23 @@ export default function Index() {
               <br />
               <div className="center">
                 <div className="center">                
-                  <p className="mt-5 minutesago">Version: {config.version}</p>
+                <p className="mt-5 minutesago">Version: {config.version}</p>
+                <br />
+                <Link to ="https://go.orangop.us/discord">
+                <p className="mt-5 minutesago blurple"><b><span className="w-3.5 h-3.5 bg-green-400 rounded-full"></span> 
+                {discord.presence_count}</b> Members Online
+                <div className="-space-x-4 rtl:space-x-reverse flex mt-2 center justify-items-center">
+                  {discord.members && discord.members.slice(0, 7).map((member, index) => (
+                    <img src={member.avatar_url} className="avatar w-10 h-10 rounded-full" key={index} />
+                  ))}
+                  {discord.members && discord.members.length && (
+                    <div className="avatar w-10 h-10 rounded-full flex items-center justify-center bg-gray-800 text-white">
+                      +{discord.members.length - 7}
+                    </div>
+                  )}
+                </div>
+                </p>
+                </Link>
                 </div>
               </div>
             </div>
@@ -550,12 +577,10 @@ export default function Index() {
             <FontAwesomeIcon icon={["fas", "terminal"]} size="6x" className="homeicon"/>
             <br/>
               Coded with ❤️
-              <Contributors />
             </p>
             <p>Some code stuff here. Some command line there. It's hard work but crafted with love and joy.</p>
             </div>
           </div>
-  
         </div>
   </section>
     );

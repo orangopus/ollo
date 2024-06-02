@@ -1030,6 +1030,14 @@ body {
     font-size: 2.5em;
     color: #fff;
   }
+
+  .blurple { 
+    background: #5865F2 !important;
+  }
+
+  .footerlogo { 
+    width: 100px;
+  }
   
   .paypal-buttons {
     zoom: 1.5;
@@ -1452,7 +1460,7 @@ body {
     font-size: 20px;
     border-radius: 20px;
     padding: 10px 25px;
-    background: rgba(0, 0, 0, 0.25) !important;
+    background: rgba(0, 0, 0, 0.25);
     display: inline-block;
   }
 
