@@ -8,18 +8,13 @@ import {
 import ReactPlayer from "react-player";
 import Hls from "hls.js";
 
-if (typeof self === 'undefined') {
-    global.self = global as Window & typeof globalThis;
-}
-
 function ParticipantView() {
-    // States to store downstream url and current HLS state
-    const playerRef = useRef(null);
-    //Getting the hlsUrls
-    const { hlsUrls, hlsState } = useMeeting();
-    //Playing the HLS stream when the downstreamUrl is present and it is playable
-    useEffect(() => {
-      if (hlsUrls.downstreamUrl && hlsState == "HLS_PLAYABLE") {
+  const playerRef = useRef(null);
+  const { hlsUrls, hlsState } = useMeeting();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (hlsUrls.downstreamUrl && hlsState === "HLS_PLAYABLE") {
         if (Hls.isSupported()) {
           const hls = new Hls({
             capLevelToPlayerSize: true,
@@ -28,78 +23,72 @@ function ParticipantView() {
             autoStartLoad: true,
             defaultAudioCodec: "mp4a.40.2",
           });
-          let player = document.querySelector("#hlsPlayer");
+          const player = document.querySelector("#hlsPlayer");
           hls.loadSource(hlsUrls.downstreamUrl);
           hls.attachMedia(player);
-        } else {
-          if (typeof playerRef.current?.play === "function") {
-            playerRef.current.src = hlsUrls.downstreamUrl;
-            playerRef.current.play();
-          }
+        } else if (playerRef.current && typeof playerRef.current.play === "function") {
+          playerRef.current.src = hlsUrls.downstreamUrl;
+          playerRef.current.play();
         }
       }
-    }, [hlsUrls, hlsState, playerRef.current]);
-    return (
-      <div>
-        {/* Showing message if HLS is not started or is stopped by HOST */}
-        {hlsState != "HLS_PLAYABLE" ? (
-          <div>
-            <p>Please Click Go Live Button to start HLS</p>
-          </div>
-        ) : (
-          hlsState == "HLS_PLAYABLE" && (
-            <div>
-              <video
-                ref={playerRef}
-                id="hlsPlayer"
-                autoPlay={true}
-                controls
-                style={{ width: "50%", height: "50%" }}
-                playsInline
-                muted={true}
-                onError={(err) => {
-                  console.log(err, "hls video error");
-                }}
-              ></video>
-            </div>
-          )
-        )}
-      </div>
-    );
     }
+  }, [hlsUrls, hlsState]);
 
-  function SpeakerView() {
-    const [joined, setJoined] = useState(null);
-    //Get the method which will be used to join the meeting.
-    //We will also get the participant list to display all participants
-    const { participants } = useMeeting();
-    const mMeeting = useMeeting({
-      onMeetingJoined: () => {
-        setJoined("JOINED");
-        //we will pin the local participant if he joins in CONFERENCE mode
-        if (mMeetingRef.current.localParticipant.mode == "CONFERENCE") {
-          mMeetingRef.current.localParticipant.pin();
-        }
-      },
+  return (
+    <div>
+      {hlsState !== "HLS_PLAYABLE" ? (
+        <div>
+          <p>Please Click Go Live Button to start HLS</p>
+        </div>
+      ) : (
+        hlsState === "HLS_PLAYABLE" && (
+          <div>
+            <video
+              ref={playerRef}
+              id="hlsPlayer"
+              autoPlay
+              controls
+              style={{ width: "50%", height: "50%" }}
+              playsInline
+              muted
+              onError={(err) => {
+                console.log(err, "hls video error");
+              }}
+            ></video>
+          </div>
+        )
+      )}
+    </div>
+  );
+}
+
+function SpeakerView() {
+  const [joined, setJoined] = useState(null);
+  const { participants } = useMeeting();
+  const mMeeting = useMeeting({
+    onMeetingJoined: () => {
+      setJoined("JOINED");
+      if (mMeetingRef.current.localParticipant.mode === "CONFERENCE") {
+        mMeetingRef.current.localParticipant.pin();
+      }
+    },
   });
-  //We will create a ref to meeting object so that when used inside the
-  //Callback functions, meeting state is maintained
   const mMeetingRef = useRef(mMeeting);
+
   useEffect(() => {
     mMeetingRef.current = mMeeting;
   }, [mMeeting]);
-  //Filtering the host/speakers from all the participants
+
   const speakers = useMemo(() => {
     const speakerParticipants = [...participants.values()].filter(
-      (participant) => {
-        return participant.mode == Constants.modes.CONFERENCE;
-      }
+      (participant) => participant.mode === Constants.modes.CONFERENCE
     );
     return speakerParticipants;
   }, [participants]);
+
   return (
     <div className="container">
-      {joined && joined == "JOINED" ? (
+      {joined === "JOINED" ? (
         <div>
           {speakers.map((participant) => (
             <ParticipantView
@@ -117,39 +106,33 @@ function ParticipantView() {
 }
 
 function Controls() {
-const { hlsState, startHls, stopHls } = useMeeting();
-const _handleHLS = () => {
+  const { hlsState, startHls, stopHls } = useMeeting();
+  const handleHLS = () => {
     console.log("hlsState", hlsState);
     if (!hlsState || hlsState === "HLS_STOPPED") {
-        startHls({
-            layout: {
-                type: "SPOTLIGHT",
-                priority: "PIN",
-                gridSize: 4,
-            },
-            theme: "DARK",
-            orientation: "landscape",
-            quality: "high", // Add quality property
-            mode: "video-and-audio", // Add mode property
-        });
+      startHls({
+        layout: {
+          type: "SPOTLIGHT",
+          priority: "PIN",
+          gridSize: 4,
+        },
+        theme: "DARK",
+        orientation: "landscape",
+        quality: "high",
+        mode: "video-and-audio",
+      });
     } else if (hlsState === "HLS_STARTED" || hlsState === "HLS_PLAYABLE") {
-        stopHls();
+      stopHls();
     }
-};
+  };
+
   return (
     <>
-      {hlsState === "HLS_STARTED" ||
-      hlsState === "HLS_STOPPING" ||
-      hlsState === "HLS_STARTING" ||
-      hlsState === "HLS_PLAYABLE" ? (
+      {["HLS_STARTED", "HLS_STOPPING", "HLS_STARTING", "HLS_PLAYABLE"].includes(hlsState) ? (
         <button
-          onClick={() => {
-            _handleHLS();
-          }}
+          onClick={handleHLS}
           className="button"
-          style={{
-            backgroundColor: "#FF5D5D",
-          }}
+          style={{ backgroundColor: "#FF5D5D" }}
         >
           {hlsState === "HLS_STARTED"
             ? "Live Starting"
@@ -162,19 +145,15 @@ const _handleHLS = () => {
       ) : (
         <button
           className="button"
-          onClick={() => {
-            _handleHLS();
-          }}
-          style={{
-            backgroundColor: "#FF5D5D",
-          }}
+          onClick={handleHLS}
+          style={{ backgroundColor: "#FF5D5D" }}
         >
           Go Live
         </button>
       )}
     </>
   );
-};
+}
 
 const App = () => {
   const [mode, setMode] = useState(null);
@@ -198,18 +177,14 @@ const App = () => {
     <div>
       <button
         className="button"
-        onClick={() => {
-          setMode(Constants.modes.CONFERENCE);
-        }}
+        onClick={() => setMode(Constants.modes.CONFERENCE)}
       >
         Join as Speaker
       </button>
       <button
         style={{ marginLeft: 12 }}
         className="button"
-        onClick={() => {
-          setMode(Constants.modes.VIEWER);
-        }}
+        onClick={() => setMode(Constants.modes.VIEWER)}
       >
         Join as Viewer
       </button>
