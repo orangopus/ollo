@@ -53,7 +53,7 @@ export default function Nav() {
           </Link>
         ) : (!user.session && (
           <Link to="/login">
-            <button className="button" style={{ marginTop: "-10px" }}>Login</button>
+            <button className="button" style={{ marginTop: "-12px", marginRight: "10px" }}>Login</button>
           </Link>
         ))}
       </form>
