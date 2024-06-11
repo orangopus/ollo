@@ -1,8 +1,2 @@
-.env
 node_modules
-server.cjs
-# Sentry Config File
-.sentryclirc
-
-# Sentry Config File
-.env.sentry-build-plugin
+.nuxt

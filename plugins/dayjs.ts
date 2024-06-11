@@ -1,0 +1,9 @@
+// plugins/dayjs.js
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
+
+export default (_, inject) => {
+  inject('dayjs', dayjs);
+};
