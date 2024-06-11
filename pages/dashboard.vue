@@ -34,18 +34,11 @@
     <p class="text-sm text-gray-500 dark:text-gray-400 mb-10">HypeRate feature is currently scheduled under maintenance due to websocket flooding.</p>
     <br/>
     <!-- Custom Domain Form -->
-    <form @submit.prevent="handleSubmit">
+    <form @submit.prevent="handleSubmit" disabled>
       <h2 class="edit center">Custom Domain</h2>
-      <input v-model="customDomain" type="text" class="input" />
+      <input v-model="customDomain" disabled type="text" class="input cursor-not-allowed" />
       <br />
-      <code class="text-sm my-5 sm:text-base inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-4 pl-6">
-        <span class="flex gap-4">
-          <span class="shrink-0 text-gray-500">A</span>
-          <span class="flex-1">76.76.21.21</span>
-        </span>
-      </code>
-      <br />
-      <button type="submit" class="button">Update</button>
+      
       <p v-if="error" class="text-red-500">{{ error }}</p>
     </form>
 
@@ -101,7 +94,6 @@ const handleSubmit = async () => {
         'Content-Type': 'application/json'
       }
     })
-    addNotification('Domain registered successfully!')
   } catch (updateError) {
     error.value = updateError.message
   }
@@ -126,7 +118,6 @@ const updateAvatar = async (event) => {
     if (error) throw error
 
     avatarUrl.value = publicUrl
-    addNotification('Avatar uploaded successfully!')
   } catch (error) {
     console.error('Error uploading avatar:', error.message)
   }
@@ -136,7 +127,6 @@ const updateField = async (field, value) => {
   try {
     await supabase.from('profiles').update({ [field]: value }).eq('id', user.value.id)
     if (Date.now() - lastNotificationTime.value > 5000) {
-      addNotification(`${field} updated successfully!`)
       lastNotificationTime.value = Date.now()
     }
   } catch (error) {
