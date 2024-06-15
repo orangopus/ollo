@@ -38,7 +38,7 @@
         >
           <div class="px-4 py-3 text-sm text-white dark:text-white">
             <div class="font-medium">{{ profile?.displayname }}</div>
-            <div class="truncate">{{ user.email }}</div>
+            <div class="font-medium bold">{{ user.email }}</div>
           </div>
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownAvatarNameButton">
             <li><NuxtLink class="block px-4 py-2 hover:bg-gray-800 hover:rounded-full dark:hover:bg-black dark:hover:text-white" to="/dashboard">Dashboard</NuxtLink></li>
