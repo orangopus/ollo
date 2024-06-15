@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar fixed top-0 left-1 w-16 h-screen text-white flex flex-wrap justify-center">
+  <nav class="navbar fixed top-0 left-1 h-screen text-white flex flex-wrap justify-center">
     <a class="navbar-brand" href="/">
       <img class="logo" src="../public/logo.svg" alt="Logo" />
     </a>
-    <form class="m-5 navmargin">
+    <form class="mt-15 navmargin">
       <div>
         <NuxtLink to="/home" class="buttonwhite justify-center flex justify-center w-full center">
           <Icon name="fa6-solid:house" class="navicon"/>
