@@ -1,5 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+.truncate {
+  font-size: 25px;
+  font-family: 'Quicksand' !important;
+  font-weight: bolder;
+  margin: 10px !important;
+}
+
+.border-gray-600 {
+  --tw-border-opacity: 0;
+  border-color: rgb(var(--color-gray-600) / var(--tw-border-opacity));
+}
+
+.ring-1 {
+  background: transparent !important;
+  --tw-ring-shadow: auto;
+}
+
+.tabs__header {
+  margin-bottom: 10px;
+  padding: 0;
+  display: flex;
+}
+
+.tabs__header li {
+  width: 100px;
+  cursor: pointer;
+  padding: 10px 20px;
+  margin-right: 10px;
+  list-style: none;
+  text-align: center;
+  transition: 0.4s all ease-out;
+}
+
+.tabs__header li.selected {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 25px;
+}
+
+
 body {
     font-family: "Quicksand" !important;
     margin: 0;
@@ -662,19 +701,6 @@ body {
     margin-left: 20% !important;
     margin-right: 20% !important;
     display: block !important;
-  }
-  
-  .sbui-typography,
-  .dark a.sbui-typography,
-  a.sbui-typography,
-  .sbui-typography sbui-typography-link {
-    --tw-text-opacity: 1;
-    /* color: rgba(62,207,142,var(--tw-text-opacity)); */
-    color: #fff !important;
-  }
-  
-  .dark {
-    background:rgba(0, 0, 0, 0.4);
   }
   
   .grid-card {
@@ -1487,7 +1513,6 @@ body {
   }
   
   .profilecont {
-    padding: 28px;
     border-radius: 20px;
     text-align: center;
     background: #141A27;
@@ -1505,7 +1530,6 @@ body {
   
   .profilescont {
     margin-top: 20px;
-    width: 70%;
   }
   
   .minutesago {

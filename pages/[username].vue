@@ -35,7 +35,10 @@
       </div>
     </div>
   </div>
-  <div v-for="post in posts" :key="post.id" class="grid cards postcard">
+  <div class="w-full sm:px-0">
+      <TabsWrapper>
+        <Tab title="Posts">
+          <div v-for="post in posts" :key="post.id" class="grid cards postcard">
       <div class="flex">
         <div class="flex-col ml-0 mr-0">
           <a :href="`/${post.username}`">
@@ -101,6 +104,14 @@
         <button type="submit" class="button reply-submit">Reply</button>
       </form>
     </div>
+        </Tab>
+        <Tab title="About">
+          <div class="grid grid-card container profilescont center p-5">
+            <MDC :value="profile.html"/>
+          </div>
+        </Tab>
+      </TabsWrapper>
+    </div>
   </div>
 </template>
   
@@ -111,6 +122,23 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
+
+const items = [{
+  key: 'posts',
+  label: 'Posts',
+  description: 'View and manage your posts here',
+}, {
+  key: 'about',
+  label: 'About',
+  description: 'Update your profile information here',
+}]
+
+const activeTab = ref('posts'); // Assuming 'posts' is the default active tab
+
+// Function to switch active tab
+const switchTab = (tabKey: string) => {
+  activeTab.value = tabKey;
+};
 
 const supabase = useSupabaseClient()
 
@@ -268,3 +296,9 @@ useHead({
 })
 
 </script>
+
+<style scoped>
+.active {
+    background: #000000;
+  }
+</style>
