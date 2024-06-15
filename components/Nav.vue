@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-gray-600 navbar rounded-full fixed top-0 left-1 w-16 h-screen text-white flex flex-wrap justify-center">
+  <nav class="navbar fixed top-0 left-1 w-16 h-screen text-white flex flex-wrap justify-center">
     <a class="navbar-brand" href="/">
       <img class="logo" src="../public/logo.svg" alt="Logo" />
     </a>
