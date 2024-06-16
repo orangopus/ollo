@@ -127,7 +127,7 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import useStreamStore from '@/stores/getstream';
+import useStreamStore from '@/stores/getstream.client';
 import { storeToRefs } from 'pinia';
 
 dayjs.extend(relativeTime);

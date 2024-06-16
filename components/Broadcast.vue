@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
-import useStreamStore from '@/stores/getstream'
+import useStreamStore from '@/stores/getstream.client'
 
 const store = useStreamStore()
 const { call, localParticipant } = storeToRefs(store)
@@ -25,8 +25,6 @@ const callId = ref('')
 const isCallLive = computed(() => {
 return call.value && localParticipant.value
 })
-
-
 
 function startBroadcast() {
   if (callId.value) {
