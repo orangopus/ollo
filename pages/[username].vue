@@ -37,8 +37,10 @@
     </div>
     <div class="grid grid-card container profilescont center p-5">
       <section v-if="showRemoteVideo">
-          <Video :call="call" :participant="remoteParticipant" />
-          </section>
+          <ClientOnly>
+            <Video :call="call" :participant="remoteParticipant" />
+          </ClientOnly>
+      </section>
     </div>
   <div class="w-full sm:px-0">
       <TabsWrapper>
