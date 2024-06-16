@@ -6,7 +6,7 @@
           <Video :call="call" :participant="remoteParticipant" />
         </ClientOnly>
       </div>
-      <div class="grid grid-card flex container profilescont p-5">
+      <div class="grid-card flex container profilescont p-5">
         <div><img
           class="avatar"
           :src="profile?.avatar"
@@ -17,7 +17,7 @@
           {{ twitch?.display_name || profile?.displayname }}
           <span class="handle">@{{ twitch?.login || profile?.username }}</span>
         </h1>
-        <p class="bio">{{ twitch?.description || profile?.bio }}</p>
+        <p class="bio text-left">{{ twitch?.description || profile?.bio }}</p>
       </div>
     </div>
     </section>
