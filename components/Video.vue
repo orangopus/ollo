@@ -6,7 +6,7 @@
     </button>
    </div>
    <div>
-    <video ref="videoElement" class="rounded-xl" controls>
+    <video ref="videoElement" width="100%" class="rounded-xl" controls>
     </video>
     <audio ref="audioElement"/>
   </div>
