@@ -1,7 +1,8 @@
 <template>
-
+    <client-only>
     <video ref="videoElement" class="rounded-xl"/>
     <audio ref="audioElement" />
+    </client-only>
 </template>
 
 <script lang="ts" setup>
