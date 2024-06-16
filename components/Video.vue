@@ -1,6 +1,16 @@
 <template>
-    <video ref="videoElement" class="rounded-xl"/>
-    <audio ref="audioElement" />
+  <div id="video_box">
+   <div id="video_overlays" class="text-center rounded-xl">
+    <button class="button streambutton">
+      Watch Stream
+    </button>
+   </div>
+   <div>
+    <video ref="videoElement" class="rounded-xl" controls>
+    </video>
+    <audio ref="audioElement"/>
+  </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -6,7 +6,7 @@
     </section>
     <section v-else="!isCallLive">
       <input type="text" class="input" v-model="callId" placeholder="Enter a username" />
-      <button @click="startBroadcast" class="button">Start Broadcast</button>
+      <button @click="startBroadcast" class="button red">Start Broadcast</button>
     </section>
     </client-only>
   </div>
