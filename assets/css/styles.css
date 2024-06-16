@@ -1152,10 +1152,6 @@ body {
     place-self: center !important;
   }
 
-  .streambutton {
-    margin: 25%;
-  }
-
   .uploadcard {
     background: #141A27;
     border-radius: 20px;
@@ -1397,6 +1393,21 @@ body {
     background: #ffffff;
     color: #212121;
     text-transform: uppercase;
+  }
+
+  .streambutton {
+    padding: 10px 25px;
+    border-radius: 100px !important;
+    font-size: 25px;
+    border: none;
+    font-weight: bolder;
+    font-family: inherit;
+    box-shadow: 0 4px 70px rgba(0, 0, 0, 0.25) !important;
+    cursor: pointer;
+    background: #ffffff !important;
+    color: #212121 !important;
+    text-transform: uppercase !important;
+    margin: 25%;
   }
   
   .button:focus {

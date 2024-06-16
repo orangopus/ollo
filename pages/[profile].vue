@@ -129,6 +129,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import useStreamStore from '@/stores/getstream.client';
 import { storeToRefs } from 'pinia';
+import { useRouter, useRoute } from 'vue-router';
 
 dayjs.extend(relativeTime);
 
@@ -153,7 +154,7 @@ const supabase = useSupabaseClient()
 
 const user = useSupabaseUser()
 
-const { username } = useRoute().params
+const username = useRoute().params.profile
 
 const profiles = await getProfiles()
 

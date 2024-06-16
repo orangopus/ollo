@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/supabase", "nuxt-icon", "@nuxt/ui", "@nuxtjs/mdc"],
+  modules: ["@nuxtjs/supabase", "nuxt-icon", "@nuxt/ui", "@nuxtjs/mdc", "@nuxt/image"],
   plugins: [
     '~/plugins/dayjs.ts',
     '~/plugins/pinia.ts',
@@ -20,5 +20,5 @@ export default defineNuxtConfig({
         }
       ]
     }
-  }
+  },
 })
