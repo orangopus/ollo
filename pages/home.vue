@@ -72,7 +72,7 @@
         </div>
       </div>
       <div>
-        <button class="minutesago mr-3" @click="toggleLike(post)">
+        <button class="minutesago mr-3" @click="toggleLike(post.id)">
           <Icon :name="post.liked ? 'icon-park-solid:like' : 'icon-park-outline:like'" class="mr-1" />
           {{ post.likes }}
         </button>

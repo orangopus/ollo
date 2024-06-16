@@ -5,7 +5,7 @@
       <Video v-if="call && localParticipant" :call="call" :participant="localParticipant" />
     </section>
     <section v-else="!isCallLive">
-      <input type="text" class="input" v-model="callId" placeholder="Enter a call ID" />
+      <input type="text" class="input" v-model="callId" placeholder="Enter a username" />
       <button @click="startBroadcast" class="button">Start Broadcast</button>
     </section>
     </client-only>
@@ -25,6 +25,8 @@ const callId = ref('')
 const isCallLive = computed(() => {
 return call.value && localParticipant.value
 })
+
+
 
 function startBroadcast() {
   if (callId.value) {

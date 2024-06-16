@@ -1141,14 +1141,13 @@ body {
   }
   
   .input {
-    height: 20px;
     text-align: left;
     background: #060606 !important;
-    border: none;
+    border: none !important;
     color: #fff !important;
-    padding: 30px;
+    padding: 15px !important;
     font-size: 25px;
-    border-radius: 25px;
+    border-radius: 25px !important;
     margin-bottom: 20px;
     margin-top: 5px;
   }
