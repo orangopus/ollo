@@ -19,6 +19,7 @@
       </label>
     </div>
     <!-- User Info Forms -->
+    <Broadcast />
     <div class="ml-10 mb-10">
       <h2 class="edit center">Display name</h2>
     <input v-model="displayname" type="text" placeholder="Set display name" class="input" />

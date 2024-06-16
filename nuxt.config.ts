@@ -3,8 +3,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/supabase", "nuxt-icon", "@nuxt/ui", "@nuxtjs/mdc"],
   plugins: [
-    {src: "~/plugins/getstream.ts", ssr: false },
     '~/plugins/dayjs.ts',
+    '~/plugins/pinia.ts',
   ],
   css: ['/assets/css/styles.css'],
   supabase: {

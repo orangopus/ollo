@@ -19,7 +19,6 @@
           </p>
         </div>
       </form>
-      <div v-if="error" class="error">{{ error }}</div>
     </div>
 
     <div v-for="post in posts" :key="post.id" class="cards postcard">
@@ -73,9 +72,10 @@
         </div>
       </div>
       <div>
-        <span class="minutesago mt-6 mr-3">
-          <Like :postId="post.id" :initialLikes="post.likes" /> {{ post.likes }}
-        </span>
+        <button class="minutesago mr-3" @click="toggleLike(post)">
+          <Icon :name="post.liked ? 'icon-park-solid:like' : 'icon-park-outline:like'" class="mr-1" />
+          {{ post.likes }}
+        </button>
         <button class="minutesago mr-3" @click="toggleReplyInput(post.id)">
           reply
         </button>
@@ -104,6 +104,7 @@ const user = useSupabaseUser();
 
 const posts = ref([]);
 const replies = ref([]);
+const likes = await fetchLikes();
 const newPost = ref('');
 const error = ref<string | null>(null);
 const replyInputs = reactive<Record<number, boolean>>({});
@@ -112,19 +113,8 @@ const replyContent = ref('');
 onMounted(async () => {
   await fetchPosts();
   await fetchReplies();
+  await fetchLikes();
 });
-
-async function fetchPosts() {
-  try {
-    const { data, error: fetchError } = await supabase.from('posts_with_likes').select().order('id', { ascending: false });
-    if (fetchError) {
-      throw fetchError;
-    }
-    posts.value = data;
-  } catch (err) {
-    console.error('Error fetching posts:', err.message);
-  }
-}
 
 async function fetchReplies() {
   try {
@@ -135,6 +125,96 @@ async function fetchReplies() {
     replies.value = data;
   } catch (err) {
     console.error('Error fetching replies:', err.message);
+  }
+}
+
+async function fetchLikes(){
+  return await $fetch('/api/likes')
+}
+
+async function fetchPosts() {
+  try {
+    const { data, error: fetchError } = await supabase
+      .from('posts_with_likes')
+      .select()
+      .order('id', { ascending: false });
+
+    if (fetchError) {
+      throw fetchError;
+    }
+
+    // Fetch likes for each post for the current user
+    const postIds = data.map(post => post.id);
+    const { data: likesData, error: likesError } = await supabase
+      .from('likes')
+      .select('post_id')
+      .eq('user_id', user.value?.id)
+      .in('post_id', postIds);
+
+    if (likesError) {
+      throw likesError;
+    }
+
+    // Map liked post IDs for efficient lookup
+    const likedPostIds = new Set(likesData.map(like => like.post_id));
+
+    // Merge likes into posts data
+    data.forEach(post => {
+      post.likes = post.likes || 0; // Ensure likes count is initialized
+      post.liked = likedPostIds.has(post.id); // Check if current user has liked this post
+    });
+
+    posts.value = data;
+  } catch (err) {
+    console.error('Error fetching posts:', err.message);
+  }
+}
+
+
+async function toggleLike(post) {
+  try {
+    if (!user.value) {
+      throw new Error('User not authenticated');
+    }
+
+    const likedByUser = post.liked;
+
+    if (likedByUser) {
+      // Unlike post
+      const { error } = await supabase
+        .from('likes')
+        .delete()
+        .eq('post_id', post.id)
+        .eq('user_id', user.value.id);
+
+      if (error) {
+        throw error;
+      }
+
+      // Update local state
+      post.likes -= 1;
+      post.liked = false;
+
+    } else {
+      // Like post
+      const { data, error } = await supabase
+        .from('likes')
+        .insert({
+          post_id: post.id,
+          user_id: user.value.id,
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      // Update local state
+      post.likes += 1;
+      post.liked = true;
+    }
+
+  } catch (error) {
+    console.error('Error toggling like:', error.message);
   }
 }
 

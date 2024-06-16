@@ -34,7 +34,12 @@
         </nuxt-link>
       </div>
     </div>
-  </div>
+    </div>
+    <div class="grid grid-card container profilescont center p-5">
+      <section v-if="showRemoteVideo">
+          <Video :call="call" :participant="remoteParticipant" />
+          </section>
+    </div>
   <div class="w-full sm:px-0">
       <TabsWrapper>
         <Tab title="Posts">
@@ -116,10 +121,12 @@
 </template>
   
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import useStreamStore from '@/stores/getstream';
+import { storeToRefs } from 'pinia';
 
 dayjs.extend(relativeTime);
 
@@ -156,6 +163,22 @@ const social = socials.filter((social) => social.user_id === profile?.id)
 
 console.log(profile?.displayname)
 
+const store = useStreamStore();
+const { call, remoteParticipant } = storeToRefs(store);
+
+const callId = ref(profile.username)
+
+const showRemoteVideo = computed(() => {
+  return call.value && remoteParticipant.value;
+});
+
+function watchStream() {
+  if (callId.value) {
+    store.watchStream(callId.value);
+  }
+
+}
+
 async function getProfiles(){
   return await $fetch('/api/profiles')
 }
@@ -174,6 +197,7 @@ const replyContent = ref('');
 onMounted(async () => {
   await fetchPosts();
   await fetchReplies();
+  await watchStream();
 });
 
 async function fetchPosts() {
