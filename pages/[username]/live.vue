@@ -22,7 +22,7 @@
     </div>
     </section>
     <section v-else>
-      <div class="grid grid-card flex items-center container profilescont center p-5">
+      <div class="grid-card flex items-center container center p-5">
         <img
           class="avatar"
           :src="profile?.avatar"
