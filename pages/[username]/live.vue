@@ -33,12 +33,10 @@
           <p class="bio">{{ profile?.bio }}</p>
         </div>
       </div>
-
-      <div class="grid grid-card container profilescont center p-5">
+    </section>
+    <div class="grid grid-card container profilescont center p-5">
         <MDC :value="profile?.html"/>
       </div>
-
-    </section>
   </div>
 </template>
 
