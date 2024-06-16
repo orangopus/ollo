@@ -12,7 +12,7 @@
           :src="profile?.avatar"
           alt="Avatar"
         /></div>
-        <div class="profileinfo !items-center">
+        <div class="profileinfo !items-center !ml-5 mt-3">
           <h1 class="username">
           {{ twitch?.display_name || profile?.displayname }}
           <span class="handle">@{{ twitch?.login || profile?.username }}</span>
@@ -22,13 +22,13 @@
     </div>
     </section>
     <section v-else>
-      <div class="grid-card flex items-center container center p-5">
+      <div class="grid-card mt-5 flex items-center container center p-5">
         <img
           class="avatar"
           :src="profile?.avatar"
           alt="Avatar"
         />
-        <div class="ml-5">
+        <div class="!ml-5">
           <p class="username">{{ profile?.username }} is offline.</p>
           <p class="bio text-left">{{ profile?.bio }}</p>
         </div>
