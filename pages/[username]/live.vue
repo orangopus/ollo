@@ -30,7 +30,7 @@
         />
         <div class="ml-5">
           <p class="username">{{ profile?.username }} is offline.</p>
-          <p class="bio">{{ profile?.bio }}</p>
+          <p class="bio text-left">{{ profile?.bio }}</p>
         </div>
       </div>
     </section>
