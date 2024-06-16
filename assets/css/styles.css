@@ -1146,7 +1146,7 @@ body {
     border: none !important;
     color: #fff !important;
     padding: 15px !important;
-    font-size: 25px;
+    font-size: 25px !important;
     border-radius: 25px !important;
     margin-bottom: 20px;
     margin-top: 5px;
