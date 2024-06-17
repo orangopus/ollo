@@ -6,7 +6,7 @@
           <Video :call="call" :participant="remoteParticipant" />
         </ClientOnly>
       </div>
-      <div class="grid-card flex container profilescont p-5">
+      <div class="grid-card flex container profilescont center p-5">
         <div><img
           class="avatar"
           :src="profile?.avatar"
@@ -22,7 +22,7 @@
     </div>
     </section>
     <section v-else>
-      <div class="grid-card mt-5 flex items-center container center p-5">
+      <div class="grid-card !mt-5 flex items-center container center p-5">
         <img
           class="avatar"
           :src="profile?.avatar"
