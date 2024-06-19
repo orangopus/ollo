@@ -17,6 +17,12 @@
   --tw-ring-shadow: auto;
 }
 
+.avatarstream {
+width: 150px !important;
+height: 150px !important;
+border-radius: 25px !important;
+}
+
 .tabs__header {
   margin-bottom: 10px;
   padding: 0;
@@ -672,11 +678,39 @@ body {
   .sbui-input {
     color: #000 !important;
   }
+
+  .streaminfo {
+    align-self: center !important;
+  }
+
+  .streamgame {
+    border-radius: 20px;
+    background-size: cover;
+    width: 400px;
+    height: 150px;
+    text-overflow: ellipsis;
+    margin-left: auto;
+    padding: 5px 15px;
+  }
+
+  .gametitle { 
+    font-size: 30px;
+    font-weight: bolder;
+  }
+
+  .gamebio {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 4; 
+    font-weight: bolder;
+    -webkit-box-orient: vertical;
+    font-size: 15px;
+  }
   
   .container {
     background-color: rgba(16, 21, 31, 0.7);
     backdrop-filter: blur(80px);
-    margin-bottom: 50px;
   }
   
   .subtitle {

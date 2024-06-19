@@ -164,8 +164,6 @@ const socials = await getSocials()
 
 const social = socials.filter((social) => social.user_id === profile?.id)
 
-console.log(profile?.displayname)
-
 const store = useStreamStore();
 const { call, remoteParticipant } = storeToRefs(store);
 

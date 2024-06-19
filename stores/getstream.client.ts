@@ -22,6 +22,7 @@ const useStreamStore = defineStore('stream', ()  => {
     const streamVideoClient: StreamVideoClient = new StreamVideoClient({
         apiKey,
         token,
+        allowServerSideConnect: true,
         user: {
             id: "orangopus",
             name: "orangopus",
@@ -78,6 +79,13 @@ const useStreamStore = defineStore('stream', ()  => {
         call.value = newCall
     }
 
+    async function leaveStream() {
+        await call.value?.leave()
+        remoteParticipantSub.value?.unsubscribe()
+
+        call.value = undefined
+    }
+
     return {
         call, 
         isBackstage,
@@ -86,7 +94,8 @@ const useStreamStore = defineStore('stream', ()  => {
         streamVideoClient,
         createCall,
         endCall,
-        watchStream
+        watchStream,
+        leaveStream
     }
 })
 

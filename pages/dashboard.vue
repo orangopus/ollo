@@ -27,6 +27,9 @@
     <h2 class="edit center">Username</h2>
     <input v-model="username" type="text" placeholder="Set username" class="input" />
 
+    <h2 class="edit center">Game</h2>
+    <input v-model="game" type="text" placeholder="Set game" class="input" />
+
     <h2 class="edit center">Bio</h2>
     <textarea v-model="bio" placeholder="Set bio" class="input bio-h"></textarea>
 
@@ -67,6 +70,7 @@ const user = useSupabaseUser()
 
 const displayname = ref('')
 const username = ref('')
+const game = ref('')
 const bio = ref('')
 const hyperate = ref('')
 const avatarUrl = ref('')
@@ -141,6 +145,7 @@ onMounted(async () => {
     if (data) {
       displayname.value = data.displayname
       username.value = data.username
+      game.value = data.game
       bio.value = data.bio
       hyperate.value = data.heartbeat
       pally.value = data.pally
@@ -165,6 +170,7 @@ onMounted(async () => {
 
 watch(displayname, (newValue) => updateField('displayname', newValue))
 watch(username, (newValue) => updateField('username', newValue))
+watch(game, (newValue) => updateField('game', newValue))
 watch(bio, (newValue) => updateField('bio', newValue))
 watch(hyperate, (newValue) => updateField('heartbeat', newValue))
 watch(pally, (newValue) => updateField('pally', newValue))

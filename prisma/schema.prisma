@@ -355,6 +355,7 @@ model profiles {
   id             String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   html           String?
   displayname    String?
+  game           String?
   pro            Boolean?  @default(false)
   staff          Boolean?  @default(false)
   verified       Boolean?  @default(false)

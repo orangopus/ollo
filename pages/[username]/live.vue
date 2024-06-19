@@ -6,18 +6,22 @@
           <Video :call="call" :participant="remoteParticipant" />
         </ClientOnly>
       </div>
-      <div class="grid-card flex container profilescont center p-5">
+      <div class="grid-card flex container profilescont center">
         <div><img
-          class="avatar"
+          class="avatar avatarstream"
           :src="profile?.avatar"
           alt="Avatar"
         /></div>
-        <div class="profileinfo !items-center !ml-5 mt-3">
+        <div class="profileinfo !items-center !ml-7 streaminfo mb-3">
           <h1 class="username">
-          {{ twitch?.display_name || profile?.displayname }}
-          <span class="handle">@{{ twitch?.login || profile?.username }}</span>
+          {{ profile?.displayname }}
+          <span class="handle">@{{ profile?.username }}</span>
         </h1>
-        <p class="bio text-left">{{ twitch?.description || profile?.bio }}</p>
+        <p class="bio text-left">{{ profile?.bio }}</p>
+      </div>
+      <div class="streamgame" :style="{ backgroundImage: `url(${game?.background_image})` }">
+        <p class="gametitle">{{ game.name }}</p>
+        <p class="gamebio">{{ game.description_raw }}</p>
       </div>
     </div>
     </section>
@@ -41,63 +45,102 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import useStreamStore from '@/stores/getstream.client';
 import { storeToRefs } from 'pinia';
 
+// User authentication
 const user = useSupabaseUser();
 const routes = useRoute().params;
 const router = useRouter();
 
 const username = routes.username;
 
-const profiles = ref([]);
+// Define profile and game as refs
 const profile = ref(null);
+const game = ref(null);
 
+// Function to fetch profiles from an API
 async function getProfiles() {
   try {
-    profiles.value = await $fetch('/api/profiles');
-    profile.value = profiles.value.find((profile) => profile.username === username) || null;
-    if (!profile.value) {
-      router.push({ name: 'error', params: { code: 404, message: 'User not found' } });
-    }
+    const response = await $fetch('/api/profiles');
+    console.log('Profiles fetched:', response);
+    return response; // Assuming response is an array of profiles
   } catch (error) {
-    console.error('Failed to fetch profiles:', error);
-    router.push({ name: 'error', params: { code: 500, message: 'Internal Server Error' } });
+    console.error('Error fetching profiles:', error);
+    return [];
   }
 }
 
-onMounted(() => {
-  getProfiles();
+// Computed property to derive gameTitle from profile
+const gameTitle = computed(() => {
+  return profile.value ? encodeURIComponent(profile.value.game) : '';
 });
 
+// Fetch game details based on gameTitle
+async function fetchGames() {
+  try {
+    if (gameTitle.value) {
+      const response = await $fetch(`https://api.rawg.io/api/games?key=95fc0cc0084543e9a2ea58e605e76829&search=${gameTitle.value}`, {
+        method: 'GET'
+      });
+      if (response.results.length > 0) {
+        const gameId = response.results[0].id;
+        const gameDetails = await fetchGameDetails(gameId);
+        game.value = gameDetails;
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching games list:', error);
+  }
+}
+
+async function fetchGameDetails(gameId) {
+  try {
+    const response = await $fetch(`https://api.rawg.io/api/games/${gameId}?key=95fc0cc0084543e9a2ea58e605e76829`, {
+      method: 'GET'
+    });
+    console.log('Game details fetched:', response);
+    return response;
+  } catch (error) {
+    console.error('Error fetching game details:', error);
+  }
+}
+
+// Lifecycle hook to fetch profiles and games on component mount
+onMounted(async () => {
+  const profiles = await getProfiles();
+  profile.value = profiles.find(p => p.username === username);
+  if (profile.value) {
+    await fetchGames();
+  }
+});
+
+// Using pinia store for managing stream state
 const store = useStreamStore();
 const { call, remoteParticipant } = storeToRefs(store);
 
 const callId = ref(null);
 
-watch(
-  () => profile.value,
-  (newProfile) => {
-    if (newProfile) {
-      callId.value = newProfile.username;
-      watchStream();
-    }
+// Watch for changes in profile value
+watch(() => profile.value, (newProfile) => {
+  if (newProfile) {
+    callId.value = newProfile.username;
+    watchStream();
   }
-);
+});
 
+// Computed property to determine if remote video should be shown
 const showRemoteVideo = computed(() => {
   return call.value && remoteParticipant.value;
 });
 
+// Function to watch stream based on callId
 function watchStream() {
   if (callId.value) {
+    console.log('Watching stream for:', callId.value);
     store.watchStream(callId.value);
   }
 }
 </script>
-
-<style scoped>
-/* Add your styles here */
-</style>
