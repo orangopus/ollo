@@ -27,6 +27,7 @@ border-radius: 25px !important;
   margin-bottom: 10px;
   padding: 0;
   display: flex;
+  margin-top: 25px;
 }
 
 .tabs__header li {
@@ -696,6 +697,7 @@ body {
     background:rgba(0, 0, 0, 0.4);
     padding: 11px 15px;
     border-radius: 20px;
+    height: 150px;
   }
 
   .gametitle { 
@@ -712,6 +714,10 @@ body {
     font-weight: bolder;
     -webkit-box-orient: vertical;
     font-size: 15px;
+  }
+
+  .streamtitle {
+    font-size: 25px !important;
   }
   
   .container {

@@ -7,15 +7,17 @@
         </ClientOnly>
       </div>
       <div class="grid-card flex container profilescont center">
-        <div><img
+        <NuxtLink :to="`/${profile?.username}`">
+          <div><img
           class="avatar avatarstream"
           :src="profile?.avatar"
           alt="Avatar"
         /></div>
+        </NuxtLink>
         <div class="profileinfo !items-center !ml-7 streaminfo mb-3">
-          <h1 class="username">
+          <h1 class="username streamtitle">
           {{ profile?.displayname }}
-          <span class="handle">@{{ profile?.username }}</span>
+          <span class="streamtitle handle">@{{ profile?.username }}</span>
         </h1>
         <p class="bio text-left">{{ profile?.bio }}</p>
       </div>
@@ -94,6 +96,13 @@ async function fetchGames() {
         const gameDetails = await fetchGameDetails(gameId);
         game.value = gameDetails;
       }
+    }
+
+    if(gameTitle.value === "Development" || gameTitle.value === "dev") {
+      game.value.name = "Development"
+      game.value.description_raw = "Developing the things."
+      game.value.slug = "development"
+      game.value.background_image = "https://orangop.us/img/section-bg.png"
     }
   } catch (error) {
     console.error('Error fetching games list:', error);
