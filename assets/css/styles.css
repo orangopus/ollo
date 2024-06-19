@@ -690,12 +690,18 @@ body {
     height: 150px;
     text-overflow: ellipsis;
     margin-left: auto;
-    padding: 5px 15px;
+  }
+
+  .streamgame2 {
+    background:rgba(0, 0, 0, 0.4);
+    padding: 11px 15px;
+    border-radius: 20px;
   }
 
   .gametitle { 
     font-size: 30px;
     font-weight: bolder;
+    line-height: normal;
   }
 
   .gamebio {

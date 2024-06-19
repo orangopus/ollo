@@ -20,8 +20,12 @@
         <p class="bio text-left">{{ profile?.bio }}</p>
       </div>
       <div class="streamgame" :style="{ backgroundImage: `url(${game?.background_image})` }">
-        <p class="gametitle">{{ game.name }}</p>
-        <p class="gamebio">{{ game.description_raw }}</p>
+        <NuxtLink :to="`https://rawg.io/games/${game.slug}`">
+        <div class="streamgame2">
+          <p class="gametitle">{{ game.name }}</p>
+          <p class="gamebio">{{ game.description_raw }}</p>
+        </div>
+      </NuxtLink>
       </div>
     </div>
     </section>
@@ -38,7 +42,7 @@
         </div>
       </div>
     </section>
-    <div class="grid grid-card container profilescont center p-5">
+    <div class="grid grid-card container profilescont center !px-10 p-5">
         <MDC :value="profile?.html"/>
       </div>
   </div>
