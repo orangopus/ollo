@@ -7,8 +7,8 @@
         </NuxtLink>
       </div>
     </div>
-    <div>
-      <video ref="videoElement" width="100%" class="rounded-xl" controls></video>
+    <div style="width: 70vw;">
+      <video ref="videoElement" class="rounded-xl" controls></video>
       <audio ref="audioElement"></audio>
     </div>
   </div>
@@ -87,6 +87,12 @@ onUnmounted(() => {
 <style scoped>
 video {
   object-fit: contain;
+  width: calc(73.5vw - 20px);
+}
+
+#video_box {
+  width: 67vw;
+  margin-left: 47px;
 }
 
 .button.streambutton {

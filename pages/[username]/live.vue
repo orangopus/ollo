@@ -1,7 +1,7 @@
 <template>
   <div>
     <section v-if="showRemoteVideo">
-      <div class="flex profilescont center">
+      <div class="flex profilescont relative center" style="text-align: -webkit-center;">
         <ClientOnly>
           <Video :call="call" :participant="remoteParticipant" />
           <Chat />
