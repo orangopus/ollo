@@ -1,9 +1,10 @@
 <template>
   <div>
     <section v-if="showRemoteVideo">
-      <div class="grid grid-card container profilescont center p-5">
+      <div class="flex profilescont center">
         <ClientOnly>
           <Video :call="call" :participant="remoteParticipant" />
+          <Chat />
         </ClientOnly>
       </div>
       <div class="grid-card flex container profilescont center">

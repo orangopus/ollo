@@ -7,6 +7,11 @@
   margin: 10px !important;
 }
 
+.chatavatar {
+  width: 39px !important;
+  margin-right: 10px;
+}
+
 .border-gray-600 {
   --tw-border-opacity: 0;
   border-color: rgb(var(--color-gray-600) / var(--tw-border-opacity));
