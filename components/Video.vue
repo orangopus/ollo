@@ -1,15 +1,11 @@
 <template>
   <div id="video_box">
-    <div v-if="props.call?.id && !isSpecificPage">
-      <div id="video_overlays" class="text-center rounded-xl">
-        <NuxtLink :to="`/${props.call.id}/live`">
-          <button class="streambutton button">Watch Stream</button>
-        </NuxtLink>
-      </div>
-    </div>
     <div>
+
+      <NuxtLink :to="`/${props.call.id}/live`">
       <video ref="videoElement" class="rounded-xl" controls></video>
       <audio ref="audioElement"></audio>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -91,8 +87,7 @@ video {
 }
 
 #video_box {
-  width: 67vw;
-  margin-left: 47px;
+  width: initial;
 }
 
 .button.streambutton {
