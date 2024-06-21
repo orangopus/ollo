@@ -4,8 +4,7 @@
       <p class="message">Chatting with {{ channelName }}</p>
       <div v-for="(message, index) in messages" :key="index" class="message">
         <img :src="getAvatar(message.user)" alt="Avatar" width="40" height="40" class="avatar chatavatar"/>
-        <span class="user">{{ getUsername(message.user) }}</span>
-        <span class="text">{{ message.text }}</span>
+        <span class="text"><span class="user">{{ getUsername(message.user) }}</span>{{ message.text }}</span>
       </div>
     </div>
     <input v-model="newMessage" @keyup.enter="sendMessage" placeholder="Type a message" />
@@ -149,7 +148,7 @@ watch(messages, () => {
   padding: 2px 10px;
   background: #0F141F;
   border-radius: 20px;
-  height: 100%;
+  height:fit-content;
 }
 .messages {
   overflow-y: auto;
