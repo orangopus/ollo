@@ -67,9 +67,6 @@ const fetchProfiles = async (userIds) => {
 
     console.log('Fetched profiles:', profileData);
 
-    // Clear profiles.value to ensure no stale data
-    profiles.value = {};
-
     profileData.forEach(profile => {
       profiles.value[profile.id] = {
         username: profile.username,
@@ -110,19 +107,27 @@ const sendMessage = async () => {
     }
 
     const addedMessage = data[0];
+
+    // Add the new message to messages.value
     messages.value.push({
       id: addedMessage.id,
       user: addedMessage.user_id,
       text: addedMessage.content,
     });
 
-    fetchProfiles([addedMessage.user_id]); // Update profile for new message user
+    // Fetch the profile for the user who sent the message
+    await fetchProfiles([addedMessage.user_id]);
+
+    // Clear newMessage.value after sending the message
     newMessage.value = '';
+
+    // Scroll to the bottom of the chat after adding a new message
     scrollToBottom();
   } catch (error) {
     console.error('Error sending message:', error.message);
   }
 };
+
 
 const scrollToBottom = () => {
   if (messagesContainer.value) {
@@ -132,6 +137,7 @@ const scrollToBottom = () => {
 
 onMounted(() => {
   fetchMessages();
+  fetchProfiles;
 });
 
 watch(messages, () => {
