@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
@@ -34,25 +34,34 @@ const fetchMessages = async () => {
   if (messageError) {
     console.error('Error fetching messages:', messageError);
   } else {
-    messages.value = messageData.map(msg => ({ user: msg.user_id, text: msg.content }));
-    await fetchProfiles(messageData.map(msg => msg.user_id));
+    messages.value = messageData.map(msg => ({ id: msg.id, user: msg.user_id, text: msg.content }));
+    const userIds = messageData.map(msg => msg.user_id);
+    await fetchProfiles(userIds);
     scrollToBottom();
   }
 };
 
 const fetchProfiles = async (userIds) => {
-  const { data: profileData, error: profileError } = await supabase
-    .from('profiles')
-    .select('*')
-    .in('id', userIds);
+  // Filter out userIds that are already in the profiles object
+  const newUserIds = userIds.filter(userId => !profiles.value[userId]);
 
-  if (profileError) {
-    console.error('Error fetching profiles:', profileError);
-  } else {
-    profiles.value = profileData.reduce((acc, profile) => {
-      acc[profile.id] = { username: profile.username, avatar: profile.avatar };
-      return acc;
-    }, {});
+  if (newUserIds.length > 0) {
+    const { data: profileData, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .in('id', newUserIds);
+
+    if (profileError) {
+      console.error('Error fetching profiles:', profileError);
+    } else {
+      profiles.value = { 
+        ...profiles.value, 
+        ...profileData.reduce((acc, profile) => {
+          acc[profile.id] = { username: profile.username, avatar: profile.avatar };
+          return acc;
+        }, {}) 
+      };
+    }
   }
 };
 
@@ -69,8 +78,8 @@ const subscribeToMessages = () => {
     .channel('public:chat')
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, async payload => {
       const newMessage = payload.new;
-      if (newMessage.channel === channelName) {
-        messages.value.push({ user: newMessage.user_id, text: newMessage.content });
+      if (newMessage.channel === channelName && !messages.value.some(msg => msg.id === newMessage.id)) {
+        messages.value.push({ id: newMessage.id, user: newMessage.user_id, text: newMessage.content });
         await fetchProfiles([newMessage.user_id]);
         scrollToBottom();
       }
@@ -80,17 +89,22 @@ const subscribeToMessages = () => {
 
 const sendMessage = async () => {
   if (newMessage.value.trim() !== '') {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('chat')
-      .insert([{ user_id: user.value.id, content: newMessage.value, channel: channelName }]);
+      .insert([{ user_id: user.value.id, content: newMessage.value, channel: channelName }])
+      .select();
 
     if (error) {
       console.error('Error sending message:', error);
     } else {
-      // Add the new message to the local messages array immediately
-      messages.value.push({ user: user.value.id, text: newMessage.value });
-      newMessage.value = '';
-      scrollToBottom();
+      // Add the new message to the local messages array immediately if it doesn't already exist
+      const addedMessage = data[0];
+      if (!messages.value.some(msg => msg.id === addedMessage.id)) {
+        messages.value.push({ id: addedMessage.id, user: addedMessage.user_id, text: addedMessage.content });
+        await fetchProfiles([addedMessage.user_id]);
+        newMessage.value = '';
+        scrollToBottom();
+      }
     }
   }
 };
@@ -111,6 +125,8 @@ watch(messages, () => {
 });
 </script>
 
+
+
 <style scoped>
 
 .user {
@@ -120,6 +136,7 @@ watch(messages, () => {
   padding: 2px 10px;
   background: #0F141F;
   border-radius: 20px;
+  height: 100%;
 }
 .messages {
   overflow-y: auto;
