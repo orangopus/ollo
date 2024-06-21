@@ -1,4 +1,4 @@
-import { Call, StreamVideoClient, type StreamVideoParticipant } from '@stream-io/video-client'
+import { Call, NoiseCancellationSettingsModeEnum, StreamVideoClient, type StreamVideoParticipant } from '@stream-io/video-client'
 import { defineStore } from 'pinia'
 import { Subscription } from 'rxjs'
 
@@ -13,7 +13,6 @@ const useStreamStore = defineStore('stream', ()  => {
     const localParticipantSub = ref<Subscription | undefined>()
     const remoteParticipant = ref<StreamVideoParticipant | undefined>()
     const remoteParticipantSub = ref<Subscription | undefined>()
-   
 
     if (!apiKey || !token) {
         throw new Error('STREAM_API_KEY and STREAM_API_TOKEN must be set')
@@ -35,7 +34,8 @@ const useStreamStore = defineStore('stream', ()  => {
         await newCall.join({ create: true})
         await newCall.camera.enable()
         await newCall.microphone.enable()
-
+        await newCall.microphone.disableNoiseCancellation()
+        
         localParticipantSub.value = newCall.state.localParticipant$.subscribe(
             (updatedLocalParticipant) => {
                 localParticipant.value = updatedLocalParticipant
