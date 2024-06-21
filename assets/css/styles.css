@@ -640,10 +640,8 @@ body {
   }
   
   .text {
-    text-align: center;
     font-size: 20px;
     font-weight: bolder;
-    margin: 15px 0 40px 0 !important;
   }
   
   .padding {

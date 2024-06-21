@@ -1,8 +1,9 @@
 <template>
   <div class="chat">
-    <div class="messages">
+    <div class="messages" ref="messagesContainer">
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <span class="user">{{ message.user }}:</span>
+        <img :src="getAvatar(message.user)" alt="avatar" class="avatar chatavatar"/>
+        <span class="user">{{ getUsername(message.user) }}</span>
         <span class="text">{{ message.text }}</span>
       </div>
     </div>
@@ -15,33 +16,63 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const channel = route.params.username;
+const channelName = route.params.username; // Hardcoded to 'cheese'
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const messages = ref([]);
 const newMessage = ref('');
+const profiles = ref({});
+const messagesContainer = ref(null);
 
 const fetchMessages = async () => {
-  const { data, error } = await supabase
+  const { data: messageData, error: messageError } = await supabase
     .from('chat')
     .select('*')
-    .eq('channel', channel)
+    .eq('channel', channelName)
     .order('created_at', { ascending: true });
 
-  if (error) {
-    console.error('Error fetching messages:', error);
+  if (messageError) {
+    console.error('Error fetching messages:', messageError);
   } else {
-    messages.value = data.map(msg => ({ user: msg.user_id, text: msg.content }));
+    messages.value = messageData.map(msg => ({ user: msg.user_id, text: msg.content }));
+    await fetchProfiles(messageData.map(msg => msg.user_id));
+    scrollToBottom();
   }
+};
+
+const fetchProfiles = async (userIds) => {
+  const { data: profileData, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .in('id', userIds);
+
+  if (profileError) {
+    console.error('Error fetching profiles:', profileError);
+  } else {
+    profiles.value = profileData.reduce((acc, profile) => {
+      acc[profile.id] = { username: profile.username, avatar: profile.avatar };
+      return acc;
+    }, {});
+  }
+};
+
+const getUsername = (userId) => {
+  return profiles.value[userId]?.username || 'Unknown';
+};
+
+const getAvatar = (userId) => {
+  return profiles.value[userId]?.avatar || 'default-avatar.png'; // Provide a default avatar if none is available
 };
 
 const subscribeToMessages = () => {
   supabase
     .channel('public:chat')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, payload => {
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, async payload => {
       const newMessage = payload.new;
-      if (newMessage.channel === channel) {
+      if (newMessage.channel === channelName) {
         messages.value.push({ user: newMessage.user_id, text: newMessage.content });
+        await fetchProfiles([newMessage.user_id]);
+        scrollToBottom();
       }
     })
     .subscribe();
@@ -51,19 +82,32 @@ const sendMessage = async () => {
   if (newMessage.value.trim() !== '') {
     const { error } = await supabase
       .from('chat')
-      .insert([{ user_id: user.value.id, content: newMessage.value, channel: channel }]);
-    
+      .insert([{ user_id: user.value.id, content: newMessage.value, channel: channelName }]);
+
     if (error) {
       console.error('Error sending message:', error);
     } else {
+      // Add the new message to the local messages array immediately
+      messages.value.push({ user: user.value.id, text: newMessage.value });
       newMessage.value = '';
+      scrollToBottom();
     }
+  }
+};
+
+const scrollToBottom = () => {
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
   }
 };
 
 onMounted(() => {
   fetchMessages();
   subscribeToMessages();
+});
+
+watch(messages, () => {
+  scrollToBottom();
 });
 </script>
 
