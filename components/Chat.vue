@@ -141,6 +141,7 @@ onMounted(() => {
 });
 
 watch(messages, () => {
+ fetchMessages()
   scrollToBottom();
 });
 </script> 
