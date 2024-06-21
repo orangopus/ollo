@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content2">
     <section v-if="showRemoteVideo">
       <div class="flex profilescont relative center" >
         <ClientOnly>
@@ -158,3 +158,9 @@ function watchStream() {
   }
 }
 </script>
+
+<style scoped>
+.content2 {
+  width: calc(100% - 29rem);
+}
+</style>

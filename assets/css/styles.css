@@ -1182,8 +1182,7 @@ body {
   }
 
   #video_box{
-    position: relative;
-    width: 100%;
+    width: calc(100% - 60px);
     height: 100%;
   }
   

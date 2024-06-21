@@ -1,8 +1,9 @@
 <template>
-  <div class="chat">
+  <div class="chat fixed right-0 h-screen text-white justify-center">
     <div class="messages" ref="messagesContainer">
+      <p class="message">Chatting with {{ channelName }}</p>
       <div v-for="(message, index) in messages" :key="index" class="message">
-        <img :src="getAvatar(message.user)" alt="avatar" class="avatar chatavatar"/>
+        <img :src="getAvatar(message.user)" alt="Avatar" width="40" height="40" class="avatar chatavatar"/>
         <span class="user">{{ getUsername(message.user) }}</span>
         <span class="text">{{ message.text }}</span>
       </div>
@@ -25,87 +26,102 @@ const profiles = ref({});
 const messagesContainer = ref(null);
 
 const fetchMessages = async () => {
-  const { data: messageData, error: messageError } = await supabase
-    .from('chat')
-    .select('*')
-    .eq('channel', channelName)
-    .order('created_at', { ascending: true });
+  try {
+    const { data: messageData, error: messageError } = await supabase
+      .from('chat')
+      .select('*')
+      .eq('channel', channelName)
+      .order('created_at', { ascending: true });
 
-  if (messageError) {
-    console.error('Error fetching messages:', messageError);
-  } else {
-    messages.value = messageData.map(msg => ({ id: msg.id, user: msg.user_id, text: msg.content }));
+    if (messageError) {
+      throw messageError;
+    }
+
+    messages.value = messageData.map(msg => ({
+      id: msg.id,
+      user: msg.user_id,
+      text: msg.content,
+      // Fetch the corresponding profile from profiles.value
+      username: getUsername(msg.user_id),
+      avatar: getAvatar(msg.user_id),
+    }));
+
     const userIds = messageData.map(msg => msg.user_id);
     await fetchProfiles(userIds);
     scrollToBottom();
+  } catch (error) {
+    console.error('Error fetching messages:', error.message);
   }
 };
 
-const fetchProfiles = async (userIds) => {
-  // Filter out userIds that are already in the profiles object
-  const newUserIds = userIds.filter(userId => !profiles.value[userId]);
 
-  if (newUserIds.length > 0) {
+const fetchProfiles = async (userIds) => {
+  try {
     const { data: profileData, error: profileError } = await supabase
       .from('profiles')
       .select('*')
-      .in('id', newUserIds);
+      .in('id', userIds);
 
     if (profileError) {
-      console.error('Error fetching profiles:', profileError);
-    } else {
-      profiles.value = { 
-        ...profiles.value, 
-        ...profileData.reduce((acc, profile) => {
-          acc[profile.id] = { username: profile.username, avatar: profile.avatar };
-          return acc;
-        }, {}) 
-      };
+      throw profileError;
     }
+
+    console.log('Fetched profiles:', profileData);
+
+    // Clear profiles.value to ensure no stale data
+    profiles.value = {};
+
+    profileData.forEach(profile => {
+      profiles.value[profile.id] = {
+        username: profile.username,
+        avatar: profile.avatar,
+      };
+    });
+
+    console.log('Stored profiles:', profiles.value); // Log stored profiles for verification
+  } catch (error) {
+    console.error('Error fetching profiles:', error.message);
   }
 };
 
+
 const getUsername = (userId) => {
-  return profiles.value[userId]?.username || 'Unknown';
+  const profile = profiles.value[userId];
+  return profile ? profile.username : 'Unknown';
 };
 
 const getAvatar = (userId) => {
-  return profiles.value[userId]?.avatar || 'default-avatar.png'; // Provide a default avatar if none is available
-};
-
-const subscribeToMessages = () => {
-  supabase
-    .channel('public:chat')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat' }, async payload => {
-      const newMessage = payload.new;
-      if (newMessage.channel === channelName && !messages.value.some(msg => msg.id === newMessage.id)) {
-        messages.value.push({ id: newMessage.id, user: newMessage.user_id, text: newMessage.content });
-        await fetchProfiles([newMessage.user_id]);
-        scrollToBottom();
-      }
-    })
-    .subscribe();
+  const profile = profiles.value[userId];
+  return profile ? profile.avatar : '/avatar.png';
 };
 
 const sendMessage = async () => {
-  if (newMessage.value.trim() !== '') {
+  try {
+    if (newMessage.value.trim() === '') {
+      return;
+    }
+
     const { data, error } = await supabase
       .from('chat')
       .insert([{ user_id: user.value.id, content: newMessage.value, channel: channelName }])
       .select();
 
     if (error) {
-      console.error('Error sending message:', error);
-    } else {
-      // Add the new message to the local messages array immediately if it doesn't already exist
-      const addedMessage = data[0];
-      if (!messages.value.some(msg => msg.id === addedMessage.id)) {
-        messages.value.push({ id: addedMessage.id, user: addedMessage.user_id, text: addedMessage.content });
-        await fetchProfiles([addedMessage.user_id]);
-        newMessage.value = '';
-        scrollToBottom();
-      }
+      throw error;
     }
+
+    const addedMessage = data[0];
+    messages.value.push({
+      id: addedMessage.id,
+      user: addedMessage.user_id,
+      text: addedMessage.content,
+    });
+
+    fetchProfiles([addedMessage.user_id]); // Update profile for new message user
+    newMessage.value = '';
+    scrollToBottom();
+  } catch (error) {
+    console.error('Error sending message:', error.message);
   }
 };
 
@@ -117,15 +133,12 @@ const scrollToBottom = () => {
 
 onMounted(() => {
   fetchMessages();
-  subscribeToMessages();
 });
 
 watch(messages, () => {
   scrollToBottom();
 });
-</script>
-
-
+</script> 
 
 <style scoped>
 
@@ -144,18 +157,15 @@ watch(messages, () => {
   box-shadow: inset 0px 4px 56px rgba(0, 0, 0, 0.25);
   border-radius: 25px;
   width: 310px;
-  background:rgba(0, 0, 0, 0.5);
   filter: drop-shadow(0px 4px 44px rgba(0, 0, 0, 0.25));
-  height: 94%;
+  height: 100%;
 }
 .chat {
-  position: absolute;
+  position: fixed;
     z-index: 100;
-    height: 93%;
+    height: 90vh;
     right: 0;
-    padding: 20px 0 0 20px;
     margin-right: 20px;
-    display: block;
 }
 .message {
   margin: 5px 20px 0 25px;

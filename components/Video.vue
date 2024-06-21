@@ -7,7 +7,7 @@
         </NuxtLink>
       </div>
     </div>
-    <div style="width: 70vw;">
+    <div>
       <video ref="videoElement" class="rounded-xl" controls></video>
       <audio ref="audioElement"></audio>
     </div>
