@@ -57,14 +57,7 @@ onMounted(async () => {
         type: "application/x-mpegURL"
       }],
     })
-
-    if (videoElement.value) {
-      unbindVideoElement.value = props.call?.bindVideoElement(
-        videoElement.value,
-        props.participant?.sessionId || 'sessionId',
-        'videoTrack'
-      )
-    }
+    
     if (audioElement.value) {
       unbindAudioElement.value = props.call?.bindAudioElement(
         audioElement.value,
