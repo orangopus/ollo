@@ -48,7 +48,6 @@ const searchTerm = ref('');
 const profiles = ref([]);
 const searchResults = ref([]);
 const getStreamApiKey = 'qxhh2h2czs7x'; // Add your GetStream API key here
-const getStreamApiSecret = 'yvnq9q2rzc6q34vy69d8cwyhengbz9pwnwkttesngy7jd2vxrk7zbrjuvbh7e3uc'; // Add your GetStream API secret here
 
 const handleChange = () => {
   if (profiles.value) {

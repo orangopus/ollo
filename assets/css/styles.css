@@ -1227,6 +1227,11 @@ body {
     margin-bottom: 20px;
     margin-top: 5px;
   }
+
+  .rtmp {
+
+    min-width: 600px;
+  }
   
   .plural {
     max-height: 75px;

@@ -5,12 +5,11 @@
         <Video v-if="call && remoteParticipant" :call="call" :participant="remoteParticipant" />
       </section>
       <section v-else>
-        <input type="text" class="input" v-model="callId" placeholder="Enter a username" />
-        <button @click="startBroadcast" class="button red">Start Broadcast</button>
+        <h1 class="edit">Start a broadcast</h1>
+        <input type="text" class="input rtmp" :defaultValue="RTMP"/>
 
-        <input type="text" class="input" placeholder="Stream Key" />
-
-        {{  JSON.stringify(broadcastKey) }}
+        <h1 class="edit">Stream Key</h1>
+        <input type="text" class="input rtmp" defaultValue="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3JhbmdvcHVzIn0.Rt3FIvYcUMOdx6o-MUBCLZOdmn9lfXbTJ5Qg_yvRQ_0"/>
       </section>
     </client-only>
   </div>
@@ -24,24 +23,30 @@ import type { Call, StreamVideoParticipant } from '@stream-io/video-client'
 
 const store = useStreamStore()
 const { call, remoteParticipant } = storeToRefs(store)
+const user = useSupabaseUser()
+
+const profiles = await getProfiles()
+
+const profile = user.value ? profiles.find((profile) => profile.id === user.value.id) : null
 
 const props = defineProps<{
   call: Call | undefined 
   participant: StreamVideoParticipant | undefined
 }>()
 
+const getStreamApiKey = 'qxhh2h2czs7x'; // Add your GetStream API key here
+
+const RTMP = `rtmps://video-ingress-ohio-vi1.stream-io-video.com:443/qxhh2h2czs7x.livestream.${profile.username}`
+
+
 const callId = ref<string | null>(null)
-
-const broadcastKey = props.call?.state.ingress?.rtmp.address
-
-console.log(broadcastKey)
 
 // Fetch profiles and set the callId if a matching profile is found
 async function fetchProfilesAndSetCallId() {
   try {
     const profiles = await getProfiles()
     const profile = profiles.find((profile) => profile.username === callId.value)
-    callId.value = profile?.username || null
+    callId.value = profile?.username || null;
   } catch (error) {
     console.error('Error fetching profiles:', error)
   }
@@ -62,7 +67,10 @@ function startBroadcast() {
 }
 
 // Fetch profiles when the component mounts
-onMounted(fetchProfilesAndSetCallId)
+
+onMounted(() => {
+  fetchProfilesAndSetCallId()
+  });
 </script>
 
 <style scoped>
