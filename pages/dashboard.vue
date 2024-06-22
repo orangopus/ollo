@@ -19,7 +19,7 @@
       </label>
     </div>
     <!-- User Info Forms -->
-    <Broadcast />
+    <Broadcast :call="call"/>
     <div class="ml-10 mb-10">
       <h2 class="edit center">Display name</h2>
     <input v-model="displayname" type="text" placeholder="Set display name" class="input" />
@@ -27,6 +27,9 @@
     <h2 class="edit center">Username</h2>
     <input v-model="username" type="text" placeholder="Set username" class="input" />
 
+    <h2 class="edit center">RTMP</h2>
+    <input v-model="rtmp" type="text" placeholder="Set RTMP" class="input cursor-not-allowed" disabled/>
+    
     <h2 class="edit center">Game</h2>
     <input v-model="game" type="text" placeholder="Set game" class="input" />
 

@@ -29,6 +29,7 @@
                 <div>
                   <span class="handle">{{ profile.handle }}</span>
                 </div>
+                <div v-if="profile.isLive" class="live-status">Live</div>
               </div>
             </div>
           </nuxt-link>
@@ -43,38 +44,83 @@
 import { ref, computed, onMounted } from 'vue';
 const supabase = useSupabaseClient();
 
-    const avatar = 'avatar.png';
-    const searchTerm = ref('');
-    const profiles = ref([]);
-    const searchResults = ref([]);
+const searchTerm = ref('');
+const profiles = ref([]);
+const searchResults = ref([]);
+const getStreamApiKey = 'qxhh2h2czs7x'; // Add your GetStream API key here
+const getStreamApiSecret = 'yvnq9q2rzc6q34vy69d8cwyhengbz9pwnwkttesngy7jd2vxrk7zbrjuvbh7e3uc'; // Add your GetStream API secret here
 
-    const handleChange = () => {
-      if (profiles.value) {
-        searchResults.value = profiles.value.filter(
-          profile =>
-            profile.username !== null &&
-            profile.username.toLowerCase().includes(searchTerm.value.toLowerCase())
-        );
+const handleChange = () => {
+  if (profiles.value) {
+    searchResults.value = profiles.value.filter(
+      profile =>
+        profile.username !== null &&
+        profile.username.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
+  }
+};
+
+const fetchProfiles = async () => {
+  const { data, error } = await supabase.from('profiles').select('*');
+  if (error) {
+    throw new Error(error.message);
+  }
+  profiles.value = data;
+  searchResults.value = data;
+  await updateLiveStatus();
+};
+
+const updateLiveStatus = async () => {
+  const profileQueue = [...profiles.value];
+  const batchSize = 10; // Number of profiles to process per interval
+
+  const processBatch = async () => {
+    if (profileQueue.length === 0) return;
+    const currentBatch = profileQueue.splice(0, batchSize);
+    await Promise.all(currentBatch.map(async (profile) => {
+      profile.isLive = await checkIfLive(profile.username); // Use appropriate field for call ID
+    }));
+    setTimeout(processBatch, 5000); // Schedule next batch after 2 seconds
+  };
+
+  processBatch(); // Start processing the first batch
+};
+
+const checkIfLive = async (callId, retryCount = 0) => {
+  const maxRetries = 5;
+  const baseDelay = 2000; // 2 seconds
+
+  try {
+    const response = await fetch(`https://video.stream-io-api.com/api/v2/video/call/livestream/${callId}?api_key=${getStreamApiKey}`, {
+      headers: {
+        'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3JhbmdvcHVzIn0.Rt3FIvYcUMOdx6o-MUBCLZOdmn9lfXbTJ5Qg_yvRQ_0",
+        'stream-auth-type': 'jwt',
       }
-    };
-
-    const fetchProfiles = async () => {
-      const { data, error } = await supabase.from('profiles').select('*');
-      if (error) {
-        throw new Error(error.message);
-      }
-      profiles.value = data;
-      searchResults.value = data;
-    };
-
-    onMounted(() => {
-      fetchProfiles();
     });
+    if (response.status === 429) {
+      throw new Error('Rate limit exceeded');
+    }
+    const data = await response.json();
+    return data.live;
+  } catch (error) {
+    console.error('Error fetching live status:', error);
+    if (error.message === 'Rate limit exceeded' && retryCount < maxRetries) {
+      const delay = baseDelay * Math.pow(2, retryCount);
+      console.log(`Retrying in ${delay} ms...`);
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return checkIfLive(callId, retryCount + 1);
+    }
+    return false;
+  }
+};
 
-    const filteredSortedProfiles = computed(() => {
-      return searchResults.value
-        .filter(n => n.username)
-        .sort((a, b) => a.username.localeCompare(b.username));
-    });
+onMounted(() => {
+  fetchProfiles();
+});
 
+const filteredSortedProfiles = computed(() => {
+  return searchResults.value
+    .filter(n => n.username)
+    .sort((a, b) => a.username.localeCompare(b.username));
+});
 </script>

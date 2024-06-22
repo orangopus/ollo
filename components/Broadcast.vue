@@ -2,11 +2,15 @@
   <div>
     <client-only>
       <section v-if="isCallLive">
-        <Video v-if="call && localParticipant" :call="call" :participant="localParticipant" />
+        <Video v-if="call && remoteParticipant" :call="call" :participant="remoteParticipant" />
       </section>
       <section v-else>
         <input type="text" class="input" v-model="callId" placeholder="Enter a username" />
         <button @click="startBroadcast" class="button red">Start Broadcast</button>
+
+        <input type="text" class="input" placeholder="Stream Key" />
+
+        {{  JSON.stringify(broadcastKey) }}
       </section>
     </client-only>
   </div>
@@ -16,11 +20,21 @@
 import { ref, computed, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import useStreamStore from '@/stores/getstream.client'
+import type { Call, StreamVideoParticipant } from '@stream-io/video-client'
 
 const store = useStreamStore()
-const { call, localParticipant } = storeToRefs(store)
+const { call, remoteParticipant } = storeToRefs(store)
+
+const props = defineProps<{
+  call: Call | undefined 
+  participant: StreamVideoParticipant | undefined
+}>()
 
 const callId = ref<string | null>(null)
+
+const broadcastKey = props.call?.state.ingress?.rtmp.address
+
+console.log(broadcastKey)
 
 // Fetch profiles and set the callId if a matching profile is found
 async function fetchProfilesAndSetCallId() {
@@ -38,7 +52,7 @@ async function getProfiles() {
 }
 
 const isCallLive = computed(() => {
-  return !!(call.value && localParticipant.value)
+  return !!(call.value && remoteParticipant.value)
 })
 
 function startBroadcast() {

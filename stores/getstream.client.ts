@@ -14,6 +14,8 @@ const useStreamStore = defineStore('stream', ()  => {
     const remoteParticipant = ref<StreamVideoParticipant | undefined>()
     const remoteParticipantSub = ref<Subscription | undefined>()
 
+    const RTMP = call.value?.state.ingress?.rtmp.address
+
     if (!apiKey || !token) {
         throw new Error('STREAM_API_KEY and STREAM_API_TOKEN must be set')
     }
@@ -21,7 +23,6 @@ const useStreamStore = defineStore('stream', ()  => {
     const streamVideoClient: StreamVideoClient = new StreamVideoClient({
         apiKey,
         token,
-        allowServerSideConnect: true,
         user: {
             id: "orangopus",
             name: "orangopus",
@@ -35,7 +36,7 @@ const useStreamStore = defineStore('stream', ()  => {
         await newCall.camera.enable()
         await newCall.microphone.enable()
         await newCall.microphone.disableNoiseCancellation()
-        
+
         localParticipantSub.value = newCall.state.localParticipant$.subscribe(
             (updatedLocalParticipant) => {
                 localParticipant.value = updatedLocalParticipant
@@ -61,10 +62,15 @@ const useStreamStore = defineStore('stream', ()  => {
     }
 
     async function watchStream(id: string) {
-        const newCall = streamVideoClient.call('livestream', id)
+        const newCall = streamVideoClient.call('livestream', id )
         await newCall.camera.disable()
         await newCall.microphone.disable()
         await newCall.join()
+        await 
+
+        const viewport = document.getElementById('vjs_video_3');
+
+        await newCall.setViewport(viewport as HTMLElement)
 
         remoteParticipantSub.value = newCall.state.remoteParticipants$.subscribe(
             (newRemoteParticipants) => {
@@ -95,7 +101,7 @@ const useStreamStore = defineStore('stream', ()  => {
         createCall,
         endCall,
         watchStream,
-        leaveStream
+        leaveStream,
     }
 })
 
