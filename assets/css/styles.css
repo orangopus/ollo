@@ -82,6 +82,33 @@ body {
   .vjs-control-bar {
     background: transparent !important;
 }
+
+.video-js .vjs-tech {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+  .video-js {
+    display: block !important;
+    box-sizing: border-box;
+    color: #fff;
+    background-color: #000;
+    position: relative;
+    padding: 0;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: normal;
+    font-style: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    word-break: initial;
+    width: 60vw;
+    height: 34vw;
+    border-radius: 20px;
+}
   
   p {
     font-size: 20px;

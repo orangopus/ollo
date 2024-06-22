@@ -2,7 +2,7 @@
   <div id="video_box">
     <div>
       <NuxtLink :to="`/${profileUsername}/live`">
-        <video ref="videoElement" class="video-js vjs-default-skin" playsinline controls></video>
+        <video ref="videoElement" class="video-js vjs-default-skin" controls></video>
         <audio ref="audioElement"></audio>
       </NuxtLink>
     </div>
@@ -57,16 +57,6 @@ onMounted(async () => {
         src: props.call?.state.egress?.hls?.playlist_url || '',
         type: "application/x-mpegURL"
       }],
-      playbackRates: [0.5, 1, 1.5, 2], // Adjust playback rates if supported
-      html5: {
-    hls: {
-      enableLowInitialPlaylist: true, // Adjust if necessary
-      smoothQualityChange: true,
-      overrideNative: true,
-    },
-    nativeAudioTracks: false, // Disable native audio tracks for better control
-    nativeVideoTracks: false, // Disable native video tracks for better control
-  },
     })
 
     if (videoElement.value) {
