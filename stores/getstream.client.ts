@@ -36,6 +36,7 @@ const useStreamStore = defineStore('stream', ()  => {
         await newCall.camera.enable()
         await newCall.microphone.enable()
         await newCall.microphone.disableNoiseCancellation()
+        await newCall.startHLS()
 
         localParticipantSub.value = newCall.state.localParticipant$.subscribe(
             (updatedLocalParticipant) => {

@@ -52,7 +52,6 @@ onMounted(async () => {
     const player = videojs(videoElement.value, {
       autoplay: true,
       controls: true,
-      'videoTracks': 'videoTrack',
       sources: [{
         src: props.call?.state.egress?.hls?.playlist_url || '',
         type: "application/x-mpegURL"
