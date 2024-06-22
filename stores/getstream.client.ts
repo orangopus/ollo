@@ -66,11 +66,7 @@ const useStreamStore = defineStore('stream', ()  => {
         await newCall.camera.disable()
         await newCall.microphone.disable()
         await newCall.join()
-        await 
-
-        const viewport = document.getElementById('vjs_video_3');
-
-        await newCall.setViewport(viewport as HTMLElement)
+        await newCall.microphone.disableNoiseCancellation()
 
         remoteParticipantSub.value = newCall.state.remoteParticipants$.subscribe(
             (newRemoteParticipants) => {
