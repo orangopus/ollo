@@ -1228,6 +1228,11 @@ body {
     margin-top: 5px;
   }
 
+  .vod {
+    border-radius: 20px;
+    text-overflow: ellipsis;
+  }
+
   .rtmp {
 
     min-width: 600px;

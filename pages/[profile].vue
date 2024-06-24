@@ -117,6 +117,11 @@
             <MDC :value="profile.html"/>
           </div>
         </Tab>
+        <Tab title="VODs">
+          <div class="grid grid-card container profilescont center p-5">
+            <Recordings :call="call" />
+          </div>
+        </Tab>
       </TabsWrapper>
     </div>
   </div>
@@ -212,8 +217,6 @@ async function fetchPosts() {
     console.error('Error fetching posts:', err.message);
   }
 }
-
-console.log(fetchPosts())
 
 async function fetchReplies() {
   try {

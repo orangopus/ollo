@@ -31,7 +31,7 @@ const unbindVideoElement = ref<(() => void) | undefined>()
 const unbindAudioElement = ref<(() => void) | undefined>()
 const profiles = ref([] as Array<{ username: string }>)
 const profileUsername = computed(() => {
-  const username = route.params.username || route.params.profile
+  const username = route.params
   const profile = profiles.value.find((profile) => profile.username === username)
   return profile?.username || ''
 })
@@ -42,6 +42,7 @@ async function getProfiles() {
   const response = await $fetch('/api/profiles')
   profiles.value = response
 }
+
 
 onMounted(async () => {
   if (props.call?.id) {

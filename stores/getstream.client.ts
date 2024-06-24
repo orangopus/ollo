@@ -30,6 +30,8 @@ const useStreamStore = defineStore('stream', ()  => {
         }
     })
 
+    // Stream calls
+
     async function createCall(id: string) {
         const newCall = streamVideoClient.call('livestream', id)
         await newCall.join({ create: true})
