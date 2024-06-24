@@ -119,7 +119,12 @@
         </Tab>
         <Tab title="VODs">
           <div class="grid grid-card container profilescont center p-5">
-            <Recordings :call="call" />
+            <div class="flex container flex-wrap">
+              <div v-for="recording in recordings" class="w-1/3 px-2 py-2">
+                <!-- Display each recording -->
+                <video class="vod" :src="recording.url" controls></video>
+              </div>
+            </div>
           </div>
         </Tab>
       </TabsWrapper>
@@ -174,6 +179,8 @@ const { call, remoteParticipant } = storeToRefs(store);
 
 const callId = ref(profile.username)
 
+const recordings = ref([])
+
 const showRemoteVideo = computed(() => {
   return call.value && remoteParticipant.value;
 });
@@ -204,7 +211,25 @@ onMounted(async () => {
   await fetchPosts();
   await fetchReplies();
   await watchStream();
+  await fetchRecordings();  // Fetch recordings when component mounts
 });
+
+watch(call, async () => {
+  await fetchRecordings();
+});
+
+async function fetchRecordings() {
+  try {
+    if (call.value) {
+      const response = await call.value.queryRecordings();
+      if (response) {
+        recordings.value = response.recordings;
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching recordings:', err.message);
+  }
+}
 
 async function fetchPosts() {
   try {

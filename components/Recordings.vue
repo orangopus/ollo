@@ -1,6 +1,6 @@
 <template>
   <div class="flex container flex-wrap">
-      <div v-for="(recording, index) in recordings" class="w-1/3 px-2 py-2" :key="index">
+    <div v-for="recording in recordings" class="w-1/3 px-2 py-2">
       <!-- Display each recording -->
       <video class="vod" :src="recording.url" controls></video>
     </div>
@@ -9,23 +9,19 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import type { Call, StreamVideoParticipant, CallRecording } from '@stream-io/video-client'
+import type { Call, CallRecording } from '@stream-io/video-client'
 import 'video.js/dist/video-js.css'
 
-// Define props
-const props = defineProps<{
-  call: Call | undefined 
-}>()
 
 // Setup reactive references
 const profiles = ref<{ username: string }[]>([])
-const recordings = ref([])
-
+const recordings = ref<{ recording: string }[]>([])
 // Fetch recordings method
 async function getRecordings() {
+  if (!call) return
   try {
-    const response = await props.call?.queryRecordings()
-    recordings.value = response?.recordings || []
+    const response = await call.queryRecordings()
+    recordings.value = response?.recordings
   } catch (error) {
     console.error('Error fetching recordings:', error)
   }
@@ -50,21 +46,12 @@ onMounted(async () => {
   await getProfiles()
   await getRecordings()
 })
-
-// Cleanup on component unmount
-onUnmounted(() => {
-  // Perform any necessary cleanup actions here
-})
 </script>
 
 <style scoped>
 video {
   object-fit: contain;
-  width: calc(73.5vw - 20px);
-}
-
-#video_box {
-  width: initial;
+  width: 100%;
 }
 
 .button.streambutton {
