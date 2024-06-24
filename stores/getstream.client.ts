@@ -68,7 +68,7 @@ const useStreamStore = defineStore('stream', ()  => {
         await newCall.microphone.disable()
         await newCall.join()
         await newCall.microphone.disableNoiseCancellation()
-
+        
         remoteParticipantSub.value = newCall.state.remoteParticipants$.subscribe(
             (newRemoteParticipants) => {
                 if (newRemoteParticipants && newRemoteParticipants.length > 0) {

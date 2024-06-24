@@ -24,26 +24,24 @@ const props = defineProps<{
 
 // Setup reactive references
 const route = useRoute()
-const callId = ref(route.params.username)
+const callId = ref<string | null>()
 const videoElement = ref<HTMLVideoElement | null>(null)
 const audioElement = ref<HTMLAudioElement | null>(null)
 const unbindVideoElement = ref<(() => void) | undefined>()
 const unbindAudioElement = ref<(() => void) | undefined>()
-const profileUsername = ref<string | null>(null)
+const profiles = ref([] as Array<{ username: string }>)
+const profileUsername = computed(() => {
+  const username = route.params.username || route.params.profile
+  const profile = profiles.value.find((profile) => profile.username === username)
+  return profile?.username || ''
+})
 
 // Fetch profiles and set call ID
-async function getProfiles() {
-  try {
-    const profiles = await $fetch('/api/profiles')
-    const profile = profiles.find((profile) => profile.username === callId.value)
-    profileUsername.value = profile?.username || null
-  } catch (error) {
-    console.error('Error fetching profiles:', error)
-  }
-}
 
-// Check if the current route is the specific page
-const isSpecificPage = computed(() => route.path === `/${profileUsername.value}/live`)
+async function getProfiles() {
+  const response = await $fetch('/api/profiles')
+  profiles.value = response
+}
 
 onMounted(async () => {
   if (props.call?.id) {
@@ -58,6 +56,18 @@ onMounted(async () => {
       }],
     })
 
+    const audioTrackUrl = props.participant?.audioStream?.getAudioTracks()
+
+    if (audioTrackUrl) {
+      player.addRemoteTextTrack({
+        kind: 'captions',
+        src: audioTrackUrl,
+        srclang: 'en',
+        label: 'English',
+      }, true)
+    }
+    }
+
     if (videoElement.value) {
       unbindVideoElement.value = props.call?.bindVideoElement(
         videoElement.value,
@@ -65,14 +75,9 @@ onMounted(async () => {
         'videoTrack'
       )
     }
-    if (audioElement.value) {
-      unbindAudioElement.value = props.call?.bindAudioElement(
-        audioElement.value,
-        props.participant?.sessionId || 'sessionId'
-      )
-    }
+
   }
-})
+)
 
 onUnmounted(() => {
   unbindVideoElement.value?.()

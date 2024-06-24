@@ -138,10 +138,6 @@ const scrollToBottom = () => {
 onMounted(() => {
   fetchMessages();
   fetchProfiles;
-});
-
-watch(messages, () => {
- fetchMessages()
   scrollToBottom();
 });
 </script> 
