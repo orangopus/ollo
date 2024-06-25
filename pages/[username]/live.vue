@@ -21,7 +21,6 @@
           <span class="streamtitle handle">@{{ profile?.username }}</span>
         </h1>
         <p class="bio text-left">{{ profile?.bio }}</p>
-         <p>{{ call?.state.callStatsReport?.participants.length }}</p>
       </div>
       <div class="streamgame" :style="{ backgroundImage: `url(${game?.background_image})` }">
         <NuxtLink :to="`https://rawg.io/games/${game.slug}`">
