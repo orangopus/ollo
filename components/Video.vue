@@ -50,7 +50,9 @@ onMounted(async () => {
         type: "application/x-mpegURL"
       }],
     })
-    if (videoElement.value) {
+  }
+
+  if (videoElement.value) {
       unbindVideoElement.value = props.call?.bindVideoElement(
         videoElement.value,
         props.participant?.sessionId || 'sessionId',
@@ -64,8 +66,7 @@ onMounted(async () => {
       )
     }
 
-    props.call.startHLS()
-  }
+    props.call?.startHLS()
 })
 
 onUnmounted(() => {
