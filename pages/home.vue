@@ -25,7 +25,7 @@
       <div class="flex">
         <div class="flex-col ml-0 mr-0">
           <a :href="`/${post.username}`">
-            <img class="avatar avatar3" :src="post.avatar" :alt="`${post.username} avatar`" />
+            <img class="avatar avatar3" :src="post.avatar ? post.avatar : 'avatar.png'" :alt="`${post.username} avatar`" />
           </a>
         </div>
         <div class="info flex ml-4">
@@ -71,11 +71,23 @@
           </p>
         </div>
       </div>
-      <div>
+
+      <div class="flex">
         <button class="minutesago mr-3" @click="toggleLike(post.id)">
           <Icon :name="post.liked ? 'icon-park-solid:like' : 'icon-park-outline:like'" class="mr-1" />
           {{ post.likes }}
         </button>
+        <div class="flex -space-x-4 rtl:space-x-reverse mt-2 mr-5">
+          <div
+            v-for="like in likes.filter((like) => like.post_id === post.id)"
+            :key="like.user_id"
+            class="!flex -space-x-1 !overflow-hidden"
+          >
+            <NuxtLink :to="`/${like.username}`">
+            <img class="avatar avatar3 !w-10 !h-10" :src="like.avatar ? like.avatar : 'avatar.png'" :alt="like.username" />
+            </NuxtLink>
+          </div>
+        </div>
         <button class="minutesago mr-3" @click="toggleReplyInput(post.id)">
           reply
         </button>
@@ -110,12 +122,6 @@ const error = ref<string | null>(null);
 const replyInputs = reactive<Record<number, boolean>>({});
 const replyContent = ref('');
 
-onMounted(async () => {
-  await fetchPosts();
-  await fetchReplies();
-  await fetchLikes();
-});
-
 async function fetchReplies() {
   try {
     const { data, error: fetchError } = await supabase.from('reply_with_profile').select('*').order('id', { ascending: true });
@@ -128,9 +134,36 @@ async function fetchReplies() {
   }
 }
 
-async function fetchLikes(){
-  return await $fetch('/api/likes')
+async function fetchLikes() {
+  try {
+    const { data, error } = await supabase
+      .from('likes_with_profiles')
+      .select("*");
+
+    if (error) {
+      throw error;
+    }
+
+    // Transform data to include username and avatar directly in each like object
+    const transformedLikes = data.map(like => ({
+      post_id: like.post_id,
+      user_id: like.user_id,
+      username: like.username,
+      avatar: like.avatar,
+    }));
+
+    return transformedLikes;
+  } catch (err) {
+    console.error('Error fetching likes:', err.message);
+  }
 }
+
+// Fetch likes on mounted
+onMounted(async () => {
+  await fetchPosts();
+  await fetchReplies();
+  likes.value = await fetchLikes();
+});
 
 async function fetchPosts() {
   try {
