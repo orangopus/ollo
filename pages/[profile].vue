@@ -38,7 +38,9 @@
     <section v-if="showRemoteVideo">
     <div class="grid grid-card container profilescont center p-5">
           <ClientOnly>
+            <NuxtLink :to="`/${profile.username}/live`">
             <Video :call="call" :participant="remoteParticipant" />
+          </NuxtLink>
           </ClientOnly>
     </div>
   </section>

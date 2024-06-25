@@ -66,7 +66,7 @@ const username = routes.username;
 
 // Define profile and game as refs
 const profile = ref(null);
-const game = ref(null);
+const game = ref([]);
 
 // Function to fetch profiles from an API
 async function getProfiles() {

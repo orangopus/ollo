@@ -1,10 +1,8 @@
 <template>
   <div id="video_box">
     <div>
-      <NuxtLink :to="`/${profileUsername}/live`">
         <video ref="videoElement" class="video-js vjs-default-skin" controls></video>
         <audio ref="audioElement"></audio>
-      </NuxtLink>
     </div>
   </div>
 </template>
@@ -30,12 +28,9 @@ const audioElement = ref<HTMLAudioElement | null>(null)
 const unbindVideoElement = ref<(() => void) | undefined>()
 const unbindAudioElement = ref<(() => void) | undefined>()
 const profiles = ref([] as Array<{ username: string }>)
-const profileUsername = computed(() => {
   const username = route.params.username || route.params.profile
   const profile = profiles.value.find((profile) => profile.username === username)
-  return profile?.username || ''
-})
-
+  const profileUsername = profile?.username || ''
 // Fetch profiles and set call ID
 
 async function getProfiles() {
@@ -47,7 +42,6 @@ async function getProfiles() {
 onMounted(async () => {
   if (props.call?.id) {
     await getProfiles()
-
     const player = videojs(videoElement.value, {
       autoplay: true,
       controls: true,
@@ -56,19 +50,6 @@ onMounted(async () => {
         type: "application/x-mpegURL"
       }],
     })
-
-    const audioTrackUrl = props.participant?.audioStream?.getAudioTracks()
-
-    if (audioTrackUrl) {
-      player.addRemoteTextTrack({
-        kind: 'captions',
-        src: audioTrackUrl,
-        srclang: 'en',
-        label: 'English',
-      }, true)
-    }
-    }
-
     if (videoElement.value) {
       unbindVideoElement.value = props.call?.bindVideoElement(
         videoElement.value,
@@ -76,9 +57,16 @@ onMounted(async () => {
         'videoTrack'
       )
     }
+    if (audioElement.value) {
+      unbindAudioElement.value = props.call?.bindAudioElement(
+        audioElement.value,
+        props.participant?.sessionId || 'sessionId'
+      )
+    }
 
+    props.call.startHLS()
   }
-)
+})
 
 onUnmounted(() => {
   unbindVideoElement.value?.()

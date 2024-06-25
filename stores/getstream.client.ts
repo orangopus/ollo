@@ -65,7 +65,7 @@ const useStreamStore = defineStore('stream', ()  => {
     }
 
     async function watchStream(id: string) {
-        const newCall = streamVideoClient.call('livestream', id )
+        const newCall = streamVideoClient.call('livestream', id)
         await newCall.camera.disable()
         await newCall.microphone.disable()
         await newCall.join()
