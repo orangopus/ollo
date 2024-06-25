@@ -1228,6 +1228,15 @@ body {
     margin-top: 5px;
   }
 
+  .trackcard {
+    background: #000;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    margin: 20px;
+    padding: 10px;
+    color: #fff;
+  }
+
   .vod {
     border-radius: 20px;
     text-overflow: ellipsis;

@@ -47,7 +47,7 @@
   <div class="w-full sm:px-0">
       <TabsWrapper>
         <Tab title="Posts">
-          <div v-for="post in posts" :key="post.id" class="grid cards postcard">
+          <div v-for="post in posts" :key="post.id" class="grid grid-card center cards">
       <div class="flex">
         <div class="flex-col ml-0 mr-0">
           <a :href="`/${post.username}`">
@@ -115,17 +115,37 @@
     </div>
         </Tab>
         <Tab title="About">
-          <div class="grid grid-card container profilescont center p-5">
+          <div class="grid grid-card center cards">
             <MDC :value="profile.html"/>
           </div>
         </Tab>
         <Tab title="VODs">
-          <div class="grid grid-card container profilescont center p-5">
-            <div class="flex container flex-wrap">
+          <div class="grid grid-card center p-5">
+            <div class="flex flex-wrap">
               <ClientOnly>
-              <div v-for="recording in recordings" class="w-1/3 px-2 py-2">
+              <div v-for="recording in recordings" class="w-1/5 px-2 py-2">
                 <!-- Display each recording -->
                 <video class="vod" :src="recording.url" controls></video>
+              </div>
+              </ClientOnly>
+            </div>
+          </div>
+        </Tab>
+        <Tab title="Tracks">
+          <div class="grid grid-card center cards">
+            <div class="flex flex-wrap">
+              <ClientOnly>
+              <div v-for="track in tracks.data" class="w-1/7 px-2 py-2 flex trackcard" :key="track.id">
+                <!-- Display each track -->
+                <NuxtLink :to="`https://audius.co/tracks/${track.id}`" class="flex">
+                  <div>
+                    <img :src="track.artwork['150x150']" class="rounded-xl" alt="track artwork" />
+                  </div>
+                  <div class="items-center center px-5">
+                    <p class="bold">{{ track.title }}</p>
+                    <p>{{ track.user.name }}</p>
+                  </div>
+                </NuxtLink>
               </div>
               </ClientOnly>
             </div>
@@ -178,6 +198,8 @@ const socials = await getSocials()
 
 const social = socials.filter((social) => social.user_id === profile?.id)
 
+const tracks = await getTracks()
+
 const store = useStreamStore();
 const { call, remoteParticipant } = storeToRefs(store);
 
@@ -204,6 +226,10 @@ async function getSocials(){
   return await $fetch('/api/socials')
 }
 
+async function getTracks(){
+  return await $fetch(`https://discoveryprovider.audius.co/v1/users/handle/${profile.username}/tracks`)
+}
+
 const posts = ref([]);
 const replies = ref([]);
 const newPost = ref('');
@@ -216,10 +242,12 @@ onMounted(async () => {
   await fetchReplies();
   await watchStream();
   await fetchRecordings();  // Fetch recordings when component mounts
+  await getTracks()
 });
 
 watch(call, async () => {
   await fetchRecordings();
+  await getTracks()
 });
 
 async function fetchRecordings() {
@@ -357,5 +385,9 @@ useHead({
 <style scoped>
 .active {
     background: #000000;
+  }
+
+  .tabs__header {
+    margin-left: 100px !important;
   }
 </style>

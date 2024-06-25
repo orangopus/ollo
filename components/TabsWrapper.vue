@@ -1,7 +1,7 @@
 <template>
   <div class="tabs_wrapper">
-    <div class="tabs">
-      <ul class="tabs__header">
+    <div class="tabs cemter">
+      <ul class="tabs__header cemter">
         <li v-for="title in tabTitles" :key="title" @click="selectedTitle = title" class="tabs__tab" :class="{selected: title == selectedTitle}">
           {{ title }}
         </li>
