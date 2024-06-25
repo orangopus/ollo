@@ -31,7 +31,7 @@ const unbindVideoElement = ref<(() => void) | undefined>()
 const unbindAudioElement = ref<(() => void) | undefined>()
 const profiles = ref([] as Array<{ username: string }>)
 const profileUsername = computed(() => {
-  const username = route.params
+  const username = route.params.username || route.params.profile
   const profile = profiles.value.find((profile) => profile.username === username)
   return profile?.username || ''
 })
