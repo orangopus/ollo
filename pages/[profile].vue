@@ -120,12 +120,10 @@
         <Tab title="VODs">
           <div class="grid grid-card container profilescont center p-5">
             <div class="flex container flex-wrap">
-              <ClientOnly>
               <div v-for="recording in recordings" class="w-1/3 px-2 py-2">
                 <!-- Display each recording -->
                 <video class="vod" :src="recording.url" controls></video>
               </div>
-              </ClientOnly>
             </div>
           </div>
         </Tab>
