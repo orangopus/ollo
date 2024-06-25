@@ -177,21 +177,21 @@ body {
   }
 
   audio::-webkit-media-controls-panel {
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 20px !important;
   }
 
   audio {
-    border-radius: 15px;
+    border-radius: 20px;
     background: #000;
-    display: block;
     position: absolute;
-    margin-top: 18%;
-    margin-left: 75%;
+    top: 0; /* Adjust this value to position vertically */
+    left: 30; /* Adjust this value to position horizontally */
     z-index: 1;
     height: 50px;
     width: 185px;
-  }
+    opacity: 0.5;
+}
   
   audio::-webkit-media-controls-mute-button {
     background-color: #000;
