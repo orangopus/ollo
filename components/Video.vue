@@ -2,7 +2,7 @@
   <div id="video_box">
     <div>
         <video ref="videoElement" class="video-js vjs-default-skin" controls></video>
-        <audio ref="audioElement"></audio>
+        <audio ref="audioElement" class="audio" controls></audio>
     </div>
   </div>
 </template>
@@ -46,17 +46,28 @@ onMounted(async () => {
     const player = videojs(videoElement.value, {
       autoplay: true,
       controls: true,
+      audio: false, 
       sources: [{
-        src: props.call?.state.egress?.hls?.playlist_url || '',
+        src: props.call?.state.egress?.hls?.playlist_url,
         type: "application/x-mpegURL"
       }],
-    }
+  }
+  
   )
-
-    const audioTrackUrl = props.participant?.audioStream?.getAudioTracks()
-
     props.call.startHLS()
-
+    if (videoElement.value) {
+      unbindVideoElement.value = props.call?.bindVideoElement(
+        videoElement.value,
+        props.participant?.sessionId || 'sessionId',
+        'videoTrack'
+      )
+    }
+    if (audioElement.value) {
+      unbindAudioElement.value = props.call?.bindAudioElement(
+        audioElement.value,
+        props.participant?.sessionId || 'sessionId'
+      )
+    }
   }
 }
 )

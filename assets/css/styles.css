@@ -175,6 +175,28 @@ body {
   .paddingnone {
     padding: 0 !important;
   }
+
+  audio::-webkit-media-controls-panel {
+    background-color: #000;
+    border-radius: 20px !important;
+  }
+
+  audio {
+    border-radius: 15px;
+    background: #000;
+    display: block;
+    position: absolute;
+    margin-top: 18%;
+    margin-left: 75%;
+    z-index: 1;
+    height: 50px;
+    width: 185px;
+  }
+  
+  audio::-webkit-media-controls-mute-button {
+    background-color: #000;
+    border-radius: 50%;
+  }
   
   .react-tabs {
     background: #141A27;
