@@ -20,7 +20,7 @@
           {{ profile?.displayname }}
           <span class="streamtitle handle">@{{ profile?.username }}</span>
         </h1>
-        <p class="bio text-left">{{ profile?.bio }}</p>
+        <p class="bio !text-left">{{ profile?.bio }}</p>
       </div>
       <div class="streamgame" :style="{ backgroundImage: `url(${game?.background_image})` }">
         <NuxtLink :to="`https://rawg.io/games/${game.slug}`">
@@ -41,7 +41,7 @@
         />
         <div class="!ml-5">
           <p class="username">{{ profile?.username }} is offline.</p>
-          <p class="bio text-left">{{ profile?.bio }}</p>
+          <p class="bio !text-left">{{ profile?.bio }}</p>
         </div>
       </div>
     </section>
