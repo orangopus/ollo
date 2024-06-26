@@ -57,6 +57,7 @@
       <button class="button mb-5">View Profile</button>
     </nuxt-link>
     <br />
+
     <button @click="handleSpotify" class="button">Connect Spotify</button>
     </div>
   </div>

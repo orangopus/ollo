@@ -151,6 +151,21 @@
             </div>
           </div>
         </Tab>
+        <Tab title="Repositories">
+          <div class="grid grid-card center">
+            <div class="flex flex-wrap">
+              <div v-for="git in github" class="w-1/4 px-2 py-2 trackcard" :key="github.id">
+                <!-- Display each track -->
+                 <NuxtLink :to="git.html_url">
+                <p class="bold">{{ git.name }} <span class="tag">{{ git.visibility }} </span></p>
+                <p>{{ git.description }}</p>
+                <p class="small">{{ git.language }}</p>
+                <p>{{ git.stargazers_count }} ⭐</p>
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+        </Tab>
       </TabsWrapper>
     </div>
   </div>
@@ -230,6 +245,18 @@ async function getTracks(){
   return await $fetch(`https://discoveryprovider.audius.co/v1/users/handle/${profile.username}/tracks`)
 }
 
+const git = social.find((social) => social.name === 'GitHub');
+const gitUsername = git?.url?.split('/')[3];  // Ensure gitUsername is defined after git
+
+async function getGitHub() {
+  if (gitUsername) {
+    return await $fetch(`https://api.github.com/users/${gitUsername}/repos`);
+  }
+  return [];
+}
+
+const github = await getGitHub(); 
+
 const posts = ref([]);
 const replies = ref([]);
 const newPost = ref('');
@@ -243,6 +270,7 @@ onMounted(async () => {
   await watchStream();
   await fetchRecordings();  // Fetch recordings when component mounts
   await getTracks()
+  await getGitHub()
 });
 
 watch(call, async () => {

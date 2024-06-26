@@ -20,7 +20,7 @@
       >
         <div class="cards center paddingnone justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-sm mx-auto">
           <nuxt-link :to="`/${profile?.username}`" class="none">
-            <div class="grid-card dark p-5">
+            <div class="grid-card cards p-5">
               <div class="center avatarcont">
                 <img class="avatar" :src="profile.avatar ? profile.avatar : 'avatar.png'" />
               </div>

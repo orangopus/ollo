@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '~/plugins/dayjs.ts',
     '~/plugins/pinia.ts',
     '~/plugins/rawger.ts',
+    '~/plugins/spotify.ts',
   ],
   css: ['/assets/css/styles.css'],
   supabase: {
