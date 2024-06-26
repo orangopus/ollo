@@ -74,9 +74,10 @@ onMounted(async () => {
 .track-info {
   display: flex;
   align-items: center;
-  background: #000;
   padding: 20px 25px;
   border-radius: 25px;
+  background-color: rgb(0,0,0);
+  background-image: url(https://orangop.us/img/section-bg.png);
 }
 
 .album-cover {
