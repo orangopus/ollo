@@ -74,6 +74,9 @@ onMounted(async () => {
 .track-info {
   display: flex;
   align-items: center;
+  background: #000;
+  padding: 20px 25px;
+  border-radius: 25px;
 }
 
 .album-cover {
