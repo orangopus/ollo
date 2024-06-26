@@ -3,7 +3,10 @@
     <!-- Display currently playing track -->
     <div v-if="currentlyPlaying">
       <div class="track-info">
-        <img :src="currentlyPlaying.album.images[0].url" alt="Album Cover" class="album-cover">
+        <div class="album-cover-container">
+          <img :src="currentlyPlaying.album.images[0].url" alt="Album Cover" class="album-cover">
+          <img :src="currentlyPlaying.album.images[0].url" alt="Album Cover" class="album-coverimg">
+        </div>
         <div class="track-details">
           <p class="bold">{{ currentlyPlaying.name }}</p>
           <p>{{ currentlyPlaying.artists.map(artist => artist.name).join(', ') }}</p>
@@ -76,14 +79,31 @@ onMounted(async () => {
   align-items: center;
   padding: 20px 25px;
   border-radius: 25px;
-  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0);
   background-image: url(https://orangop.us/img/section-bg.png);
 }
 
+.track-details {
+  margin-left: 120px;
+}
+
 .album-cover {
+  filter: blur(10px);
   width: 100px;
   height: 100px !important;
   margin-right: 20px;
   border-radius: 20px;
+  position: absolute;
+}
+.album-cover-container {
+  display: contents;
+}
+
+.album-coverimg {
+  width: 100px;
+  height: 100px !important;
+  margin-right: 20px;
+  border-radius: 20px;
+  position: absolute;
 }
 </style>
