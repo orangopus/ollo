@@ -11,6 +11,21 @@
           <p class="bold">{{ currentlyPlaying.name }}</p>
           <p>{{ currentlyPlaying.artists.map(artist => artist.name).join(', ') }}</p>
           <p>Album: {{ currentlyPlaying.album.name }}</p>
+          <div class="seek-bar">
+        <div class="slider-container">
+          <input 
+            type="range" 
+            min="0" 
+            :max="currentTrackDuration" 
+            v-model="currentPosition" 
+            @input="onSeek" 
+            class="spotify-slider" 
+            :style="{
+              '--seek-before-width': (currentPosition / currentTrackDuration * 100) + '%'
+            }"
+          />
+        </div>
+      </div>
         </div>
       </div>
     </div>
@@ -25,14 +40,16 @@ const spotifyToken = ref(''); // Assuming you have a way to get Spotify access t
 
 const username = useRoute().params.profile || useRoute().params.username;
 
-const profiles = await getProfiles()
+const profiles = await getProfiles();
 
-const profile = profiles.find((profile) => profile.username === username)
+const profile = profiles.find((profile) => profile.username === username);
 
 const currentlyPlaying = ref(null);
+const currentTrackDuration = ref(0);
+const currentPosition = ref(0);
 
-async function getProfiles(){
-  return await $fetch('/api/profiles')
+async function getProfiles() {
+  return await $fetch('/api/profiles');
 }
 
 // Fetch currently playing track from Spotify API
@@ -43,8 +60,10 @@ const fetchCurrentlyPlaying = async () => {
         Authorization: `Bearer ${profile.spotify}`,
       },
     });
-    if (response.data.item) {
+    if (response.data && response.data.item) {
       currentlyPlaying.value = response.data.item;
+      currentTrackDuration.value = response.data.item.duration_ms / 1000; // Convert to seconds
+      currentPosition.value = response.data.progress_ms / 1000; // Convert to seconds
     } else {
       currentlyPlaying.value = null;
     }
@@ -58,7 +77,20 @@ const startPollingCurrentlyPlaying = () => {
   setInterval(async () => {
     await fetchCurrentlyPlaying();
     // You may want to add refreshSpotifyTokenIfNeeded() here if it's defined elsewhere
-  }, 5000); // Polling interval in milliseconds (e.g., every 10 seconds)
+  }, 1000); // Polling interval in milliseconds (e.g., every 5 seconds)
+};
+
+const onSeek = async (event) => {
+  const newPosition = event.target.value * 1000; // Convert to milliseconds
+  try {
+    await axios.put(`https://api.spotify.com/v1/me/player/seek?position_ms=${newPosition}`, {}, {
+      headers: {
+        Authorization: `Bearer ${profile.spotify}`,
+      },
+    });
+  } catch (error) {
+    console.error('Error seeking track:', error.message);
+  }
 };
 
 onMounted(async () => {
@@ -84,13 +116,14 @@ onMounted(async () => {
 }
 
 .track-details {
-  margin-left: 120px;
+  margin-left: 170px;
+  width: 100%;
 }
 
 .album-cover {
   filter: blur(10px);
-  width: 100px;
-  height: 100px !important;
+  width: 140px;
+  height: 140px !important;
   margin-right: 20px;
   border-radius: 20px;
   position: absolute;
@@ -100,10 +133,90 @@ onMounted(async () => {
 }
 
 .album-coverimg {
-  width: 100px;
-  height: 100px !important;
+  width: 140px;
+  height: 140px !important;
   margin-right: 20px;
   border-radius: 20px;
   position: absolute;
+}
+
+.seek-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+}
+
+.spotify-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  background: transparent;
+  border-radius: 2.5px;
+  outline: none;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px !important;
+}
+
+.spotify-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #1db954;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  display: none;
+}
+
+.spotify-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #1db954;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.spotify-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  background: #4b4b4b; 
+  border-radius: 2.5px;
+  position: relative;
+}
+
+.spotify-slider::-moz-range-track {
+  width: 100%;
+  height: 5px;
+  background: #4b4b4b;
+  border-radius: 2.5px;
+  position: relative;
+}
+
+.spotify-slider::before {
+  content: '';
+  height: 5px;
+  background: #1db954;
+  border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: var(--seek-before-width);
+}
+
+.spotify-slider:hover {
+  opacity: 1;
 }
 </style>
