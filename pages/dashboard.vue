@@ -18,6 +18,17 @@
         <input id="dropzone-file" type="file" @change="updateAvatar" class="hidden" />
       </label>
     </div>
+    <div v-if="currentlyPlaying" class="ml-10">
+      <h2 class="edit center">Now Playing</h2>
+      <div class="flex items-center mb-3">
+        <img :src="currentlyPlaying.album.images[0].url" alt="Album Art" class="w-20 h-20 rounded-md mr-3">
+        <div>
+          <p class="font-semibold">{{ currentlyPlaying.name }}</p>
+          <p class="text-sm text-gray-500">{{ currentlyPlaying.artists.map(artist => artist.name).join(', ') }}</p>
+          <p class="text-sm text-gray-500">Album: {{ currentlyPlaying.album.name }}</p>
+        </div>
+      </div>
+    </div>
     <!-- User Info Forms -->
     <div class="ml-10 mb-10">
       <h2 class="edit center">Display name</h2>
@@ -59,12 +70,15 @@
     <br />
 
     <button @click="handleSpotify" class="button">Connect Spotify</button>
+    <p>{{ spotifyToken }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import spotify from '~/plugins/spotify';
+import axios from 'axios';
 
 const config = useRuntimeConfig()
 const supabase = useSupabaseClient()
@@ -81,65 +95,100 @@ const customDomain = ref('')
 const error = ref('')
 const lastNotificationTime = ref(0)
 const spotifyToken = ref('')
+const currentlyPlaying = ref(null); // To store currently playing track information
+
+const router = useRouter(); // Get the router instance
+
+// Function to fetch currently playing track from Spotify API
+const fetchCurrentlyPlaying = async () => {
+  try {
+    const response = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
+      headers: {
+        Authorization: `Bearer ${spotifyToken.value}`,
+      },
+    });
+    if (response.data.item) {
+      currentlyPlaying.value = response.data.item;
+    } else {
+      currentlyPlaying.value = null;
+    }
+  } catch (error) {
+    console.error('Error fetching currently playing track:', error.message);
+    currentlyPlaying.value = null;
+  }
+};
 
 const handleSpotify = () => {
-  const clientId = config.SPOTIFY_CLIENT_ID
-  const redirectUri = config.SPOTIFY_REDIRECT_URI
-  const scopes = 'user-read-private user-read-email'
-  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirectUri)}`
-  window.location.href = authUrl
-}
+  const clientId = 'f4c0d55175314b9a843c864e48b863a1';
+  const redirectUri = 'http://localhost:3000/dashboard';
+  const scopes = 'user-read-private user-read-email user-read-currently-playing';
+  const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(
+    scopes
+  )}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+  window.location.href = authUrl;
+};
 
 const handleSubmit = async () => {
   try {
-    await supabase.from('profiles').update({ custom_domain: customDomain.value }).eq('id', user.value.id)
-    const domain = { name: customDomain.value }
+    await supabase.from('profiles').update({ custom_domain: customDomain.value }).eq('id', user.value.id);
+    const domain = { name: customDomain.value };
 
-    await axios.post(`/v10/projects/${config.VERCEL_PROJECT_ID}/domains?teamId=team_A8VB8liqd3xy1xyKgQCizpMW`, domain, {
-      headers: {
-        Authorization: `Bearer ${config.VERCEL_API_TOKEN}`,
-        'Content-Type': 'application/json'
+    await axios.post(
+      `/v10/projects/${config.VERCEL_PROJECT_ID}/domains?teamId=team_A8VB8liqd3xy1xyKgQCizpMW`,
+      domain,
+      {
+        headers: {
+          Authorization: `Bearer ${config.VERCEL_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
       }
-    })
+    );
   } catch (updateError) {
-    error.value = updateError.message
+    error.value = updateError.message;
   }
-}
+};
 
 const updateAvatar = async (event) => {
-  const file = event.target.files[0]
-  if (!file) return
+  const file = event.target.files[0];
+  if (!file) return;
 
-  const fileName = user.value.id
-  const filePath = `public/avatars/${fileName}?updated`
+  const fileName = user.value.id;
+  const filePath = `public/avatars/${fileName}?updated`;
 
   try {
     const { error: uploadError } = await supabase.storage.from('uploads').upload(filePath, file, {
       cacheControl: '1000',
       upsert: true,
-    })
+    });
 
-    if (uploadError) throw uploadError
+    if (uploadError) throw uploadError;
 
-    const { data: { publicUrl } } = await supabase.storage.from('uploads').getPublicUrl(filePath)
-    if (error) throw error
+    const { data: { publicUrl } } = await supabase.storage.from('uploads').getPublicUrl(filePath);
+    if (error) throw error;
 
-    avatarUrl.value = publicUrl
+    avatarUrl.value = publicUrl;
   } catch (error) {
-    console.error('Error uploading avatar:', error.message)
+    console.error('Error uploading avatar:', error.message);
   }
-}
+};
 
 const updateField = async (field, value) => {
   try {
-    await supabase.from('profiles').update({ [field]: value }).eq('id', user.value.id)
+    await supabase.from('profiles').update({ [field]: value }).eq('id', user.value.id);
     if (Date.now() - lastNotificationTime.value > 5000) {
-      lastNotificationTime.value = Date.now()
+      lastNotificationTime.value = Date.now();
     }
   } catch (error) {
-    console.error(`Error updating ${field}:`, error.message)
+    console.error(`Error updating ${field}:`, error.message);
   }
-}
+};
+
+const startPollingCurrentlyPlaying = () => {
+  setInterval(async () => {
+    await fetchCurrentlyPlaying();
+    // You may want to add refreshSpotifyTokenIfNeeded() here if it's defined elsewhere
+  }, 5000); // Polling interval in milliseconds (e.g., every 10 seconds)
+};
 
 onMounted(async () => {
   try {
@@ -161,14 +210,59 @@ onMounted(async () => {
   }
 
   try {
-    const { data } = await supabase.from('spotify').select('access_token').eq('user_id', user.value.id).single()
+    const { data } = await supabase.from('profiles').select('spotify').eq('id', user.value.id).single()
     if (data) {
-      spotifyToken.value = data.access_token
+      spotifyToken.value = data.spotify
     }
   } catch (error) {
     console.error('Error fetching Spotify token:', error.message)
   }
+
+  await handleAuthorizationCallback();
+  await fetchCurrentlyPlaying();
+  startPollingCurrentlyPlaying(); // Start polling for updates
+
 })
+
+const exchangeCodeForToken = async (code) => {
+  try {
+    const response = await axios.post('https://accounts.spotify.com/api/token', null, {
+      params: {
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: "http://localhost:3000/dashboard",
+        client_id: "f4c0d55175314b9a843c864e48b863a1",
+        client_secret: "3f30cba020ed435ea8c0dae40069f93d"
+      },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    });
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Error exchanging code for token:', error);
+    return null;
+  }
+};
+
+const saveSpotifyToken = async (token) => {
+  try {
+    await supabase.from('profiles').update({ spotify: token }).eq('id', user.value.id);
+    spotifyToken.value = token;
+  } catch (error) {
+    console.error('Error saving Spotify token:', error.message);
+  }
+};
+
+const handleAuthorizationCallback = async () => {
+  const code = router.currentRoute.value.query.code;
+  if (code) {
+    const token = await exchangeCodeForToken(code);
+    if (token) {
+      await saveSpotifyToken(token);
+    }
+  }
+};  
 
 watch(displayname, (newValue) => updateField('displayname', newValue))
 watch(username, (newValue) => updateField('username', newValue))

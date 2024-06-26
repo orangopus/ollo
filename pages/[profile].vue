@@ -33,7 +33,10 @@
           <button class="button center">Claim Profile</button>
         </nuxt-link>
       </div>
+      <Spotify />
     </div>
+    </div>
+    <div v-if="error" class="error-message">
     </div>
     <section v-if="showRemoteVideo">
     <div class="grid grid-card container profilescont center p-5">
@@ -179,8 +182,13 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import useStreamStore from '@/stores/getstream.client';
 import { storeToRefs } from 'pinia';
 import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios';
 
 dayjs.extend(relativeTime);
+
+definePageMeta({
+    layout: 'default'
+  });
 
 const items = [{
   key: 'posts',
@@ -198,6 +206,8 @@ const activeTab = ref('posts'); // Assuming 'posts' is the default active tab
 const switchTab = (tabKey: string) => {
   activeTab.value = tabKey;
 };
+
+const error = ref<string | null>(null); // Initialize error ref with null
 
 const supabase = useSupabaseClient()
 
@@ -241,8 +251,24 @@ async function getSocials(){
   return await $fetch('/api/socials')
 }
 
-async function getTracks(){
-  return await $fetch(`https://discoveryprovider.audius.co/v1/users/handle/${profile.username}/tracks`)
+function setError(errorMessage: string) {
+  error.value = errorMessage;
+}
+
+async function getTracks() {
+  try {
+    const response = await axios.get(`https://discoveryprovider.audius.co/v1/users/handle/${profile.username}/tracks`);
+    return response.data;
+  } catch (error) {
+    // Handle specific errors based on error.response.status
+    if (error.response && error.response.status === 500) {
+      console.error('Internal Server Error:', error.response.data);
+      setError('Internal Server Error. Please try again later.'); // Set error message
+    } else {
+      console.error('Error fetching tracks:', error.message);
+      setError('Error fetching tracks. Please try again later.'); // Set generic error message
+    }
+  }
 }
 
 const git = social.find((social) => social.name === 'GitHub');
@@ -260,7 +286,6 @@ const github = await getGitHub();
 const posts = ref([]);
 const replies = ref([]);
 const newPost = ref('');
-const error = ref<string | null>(null);
 const replyInputs = reactive<Record<number, boolean>>({});
 const replyContent = ref('');
 
