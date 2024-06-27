@@ -45,10 +45,17 @@ border-radius: 25px !important;
   transition: 0.4s all ease-out;
 }
 
-.tabs__header li.selected {
+.selected {
+  display: grid;
+}
+
+.selected::after {
+  content: '';
+  height: 7px;
+  width:auto;
+  margin-top: 10px;
   background: rgba(0, 0, 0, 0.5);
-  border-radius: 25px;
-  width: max-content;
+  border-radius: 5px;
 }
 
 .tag {
