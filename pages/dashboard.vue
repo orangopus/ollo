@@ -254,8 +254,9 @@ const exchangeCodeForToken = async (code) => {
 
 const saveSpotifyTokens = async (accessToken, refreshToken) => {
   try {
-    await supabase.from('profiles').update({ spotify: accessToken, spotify_refresh: refreshToken }).eq('id', user.value.id);
+    await supabase.from('profiles').update({ spotify: accessToken, spotify_refresh: refreshToken }).eq('id', user.id);
     spotifyToken.value = accessToken;
+    spotifyRefreshToken.value = refreshToken;
   } catch (error) {
     console.error('Error saving Spotify tokens:', error.message);
   }
