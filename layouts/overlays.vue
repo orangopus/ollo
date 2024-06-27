@@ -1,6 +1,9 @@
 <template>
     <div>
-      <slot/>
+      <Nav/>
+      <div class="margin">
+        <slot/>
+      </div>
     </div>
   </template>
   

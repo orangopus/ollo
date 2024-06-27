@@ -219,6 +219,10 @@ const profiles = await getProfiles()
 
 const profile = profiles.find((profile) => profile.username === username)
 
+definePageMeta({
+    layout: 'overlays'
+  });
+
 useHead({
       style: [
         {

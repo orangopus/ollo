@@ -71,10 +71,12 @@ border-radius: 25px !important;
 
 }
 
+.margin {
+  margin-left: 100px;
+}
+
 body {
     font-family: "Quicksand" !important;
-    margin: 0;
-    margin-left: 100px;
     background: #1A2235;
     overflow-x: hidden;
     font-weight: black;
