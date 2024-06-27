@@ -45,6 +45,10 @@
     <h2 class="edit center">Bio</h2>
     <textarea v-model="bio" placeholder="Set bio" class="input bio-h"></textarea>
 
+    <h2 class="edit center">Custom CSS</h2>
+    <p>Warning! This is dangerous and potentially site breaking. Be careful what you input.</p>
+    <textarea v-model="css" placeholder="Set CSS" class="input bio-h"></textarea>
+
     <h2 class="edit center">HypeRate</h2>
     <input v-model="hyperate" type="text" placeholder="HypeRate ID" class="input cursor-not-allowed" disabled/>
     <p class="text-sm text-gray-500 dark:text-gray-400 mb-10">HypeRate feature is currently scheduled under maintenance due to websocket flooding.</p>
@@ -92,6 +96,7 @@ const hyperate = ref('')
 const avatarUrl = ref('')
 const pally = ref('')
 const customDomain = ref('')
+const css = ref('')
 const error = ref('')
 const lastNotificationTime = ref(0)
 const spotifyToken = ref('')
@@ -201,6 +206,7 @@ onMounted(async () => {
       hyperate.value = data.heartbeat
       pally.value = data.pally
       customDomain.value = data.custom_domain
+      css.value = data.css
     }
 
     const { data: { publicUrl } } = await supabase.storage.from('uploads').getPublicUrl(`public/avatars/${user.value.id}?updated`)
@@ -271,4 +277,5 @@ watch(bio, (newValue) => updateField('bio', newValue))
 watch(hyperate, (newValue) => updateField('heartbeat', newValue))
 watch(pally, (newValue) => updateField('pally', newValue))
 watch(customDomain, (newValue) => updateField('custom_domain', newValue))
+watch(css, (newValue) => updateField('css', newValue))
 </script>

@@ -219,6 +219,14 @@ const profiles = await getProfiles()
 
 const profile = profiles.find((profile) => profile.username === username)
 
+useHead({
+      style: [
+        {
+          innerHTML: profile.css
+        },
+      ],
+    });
+
 const socials = await getSocials()
 
 const social = socials.filter((social) => social.user_id === profile?.id)
