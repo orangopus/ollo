@@ -18,18 +18,10 @@
         <input id="dropzone-file" type="file" @change="updateAvatar" class="hidden" />
       </label>
     </div>
-    <div v-if="currentlyPlaying" class="ml-10">
-      <h2 class="edit center">Now Playing</h2>
-      <div class="flex items-center mb-3">
-        <img :src="currentlyPlaying.album.images[0].url" alt="Album Art" class="w-20 h-20 rounded-md mr-3">
-        <div>
-          <p class="font-semibold">{{ currentlyPlaying.name }}</p>
-          <p class="text-sm text-gray-500">{{ currentlyPlaying.artists.map(artist => artist.name).join(', ') }}</p>
-          <p class="text-sm text-gray-500">Album: {{ currentlyPlaying.album.name }}</p>
-        </div>
-      </div>
-    </div>
+   <Spotify />
     <!-- User Info Forms -->
+    <TabsWrapper>
+    <Tab title="Settings">
     <div class="ml-10 mb-10">
       <h2 class="edit center">Display name</h2>
     <input v-model="displayname" type="text" placeholder="Set display name" class="input" />
@@ -39,8 +31,6 @@
     
     <h2 class="edit center">Game</h2>
     <input v-model="game" type="text" placeholder="Set game" class="input" />
-
-    <Broadcast :call="call"/>
 
     <h2 class="edit center">Bio</h2>
     <textarea v-model="bio" placeholder="Set bio" class="input bio-h"></textarea>
@@ -58,8 +48,6 @@
       <h2 class="edit center">Custom Domain</h2>
       <input v-model="customDomain" disabled type="text" class="input cursor-not-allowed" />
       <br />
-      
-      <p v-if="error" class="text-red-500">{{ error }}</p>
     </form>
 
     <h2 class="edit center">Pally.gg</h2>
@@ -72,10 +60,22 @@
       <button class="button mb-5">View Profile</button>
     </nuxt-link>
     <br />
-
-    <button @click="handleSpotify" class="button">Connect Spotify</button>
-    <p>{{ spotifyToken }}</p>
     </div>
+  </Tab>
+  <Tab title="Stream">
+    <Broadcast :call="call"/>
+  </Tab>
+  <Tab title="Connections">
+            <button @click="handleSpotify" class="button green">
+      <span v-if="spotifyToken">
+        <Icon name="fa6-brands:spotify"/> Connected to Spotify
+      </span>
+      <span v-else>
+        <Icon name="fa6-brands:spotify"/> Connect to Spotify
+      </span>
+    </button>
+    </Tab>
+  </TabsWrapper>
   </div>
 </template>
 
@@ -118,14 +118,21 @@ const fetchCurrentlyPlaying = async () => {
       currentlyPlaying.value = null;
     }
   } catch (error) {
-    console.error('Error fetching currently playing track:', error.message);
-    currentlyPlaying.value = null;
+    if (error.response && error.response.status === 401) { // Token expired
+      const newToken = await refreshSpotifyToken();
+      if (newToken) {
+        await fetchCurrentlyPlaying(); // Retry with new token
+      }
+    } else {
+      console.error('Error fetching currently playing track:', error.message);
+      currentlyPlaying.value = null;
+    }
   }
 };
 
 const handleSpotify = () => {
   const clientId = 'f4c0d55175314b9a843c864e48b863a1';
-  const redirectUri = 'http://localhost:3000/dashboard';
+  const redirectUri = window.location.origin + '/dashboard';
   const scopes = 'user-read-private user-read-email user-read-currently-playing';
   const authUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&scope=${encodeURIComponent(
     scopes
@@ -191,8 +198,7 @@ const updateField = async (field, value) => {
 const startPollingCurrentlyPlaying = () => {
   setInterval(async () => {
     await fetchCurrentlyPlaying();
-    // You may want to add refreshSpotifyTokenIfNeeded() here if it's defined elsewhere
-  }, 5000); // Polling interval in milliseconds (e.g., every 10 seconds)
+  }, 5000); // Polling interval in milliseconds (e.g., every 5 seconds)
 };
 
 onMounted(async () => {
@@ -203,80 +209,99 @@ onMounted(async () => {
       username.value = data.username
       game.value = data.game
       bio.value = data.bio
-      hyperate.value = data.heartbeat
+      hyperate.value = data.hyperate
+      avatarUrl.value = data.avatar_url
       pally.value = data.pally
-      spotifyToken.value = data.spotify
       customDomain.value = data.custom_domain
       css.value = data.css
-    }
-
-    const { data: { publicUrl } } = await supabase.storage.from('uploads').getPublicUrl(`public/avatars/${user.value.id}?updated`)
-    avatarUrl.value = publicUrl
-  } catch (error) {
-    console.error('Error fetching user profile:', error.message)
-  }
-
-  try {
-    const { data } = await supabase.from('profiles').select('spotify').eq('id', user.value.id).single()
-    if (data) {
       spotifyToken.value = data.spotify
+
+      // Fetch currently playing track initially
+      await fetchCurrentlyPlaying();
+
+      // Start polling for currently playing track
+      startPollingCurrentlyPlaying();
     }
   } catch (error) {
-    console.error('Error fetching Spotify token:', error.message)
+    console.error('Error loading user data:', error.message);
   }
+});
 
-  await handleAuthorizationCallback();
-  await fetchCurrentlyPlaying();
-  startPollingCurrentlyPlaying(); // Start polling for updates
-
-})
-
+// Exchange authorization code for access and refresh tokens
 const exchangeCodeForToken = async (code) => {
   try {
     const response = await axios.post('https://accounts.spotify.com/api/token', null, {
       params: {
         grant_type: 'authorization_code',
         code,
-        redirect_uri: "http://localhost:3000/dashboard",
+        redirect_uri: window.location.origin + '/dashboard',
         client_id: "f4c0d55175314b9a843c864e48b863a1",
         client_secret: "3f30cba020ed435ea8c0dae40069f93d"
       },
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      }, 
     });
-    return response.data.access_token;
+    return {
+      access_token: response.data.access_token,
+      refresh_token: response.data.refresh_token
+    };
   } catch (error) {
     console.error('Error exchanging code for token:', error);
     return null;
   }
 };
 
-const saveSpotifyToken = async (token) => {
+const saveSpotifyTokens = async (accessToken, refreshToken) => {
   try {
-    await supabase.from('profiles').update({ spotify: token }).eq('id', user.value.id);
-    spotifyToken.value = token;
+    await supabase.from('profiles').update({ spotify: accessToken, spotify_refresh: refreshToken }).eq('id', user.value.id);
+    spotifyToken.value = accessToken;
   } catch (error) {
-    console.error('Error saving Spotify token:', error.message);
+    console.error('Error saving Spotify tokens:', error.message);
   }
 };
 
 const handleAuthorizationCallback = async () => {
   const code = router.currentRoute.value.query.code;
   if (code) {
-    const token = await exchangeCodeForToken(code);
-    if (token) {
-      await saveSpotifyToken(token);
+    const tokens = await exchangeCodeForToken(code);
+    if (tokens) {
+      await saveSpotifyTokens(tokens.access_token, tokens.refresh_token);
     }
   }
-};  
+};
+
+const refreshSpotifyToken = async () => {
+  try {
+    const { data } = await supabase.from('profiles').select('spotify_refresh').eq('id', user.value.id).single();
+    if (data && data.spotify_refresh) {
+      const response = await axios.post('https://accounts.spotify.com/api/token', null, {
+        params: {
+          grant_type: 'refresh_token',
+          refresh_token: data.spotify_refresh,
+          client_id: "f4c0d55175314b9a843c864e48b863a1",
+          client_secret: "3f30cba020ed435ea8c0dae40069f93d"
+        },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }, 
+      });
+      const newAccessToken = response.data.access_token;
+      await saveSpotifyTokens(newAccessToken, data.spotify_refresh);
+      return newAccessToken;
+    }
+  } catch (error) {
+    console.error('Error refreshing Spotify token:', error.message);
+    return null;
+  }
+};
+
+watch(router.currentRoute, handleAuthorizationCallback); // Watch for route changes and handle authorization callback
 
 watch(displayname, (newValue) => updateField('displayname', newValue))
 watch(username, (newValue) => updateField('username', newValue))
 watch(game, (newValue) => updateField('game', newValue))
 watch(bio, (newValue) => updateField('bio', newValue))
-watch(hyperate, (newValue) => updateField('heartbeat', newValue))
-watch(pally, (newValue) => updateField('pally', newValue))
-watch(customDomain, (newValue) => updateField('custom_domain', newValue))
 watch(css, (newValue) => updateField('css', newValue))
+watch(pally, (newValue) => updateField('pally', newValue))
 </script>

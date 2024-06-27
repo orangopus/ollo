@@ -8,11 +8,6 @@
         <h1 class="edit">Start a broadcast</h1>
         <input type="text" class="input rtmp" :defaultValue="RTMP"/>
 
-        <h1 class="edit">Recordings</h1>
-        <div v-for="recording in recordings" :key="recording.id">
-          <a :href="recording.url" target="_blank">{{ recording.id }}</a>
-        </div>
-
         <h1 class="edit">Stream Key</h1>
         <input type="text" class="input rtmp" defaultValue="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoib3JhbmdvcHVzIn0.Rt3FIvYcUMOdx6o-MUBCLZOdmn9lfXbTJ5Qg_yvRQ_0"/>
       </section>

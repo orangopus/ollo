@@ -40,9 +40,13 @@ const spotifyToken = ref(''); // Assuming you have a way to get Spotify access t
 
 const username = useRoute().params.profile || useRoute().params.username;
 
+// Assuming you have a way to get the user's profile
+
+const user = useSupabaseUser();
+
 const profiles = await getProfiles();
 
-const profile = profiles.find((profile) => profile.username === username);
+const profile = profiles.find((profile) => profile.username === username || user.id);
 
 const currentlyPlaying = ref(null);
 const currentTrackDuration = ref(0);
