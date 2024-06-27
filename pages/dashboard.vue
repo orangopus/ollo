@@ -205,6 +205,7 @@ onMounted(async () => {
       bio.value = data.bio
       hyperate.value = data.heartbeat
       pally.value = data.pally
+      spotifyToken.value = data.spotify
       customDomain.value = data.custom_domain
       css.value = data.css
     }
