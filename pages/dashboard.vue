@@ -73,6 +73,7 @@
       <span v-else>
         <Icon name="fa6-brands:spotify"/> Connect to Spotify
       </span>
+      <p>{{ spotifyRefreshToken }}</p>
     </button>
     </Tab>
   </TabsWrapper>
@@ -100,6 +101,7 @@ const css = ref('')
 const error = ref('')
 const lastNotificationTime = ref(0)
 const spotifyToken = ref('')
+const spotifyRefreshToken = ref('')
 const currentlyPlaying = ref(null); // To store currently playing track information
 
 const router = useRouter(); // Get the router instance
@@ -215,12 +217,17 @@ onMounted(async () => {
       customDomain.value = data.custom_domain
       css.value = data.css
       spotifyToken.value = data.spotify
+      spotifyRefreshToken.value = data.spotify_refresh
 
       // Fetch currently playing track initially
       await fetchCurrentlyPlaying();
 
       // Start polling for currently playing track
       startPollingCurrentlyPlaying();
+
+      // You may want to add refreshSpotifyTokenIfNeeded() here if it's defined elsewhere
+
+      refreshSpotifyToken()
     }
   } catch (error) {
     console.error('Error loading user data:', error.message);
@@ -254,7 +261,7 @@ const exchangeCodeForToken = async (code) => {
 
 const saveSpotifyTokens = async (accessToken, refreshToken) => {
   try {
-    await supabase.from('profiles').update({ spotify: accessToken, spotify_refresh: refreshToken }).eq('id', user.id);
+    await supabase.from('profiles').update({ spotify: accessToken, spotify_refresh: refreshToken }).eq('id', user.value.id);
     spotifyToken.value = accessToken;
     spotifyRefreshToken.value = refreshToken;
   } catch (error) {
@@ -288,7 +295,8 @@ const refreshSpotifyToken = async () => {
         }, 
       });
       const newAccessToken = response.data.access_token;
-      await saveSpotifyTokens(newAccessToken, data.spotify_refresh);
+      const newRefreshToken = response.data.refresh_token
+      await saveSpotifyTokens(newAccessToken, newRefreshToken);
       return newAccessToken;
     }
   } catch (error) {
@@ -297,7 +305,7 @@ const refreshSpotifyToken = async () => {
   }
 };
 
-watch(router.currentRoute, handleAuthorizationCallback); // Watch for route changes and handle authorization callback
+watch(handleAuthorizationCallback); // Watch for route changes and handle authorization callback
 
 watch(displayname, (newValue) => updateField('displayname', newValue))
 watch(username, (newValue) => updateField('username', newValue))

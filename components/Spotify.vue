@@ -36,7 +36,6 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios'; // Make sure axios is installed (`npm install axios`)
 
-const spotifyToken = ref(''); // Assuming you have a way to get Spotify access token
 
 const username = useRoute().params.profile || useRoute().params.username;
 
@@ -46,22 +45,25 @@ const user = useSupabaseUser();
 
 const profiles = await getProfiles();
 
-const profile = profiles.find((profile) => profile.username === username || user.id);
-
-const currentlyPlaying = ref(null);
-const currentTrackDuration = ref(0);
-const currentPosition = ref(0);
+const profile = profiles.find((profile) => profile.username === username);
 
 async function getProfiles() {
   return await $fetch('/api/profiles');
 }
 
 // Fetch currently playing track from Spotify API
+const spotifyToken = ref(null);
+const refreshToken = ref(null); // Store the refresh token
+const currentlyPlaying = ref(null);
+const currentTrackDuration = ref(0);
+const currentPosition = ref(0);
+
+// Function to fetch the currently playing track
 const fetchCurrentlyPlaying = async () => {
   try {
     const response = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: {
-        Authorization: `Bearer ${profile.spotify}`,
+        Authorization: `Bearer ${spotifyToken.value}`,
       },
     });
     if (response.data && response.data.item) {
@@ -72,24 +74,46 @@ const fetchCurrentlyPlaying = async () => {
       currentlyPlaying.value = null;
     }
   } catch (error) {
-    console.error('Error fetching currently playing track:', error.message);
-    currentlyPlaying.value = null;
+    if (error.response && error.response.status === 401) { // Token expired
+      await refreshSpotifyToken();
+      await fetchCurrentlyPlaying();
+    } else {
+      console.error('Error fetching currently playing track:', error.message);
+    }
   }
 };
 
-const startPollingCurrentlyPlaying = () => {
-  setInterval(async () => {
-    await fetchCurrentlyPlaying();
-    // You may want to add refreshSpotifyTokenIfNeeded() here if it's defined elsewhere
-  }, 1000); // Polling interval in milliseconds (e.g., every 5 seconds)
+// Function to refresh the Spotify token
+const refreshSpotifyToken = async () => {
+  try {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', refreshToken.value);
+    params.append('client_id', 'your-client-id'); // Replace with your Spotify client ID
+    params.append('client_secret', 'your-client-secret'); // Replace with your Spotify client secret
+
+    const response = await axios.post('https://accounts.spotify.com/api/token', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    spotifyToken.value = response.data.access_token;
+    if (response.data.refresh_token) {
+      refreshToken.value = response.data.refresh_token;
+    }
+  } catch (error) {
+    console.error('Error refreshing Spotify token:', error.message);
+  }
 };
 
+// Function to seek the track
 const onSeek = async (event) => {
   const newPosition = event.target.value * 1000; // Convert to milliseconds
   try {
     await axios.put(`https://api.spotify.com/v1/me/player/seek?position_ms=${newPosition}`, {}, {
       headers: {
-        Authorization: `Bearer ${profile.spotify}`,
+        Authorization: `Bearer ${spotifyToken.value}`,
       },
     });
   } catch (error) {
@@ -97,9 +121,19 @@ const onSeek = async (event) => {
   }
 };
 
+// Start polling for the currently playing track
+const startPollingCurrentlyPlaying = () => {
+  setInterval(fetchCurrentlyPlaying, 1000); // Poll every 1 second
+};
+
+// Load the initial data
 onMounted(async () => {
+  // Assume you have a way to get the initial access token and refresh token
+  spotifyToken.value = profile.spotify; // Replace with actual token
+  refreshToken.value = profile.spotify_refresh; // Replace with actual token
+
   await fetchCurrentlyPlaying();
-  startPollingCurrentlyPlaying(); // Start polling for updates
+  startPollingCurrentlyPlaying();
 });
 </script>
 
