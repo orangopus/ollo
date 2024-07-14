@@ -76,18 +76,38 @@
       <p>{{ spotifyRefreshToken }}</p>
     </button>
     </Tab>
+    <Tab title="Privacy">
+        <button @click="toggleUser = !toggleUser" class="button red text-white">
+      Show user data
+    </button>
+    <div v-if="!toggleUser">
+      <pre>
+        {{ JSON.stringify(user, null, 2) }}
+      </pre>
+    </div>
+    <br/>
+    <br/>
+    <div>
+      <button @click="deleteData" class="button red text-white">
+      Delete user & user data
+    </button>
+    <p>Warning: This will delete your user & user data.</p>
+    </div>
+    </Tab>
   </TabsWrapper>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, VueElement } from 'vue'
 import spotify from '~/plugins/spotify';
 import axios from 'axios';
 
 const config = useRuntimeConfig()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
+
+const toggleUser = ref(true)
 
 const displayname = ref('')
 const username = ref('')
@@ -141,6 +161,10 @@ const handleSpotify = () => {
   )}&redirect_uri=${encodeURIComponent(redirectUri)}`;
   window.location.href = authUrl;
 };
+
+const deleteData = async () => {
+  await supabase.rpc('delete_user');
+}
 
 const handleSubmit = async () => {
   try {
