@@ -18,7 +18,7 @@ button.
   build also fetches `/api/pages-profiles`: ollo.bio users who switched on
   **Show my profile on ollo.thng.my**. Those profiles and their avatars exist
   only in `dist/`, never in git. Repo profiles win on a username clash. If
-  the API can't be reached, the build fails and the live site stays as it was.
+  the API can't be reached, the build continues with repository profiles only.
 - The deploy also runs every 6 hours, so opt-outs and deleted accounts drop
   off within about 6 hours.
 - The privacy contact and controller come from `legal` in `app.config.ts`,
@@ -48,7 +48,7 @@ change.
 Run `supabase/migrations/20261009120000_profiles_show_on_pages.sql` against
 the Supabase database (SQL editor or `supabase db push`). It adds
 `profiles.show_on_pages`, off by default. Until it exists,
-`/api/pages-profiles` fails, and deploys stop without publishing anyone.
+`/api/pages-profiles` fails and deploys publish only repository profiles.
 
 ## Run locally
 
