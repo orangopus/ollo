@@ -365,21 +365,21 @@ async function fetchAppProfiles() {
   try {
     res = await fetch(url, { headers: { accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
   } catch (e) {
-    console.error(`✗ Could not reach ${url}: ${e.message}. Stopping so the current site stays up.`);
-    process.exit(1);
+    console.warn(`⚠ Could not reach ${url}: ${e.message}. Continuing with repository profiles only.`);
+    return [];
   }
   if (!res.ok) {
-    console.error(`✗ ${url} answered ${res.status}. Stopping so the current site stays up.`);
-    process.exit(1);
+    console.warn(`⚠ ${url} answered ${res.status}. Continuing with repository profiles only.`);
+    return [];
   }
   let data;
   try { data = await res.json(); } catch {
-    console.error(`✗ ${url} did not return JSON. Stopping so the current site stays up.`);
-    process.exit(1);
+    console.warn(`⚠ ${url} did not return JSON. Continuing with repository profiles only.`);
+    return [];
   }
   if (!Array.isArray(data)) {
-    console.error(`✗ ${url} did not return a list. Stopping so the current site stays up.`);
-    process.exit(1);
+    console.warn(`⚠ ${url} did not return a list. Continuing with repository profiles only.`);
+    return [];
   }
   const out = data.map(sanitizeAppProfile).filter(Boolean);
   console.log(`✓ ${out.length} opted-in profile(s) from ${OLLO_API} (${data.length - out.length} skipped as invalid)`);
